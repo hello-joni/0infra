@@ -44,3 +44,5 @@
   - container is PID 1
   - using OCI container format as means of distributing disk image
   - layer my keys and such on top
+- https://github.com/cachix/git-hooks.nix
+- https://github.com/kamadorueda/alejandra/blob/main/integrations/pre-commit-hooks-nix/README.md
