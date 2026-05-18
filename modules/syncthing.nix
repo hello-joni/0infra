@@ -15,9 +15,6 @@ _:
         # Laptop
         saffron.id = "T2F7ICT-EMNBQH6-TBDQ4DE-7X7J57J-QCGWIS2-VXBN4HB-LRGNZUZ-AFI5IQF";
 
-        # Hetzner server
-        horseradish.id = "PKN3I6Q-MPHESJ5-CTBBLUV-TAEN5KK-5UA27JE-26EUKCL-CVSP74A-RG237QD";
-
         # Selfhost server
         sh-sassafras.id = "4PJJBRC-HM7M4I7-FUZYMAP-3XXJ5P5-UHDIY67-NA5X53V-UW7H2IF-PMISLAB";
       };
@@ -31,7 +28,6 @@ _:
         devices = [
           "ginger"
           "saffron"
-          "horseradish"
           "sh-sassafras"
         ];
       };
