@@ -70,13 +70,13 @@ ssh-add -t 8h ~/.ssh/$(hostname)-personal-key
 cat ~/.ssh/$(hostname)-personal-key.pub
 ```
 
-## 4. Tailscale + RPM Fusion
+## 4. Tailscale + RPM Fusion + GNOME Boxes
 
-Install Tailscale (networking) and RPM Fusion (proprietary Fedora packages) together to save a
-reboot.
+Install Tailscale (networking), RPM Fusion (proprietary Fedora packages), and GNOME Boxes (Virtual
+Machines) together to save a reboot.
 
 ```bash
-sudo rpm-ostree install tailscale \
+sudo rpm-ostree install gnome-boxes tailscale \
   https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
   https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 systemctl reboot
