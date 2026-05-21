@@ -338,6 +338,11 @@
         appId = "com.github.PintaProject.Pinta";
         origin = "flathub";
       }
+      {
+        # Companion app for Openterface Mini-KVM
+        appId = "com.openterface.openterfaceQT";
+        origin = "flathub";
+      }
     ];
     overrides = {
       # Librewolf needs camera access for video calls
