@@ -49,3 +49,4 @@
 - Set up sshfs for big file management
 - btrfs snapshotting
 - nixos (ope)
+- Private file storage/backup platform (rented)
