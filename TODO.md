@@ -46,3 +46,6 @@
   - layer my keys and such on top
 - https://github.com/cachix/git-hooks.nix
 - https://github.com/kamadorueda/alejandra/blob/main/integrations/pre-commit-hooks-nix/README.md
+- Set up sshfs for big file management
+- btrfs snapshotting
+- nixos (ope)
