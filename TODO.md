@@ -50,3 +50,4 @@
 - btrfs snapshotting
 - nixos (ope)
 - Private file storage/backup platform (rented)
+- "media maker" for usb installation of OS stuff with multiple options
