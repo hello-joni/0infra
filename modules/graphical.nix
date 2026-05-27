@@ -47,6 +47,7 @@
       "TOML"
       "Dockerfile"
       "xml"
+      "make"
     ];
     userSettings = {
       agent = {
