@@ -66,69 +66,17 @@
           api_url = "https://openrouter.ai/api/v1";
           available_models = [
             {
-              name = "deepseek/deepseek-v4-pro";
-              display_name = "DS V4 Pro ($0.44/$0.87, ~58%)";
-              max_tokens = 1000000;
-              supports_tools = true;
-            }
-            {
-              name = "deepseek/deepseek-v4-flash";
-              display_name = "DS V4 Flash ($0.14/$0.28, ~56%)";
-              max_tokens = 1000000;
-              supports_tools = true;
-            }
-            {
               name = "google/gemini-3.5-flash";
-              display_name = "Gemini 3.5 Flash ($1.50/$9, ~55%)";
+              display_name = "Gemini 3.5 Flash (Fast, Wordy)";
               max_tokens = 1000000;
               supports_tools = true;
               supports_images = true;
             }
             {
-              name = "z-ai/glm-5.1";
-              display_name = "GLM-5.1 ($0.98/$3.08, 58.4%)";
-              max_tokens = 203000;
-              supports_tools = true;
-            }
-            {
-              name = "moonshotai/kimi-k2.6";
-              display_name = "Kimi K2.6 ($0.73/$3.49, 58.6%)";
-              max_tokens = 262000;
-              supports_tools = true;
-            }
-            {
-              name = "qwen/qwen3-coder";
-              display_name = "Qwen3 Coder ($0.22/$1.80, 38.7%)";
-              max_tokens = 262000;
-              supports_tools = true;
-            }
-            {
-              name = "anthropic/claude-opus-4.7";
-              display_name = "Claude Opus 4.7 ($5/$25, 64.3%)";
+              name = "deepseek/deepseek-v4-pro";
+              display_name = "DS V4 Pro (Terse, Direct)";
               max_tokens = 1000000;
               supports_tools = true;
-              supports_images = true;
-            }
-            {
-              name = "anthropic/claude-opus-4.6";
-              display_name = "Claude Opus 4.6 ($5/$25, 53.4%)";
-              max_tokens = 1000000;
-              supports_tools = true;
-              supports_images = true;
-            }
-            {
-              name = "openai/gpt-5.5";
-              display_name = "GPT-5.5 ($5/$30, 58.6%)";
-              max_tokens = 1000000;
-              supports_tools = true;
-              supports_images = true;
-            }
-            {
-              name = "openai/gpt-5.4";
-              display_name = "GPT-5.4 ($2.50/$15, 57.7%)";
-              max_tokens = 1000000;
-              supports_tools = true;
-              supports_images = true;
             }
           ];
         };
