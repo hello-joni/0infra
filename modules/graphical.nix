@@ -48,6 +48,7 @@
       "Dockerfile"
       "xml"
       "make"
+      "terraform"
     ];
     userSettings = {
       agent = {
