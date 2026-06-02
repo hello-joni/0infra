@@ -51,3 +51,5 @@
 - nixos (ope)
 - Private file storage/backup platform (rented)
 - "media maker" for usb installation of OS stuff with multiple options
+- https://www.reddit.com/r/programming/comments/11y9zlq/so_youve_installed_fzf_now_what/
+  - Fuzzy find stuff
