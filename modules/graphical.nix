@@ -48,7 +48,7 @@
       "Dockerfile"
       "xml"
       "make"
-      "terraform"
+      "opentofu"
     ];
     userSettings = {
       agent = {
