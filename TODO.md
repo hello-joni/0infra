@@ -53,3 +53,6 @@
 - "media maker" for usb installation of OS stuff with multiple options
 - https://www.reddit.com/r/programming/comments/11y9zlq/so_youve_installed_fzf_now_what/
   - Fuzzy find stuff
+- Camera app to sort into folders
+- Firefox profiles for work and personal
+- Firefox multi-account containers
