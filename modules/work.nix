@@ -56,14 +56,16 @@
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks."github.com" = {
-        identityFile = "~/.ssh/work_key";
-        identitiesOnly = true;
-      };
-      matchBlocks."github-personal" = {
-        hostname = "ssh.github.com";
-        identityFile = "~/.ssh/personal_key";
-        identitiesOnly = true;
+      settings = {
+        "github.com" = {
+          identityFile = "~/.ssh/work_key";
+          identitiesOnly = true;
+        };
+        "github-personal" = {
+          hostname = "ssh.github.com";
+          identityFile = "~/.ssh/personal_key";
+          identitiesOnly = true;
+        };
       };
     };
   };
