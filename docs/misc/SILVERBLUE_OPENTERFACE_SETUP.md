@@ -54,8 +54,8 @@ groups                       # dialout present
 getfacl -p /dev/ttyACM0      # expect a user:<you>:rw- line
 ```
 
-In the app, the Environment Helper (Advanced menu) shows Serial, HID, and Video green; only
-"Driver Installed" stays red.
+In the app, the Environment Helper (Advanced menu) shows Serial, HID, and Video green; only "Driver
+Installed" stays red.
 
 ## References
 

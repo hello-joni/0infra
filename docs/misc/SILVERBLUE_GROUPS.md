@@ -24,9 +24,9 @@ grep -qE '^<group>:' /etc/group || grep -E '^<group>:' /usr/lib/group | sudo tee
 sudo usermod -aG <group> $USER
 ```
 
-The `grep -q` guard keeps this idempotent: it copies the line only when missing, so re-running
-never appends a duplicate. (Duplicate lines make `usermod` refuse with `Multiple entries named
-'<group>'`. Delete the extra line if that happens.)
+The `grep -q` guard keeps this idempotent: it copies the line only when missing, so re-running never
+appends a duplicate. (Duplicate lines make `usermod` refuse with `Multiple entries named '<group>'`.
+Delete the extra line if that happens.)
 
 Then **reboot**. Logging out and back in is not enough: the `systemd --user` instance survives a
 GNOME logout and keeps the group set it started with, and the terminals it launches inherit that
