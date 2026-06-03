@@ -127,7 +127,6 @@ in
       git_panel = {
         dock = "left";
       };
-      diff_view_style = "split";
       cli_default_open_behavior = "new_window";
       extend_comment_on_newline = false;
       # Disable AI inline edit predictions and autocomplete
