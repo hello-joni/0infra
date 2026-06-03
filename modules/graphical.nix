@@ -5,6 +5,22 @@
   ...
 }:
 
+let
+  # Reads the Kagi API key from the GNOME Keyring at launch and exports it for
+  # the Kagi MCP server, keeping the key out of the world-readable Nix store.
+  # Store the key once per machine (see docs/credentials/KAGI_API_KEY.md).
+  kagiMcp = pkgs.writeShellScript "kagi-mcp" ''
+    set -euo pipefail
+    KAGI_API_KEY="$(${pkgs.libsecret}/bin/secret-tool lookup service kagi 2>/dev/null || true)"
+    if [ -z "''${KAGI_API_KEY:-}" ]; then
+      echo "Kagi API key not found in the GNOME Keyring." >&2
+      echo "Run: secret-tool store --label='Kagi API Key' service kagi" >&2
+      exit 1
+    fi
+    export KAGI_API_KEY
+    exec ${pkgs.uv}/bin/uvx kagimcp
+  '';
+in
 {
   # Needed to wrap anything GPU-accelerated, e.g. Zed, Subsurface
   targets.genericLinux.nixGL = {
@@ -32,6 +48,8 @@
   home.packages = with pkgs; [
     adwaita-qt # Adwaita theme for Qt5 apps
     adwaita-qt6 # Adwaita theme for Qt6 apps
+    uv # provides uvx, which runs the Kagi MCP server
+    libsecret # provides secret-tool for GNOME Keyring access
   ];
 
   # GUI text editor
@@ -85,6 +103,14 @@
       agent_servers = {
         claude-acp = {
           type = "registry";
+        };
+      };
+      context_servers = {
+        kagi = {
+          source = "custom";
+          command = "${kagiMcp}";
+          args = [ ];
+          env = { };
         };
       };
       collaboration_panel = {
