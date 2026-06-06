@@ -43,47 +43,74 @@ in
       "opentofu"
     ];
     userSettings = {
-      agent = {
-        dock = "right";
-        default_model = {
-          provider = "openrouter";
-          model = "deepseek/deepseek-v4-flash";
-        };
-        use_modifier_to_send = false;
-        play_sound_when_agent_done = "always";
-        notify_when_agent_waiting = "primary_screen";
-        thinking_display = "always_expanded";
-        tool_permissions = {
-          default = "confirm";
-          tools =
-            builtins.listToAttrs (
-              map
-                (tool: {
-                  name = tool;
-                  value.default = "allow";
-                })
-                [
-                  "mcp:kagi:kagi_search_fetch"
-                  "mcp:kagi:kagi_extract"
-                  "mcp:git:git_status"
-                  "mcp:git:git_log"
-                  "mcp:git:git_show"
-                  "mcp:git:git_diff"
-                  "mcp:git:git_diff_staged"
-                  "mcp:git:git_diff_unstaged"
-                  "mcp:git:git_branch"
-                  "mcp:time:get_current_time"
-                  "mcp:time:convert_time"
-                  "mcp:sequential-thinking:sequentialthinking"
-                  "mcp:nixos:nix"
-                  "mcp:nixos:nix_versions"
-                ]
-            )
-            // {
-              search_web.default = "deny";
+      # Editor UI and behavior
+      collaboration_panel = {
+        dock = "left";
+        button = false;
+      };
+      project_panel = {
+        dock = "left";
+        hide_hidden = false;
+      };
+      outline_panel = {
+        dock = "left";
+      };
+      git_panel = {
+        dock = "left";
+      };
+      cli_default_open_behavior = "new_window";
+      extend_comment_on_newline = false;
+      completions = {
+        words = "disabled";
+      };
+      show_completion_documentation = false;
+      show_completions_on_input = false;
+      icon_theme = "Catppuccin Frappé";
+      theme = "Gruvbox Dark Hard";
+      buffer_font_features = {
+        calt = false;
+      };
+      lsp = {
+        rust-analyzer = {
+          initialization_options = {
+            cargo = {
+              features = "all";
             };
+          };
         };
       };
+      languages =
+        let
+          prettierFormatter = {
+            format_on_save = "on";
+            formatter = {
+              external = {
+                command = "prettier";
+                arguments = [
+                  "--stdin-filepath"
+                  "{buffer_path}"
+                ];
+              };
+            };
+          };
+        in
+        {
+          Markdown = prettierFormatter;
+          JSON = prettierFormatter;
+          YAML = prettierFormatter;
+          CSS = prettierFormatter;
+          HTML = prettierFormatter;
+          JavaScript = prettierFormatter;
+          TypeScript = prettierFormatter;
+          TSX = prettierFormatter;
+        };
+
+      # AI: models, agents, MCP servers, and Zed Agent tool permissions
+      # Disable AI inline edit predictions
+      edit_predictions = {
+        provider = "none";
+      };
+      show_edit_predictions = false;
       language_models = {
         open_router = {
           api_url = "https://openrouter.ai/api/v1";
@@ -144,75 +171,52 @@ in
           env = { };
         };
       };
-      collaboration_panel = {
-        dock = "left";
-        button = false;
-      };
-      project_panel = {
-        dock = "left";
-        hide_hidden = false;
-      };
-      outline_panel = {
-        dock = "left";
-      };
-      git_panel = {
-        dock = "left";
-      };
-      cli_default_open_behavior = "new_window";
-      extend_comment_on_newline = false;
-      # Disable AI inline edit predictions and autocomplete
-      edit_predictions = {
-        provider = "none";
-      };
-      show_edit_predictions = false;
-      completions = {
-        words = "disabled";
-      };
-      show_completion_documentation = false;
-      show_completions_on_input = false;
-      icon_theme = "Catppuccin Frappé";
-      theme = "Gruvbox Dark Hard";
-      buffer_font_features = {
-        calt = false;
-      };
-      lsp = {
-        rust-analyzer = {
-          initialization_options = {
-            cargo = {
-              features = "all";
+      agent = {
+        dock = "right";
+        default_model = {
+          provider = "openrouter";
+          model = "deepseek/deepseek-v4-flash";
+        };
+        use_modifier_to_send = false;
+        play_sound_when_agent_done = "always";
+        notify_when_agent_waiting = "primary_screen";
+        thinking_display = "always_expanded";
+        tool_permissions = {
+          default = "confirm";
+          tools =
+            builtins.listToAttrs (
+              map
+                (tool: {
+                  name = tool;
+                  value.default = "allow";
+                })
+                [
+                  "mcp:kagi:kagi_search_fetch"
+                  "mcp:kagi:kagi_extract"
+                  "mcp:git:git_status"
+                  "mcp:git:git_log"
+                  "mcp:git:git_show"
+                  "mcp:git:git_diff"
+                  "mcp:git:git_diff_staged"
+                  "mcp:git:git_diff_unstaged"
+                  "mcp:git:git_branch"
+                  "mcp:time:get_current_time"
+                  "mcp:time:convert_time"
+                  "mcp:sequential-thinking:sequentialthinking"
+                  "mcp:nixos:nix"
+                  "mcp:nixos:nix_versions"
+                ]
+            )
+            // {
+              search_web.default = "deny";
             };
-          };
         };
       };
-      languages =
-        let
-          prettierFormatter = {
-            format_on_save = "on";
-            formatter = {
-              external = {
-                command = "prettier";
-                arguments = [
-                  "--stdin-filepath"
-                  "{buffer_path}"
-                ];
-              };
-            };
-          };
-        in
-        {
-          Markdown = prettierFormatter;
-          JSON = prettierFormatter;
-          YAML = prettierFormatter;
-          CSS = prettierFormatter;
-          HTML = prettierFormatter;
-          JavaScript = prettierFormatter;
-          TypeScript = prettierFormatter;
-          TSX = prettierFormatter;
-        };
     };
   };
 
-  # Claude Code is used only through Zed's ACP agent (claude-acp above)
+  # Claude Code, used only through the claude-acp agent above. These tool
+  # permissions mirror the Zed Agent tool_permissions just above.
   programs.claude-code = {
     enable = true;
     package = null; # Don't install the CLI
