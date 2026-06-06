@@ -178,13 +178,23 @@ in
     };
   };
 
-  # Claude Code is used only through Zed's ACP agent (claude-acp above), never
-  # as a standalone CLI.
+  # Claude Code is used only through Zed's ACP agent (claude-acp above)
   programs.claude-code = {
     enable = true;
-    package = null; # don't install a CLI; only own settings.json
+    package = null; # Don't install the CLI
     settings.permissions = {
-      allow = [ "mcp__kagi" ]; # auto-approve all Kagi tools (search + extract)
+      allow = [
+        "mcp__kagi"
+        "mcp__git__git_status"
+        "mcp__git__git_log"
+        "mcp__git__git_show"
+        "mcp__git__git_diff"
+        "mcp__git__git_diff_staged"
+        "mcp__git__git_diff_unstaged"
+        "mcp__git__git_branch"
+        "mcp__time"
+        "mcp__sequential-thinking"
+      ];
       deny = [
         "WebSearch"
         "WebFetch"
