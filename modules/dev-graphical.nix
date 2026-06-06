@@ -91,6 +91,24 @@ in
           args = [ ];
           env = { };
         };
+        git = {
+          source = "custom";
+          command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
+          args = [ ];
+          env = { };
+        };
+        time = {
+          source = "custom";
+          command = "${pkgs.mcp-server-time}/bin/mcp-server-time";
+          args = [ ];
+          env = { };
+        };
+        sequential-thinking = {
+          source = "custom";
+          command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
+          args = [ ];
+          env = { };
+        };
       };
       collaboration_panel = {
         dock = "left";
