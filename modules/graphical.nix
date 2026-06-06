@@ -191,10 +191,13 @@ in
   programs.claude-code = {
     enable = true;
     package = null; # don't install a CLI; only own settings.json
-    settings.permissions.deny = [
-      "WebSearch"
-      "WebFetch"
-    ];
+    settings.permissions = {
+      allow = [ "mcp__kagi" ]; # auto-approve all Kagi tools (search + extract)
+      deny = [
+        "WebSearch"
+        "WebFetch"
+      ];
+    };
   };
 
   # GNOME Extensions
