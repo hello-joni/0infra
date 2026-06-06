@@ -44,7 +44,12 @@
       delta = {
         enable = true;
         enableGitIntegration = true;
-        options.line-numbers = true;
+        options = {
+          file-style = "omit";
+          hunk-header-style = "file line-number syntax";
+          hunk-header-decoration-style = "none";
+          line-numbers = true;
+        };
       };
 
       git = {
