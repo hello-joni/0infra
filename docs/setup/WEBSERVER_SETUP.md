@@ -77,7 +77,7 @@ home-manager switch --flake ~/0config#webserver -b backup
 
 ## 4. DNS
 
-From a machine with `dev.nix` activated, set the apex and `www` records for both IPv4 and IPv6 using
+From a machine with `dev-headless.nix` activated, set the apex and `www` records for both IPv4 and IPv6 using
 the `,dnsimple-set` helper:
 
 ```bash
