@@ -109,6 +109,12 @@ in
           args = [ ];
           env = { };
         };
+        nixos = {
+          source = "custom";
+          command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+          args = [ ];
+          env = { };
+        };
       };
       collaboration_panel = {
         dock = "left";
@@ -194,6 +200,7 @@ in
         "mcp__git__git_branch"
         "mcp__time"
         "mcp__sequential-thinking"
+        "mcp__nixos"
       ];
       deny = [
         "WebSearch"
