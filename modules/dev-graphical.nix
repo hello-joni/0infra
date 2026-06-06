@@ -53,6 +53,36 @@ in
         play_sound_when_agent_done = "always";
         notify_when_agent_waiting = "primary_screen";
         thinking_display = "always_expanded";
+        tool_permissions = {
+          default = "confirm";
+          tools =
+            builtins.listToAttrs (
+              map
+                (tool: {
+                  name = tool;
+                  value.default = "allow";
+                })
+                [
+                  "mcp:kagi:kagi_search_fetch"
+                  "mcp:kagi:kagi_extract"
+                  "mcp:git:git_status"
+                  "mcp:git:git_log"
+                  "mcp:git:git_show"
+                  "mcp:git:git_diff"
+                  "mcp:git:git_diff_staged"
+                  "mcp:git:git_diff_unstaged"
+                  "mcp:git:git_branch"
+                  "mcp:time:get_current_time"
+                  "mcp:time:convert_time"
+                  "mcp:sequential-thinking:sequentialthinking"
+                  "mcp:nixos:nix"
+                  "mcp:nixos:nix_versions"
+                ]
+            )
+            // {
+              search_web.default = "deny";
+            };
+        };
       };
       language_models = {
         open_router = {
@@ -78,8 +108,6 @@ in
         claude-acp = {
           type = "registry";
           env = {
-            # Pin where the ACP agent reads settings.json, independent of
-            # whatever environment GNOME hands Zed.
             CLAUDE_CONFIG_DIR = "${config.home.homeDirectory}/.claude";
           };
         };
@@ -204,7 +232,6 @@ in
       ];
       deny = [
         "WebSearch"
-        "WebFetch"
       ];
     };
   };
