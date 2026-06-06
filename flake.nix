@@ -66,6 +66,7 @@
             ./modules/dev-headless.nix
             ./modules/syncthing.nix
             ./modules/graphical.nix
+            ./modules/dev-graphical.nix
             ./modules/personal.nix
             nix-flatpak.homeManagerModules.nix-flatpak
           ];
@@ -75,6 +76,7 @@
             ./modules/base.nix
             ./modules/dev-headless.nix
             ./modules/graphical.nix
+            ./modules/dev-graphical.nix
             ./modules/work.nix
             nix-flatpak.homeManagerModules.nix-flatpak
           ];
@@ -131,6 +133,7 @@
             ./modules/base.nix
             ./modules/dev-headless.nix
             ./modules/graphical.nix
+            ./modules/dev-graphical.nix
             nix-flatpak.homeManagerModules.nix-flatpak
             {
               home.username = envOrThrow "USER";
