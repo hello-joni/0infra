@@ -103,6 +103,11 @@ in
       agent_servers = {
         claude-acp = {
           type = "registry";
+          env = {
+            # Pin where the ACP agent reads settings.json, independent of
+            # whatever environment GNOME hands Zed.
+            CLAUDE_CONFIG_DIR = "${config.home.homeDirectory}/.claude";
+          };
         };
       };
       context_servers = {
@@ -179,6 +184,17 @@ in
           TSX = prettierFormatter;
         };
     };
+  };
+
+  # Claude Code is used only through Zed's ACP agent (claude-acp above), never
+  # as a standalone CLI.
+  programs.claude-code = {
+    enable = true;
+    package = null; # don't install a CLI; only own settings.json
+    settings.permissions.deny = [
+      "WebSearch"
+      "WebFetch"
+    ];
   };
 
   # GNOME Extensions
