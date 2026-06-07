@@ -109,10 +109,10 @@ Open the Syncthing UI at `http://localhost:8384` and copy the new laptop's devic
 
 Wait for 0everything to sync.
 
-## 7. Zram
+## 7. Swap and hibernate
 
-If the machine has more than 16GB RAM, raise Fedora's default zram cap. See
-[hardware/ZRAM.md](./hardware/ZRAM.md).
+Replace Fedora's default zram with zswap over a disk-backed swapfile sized for hibernation. See
+[misc/SILVERBLUE_SWAP.md](./misc/SILVERBLUE_SWAP.md).
 
 ## 8. Miscellaneous
 
