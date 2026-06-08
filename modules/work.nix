@@ -33,8 +33,8 @@
         path = ~/.config/git/config
     '';
 
-    # Use personal git identity for 0config repo even on work machine
-    ".config/git/config-0config".text = ''
+    # Use personal git identity for personal repos (0config, 0llm) on work machine
+    ".config/git/config-personal".text = ''
       [user]
         name = Joni Hendrickson
         email = contact@joni.site
@@ -47,7 +47,11 @@
       includes = [
         {
           condition = "gitdir:~/0config/";
-          path = "~/.config/git/config-0config";
+          path = "~/.config/git/config-personal";
+        }
+        {
+          condition = "gitdir:~/0llm/";
+          path = "~/.config/git/config-personal";
         }
       ];
     };
