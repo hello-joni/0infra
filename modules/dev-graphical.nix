@@ -99,6 +99,7 @@ in
           JSON = prettierFormatter;
           YAML = prettierFormatter;
           CSS = prettierFormatter;
+          SCSS = prettierFormatter;
           HTML = prettierFormatter;
           JavaScript = prettierFormatter;
           TypeScript = prettierFormatter;
@@ -141,31 +142,26 @@ in
       };
       context_servers = {
         kagi = {
-          source = "custom";
           command = "${kagiMcp}";
           args = [ ];
           env = { };
         };
         git = {
-          source = "custom";
           command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
           args = [ ];
           env = { };
         };
         time = {
-          source = "custom";
           command = "${pkgs.mcp-server-time}/bin/mcp-server-time";
           args = [ ];
           env = { };
         };
         sequential-thinking = {
-          source = "custom";
           command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
           args = [ ];
           env = { };
         };
         nixos = {
-          source = "custom";
           command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
           args = [ ];
           env = { };
@@ -176,7 +172,27 @@ in
         default_model = {
           provider = "openrouter";
           model = "deepseek/deepseek-v4-flash";
+          enable_thinking = true;
         };
+        default_profile = "write";
+        profiles = { };
+        favorite_models = [
+          {
+            provider = "openrouter";
+            model = "google/gemini-3.5-flash";
+            enable_thinking = false;
+          }
+          {
+            provider = "openrouter";
+            model = "deepseek/deepseek-v4-pro";
+            enable_thinking = false;
+          }
+          {
+            provider = "openrouter";
+            model = "deepseek/deepseek-v4-flash";
+            enable_thinking = true;
+          }
+        ];
         use_modifier_to_send = false;
         play_sound_when_agent_done = "always";
         notify_when_agent_waiting = "primary_screen";
