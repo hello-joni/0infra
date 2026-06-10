@@ -258,7 +258,7 @@ in
     };
   };
 
-  # Shared agent instructions and skills, live-symlinked from the 0llm repo.
+  # Shared agent instructions and skills
   home.file.".config/zed/AGENTS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0llm/AGENTS.md";
   home.file.".claude/CLAUDE.md".source =
