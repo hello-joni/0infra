@@ -3,6 +3,23 @@
   ...
 }:
 
+let
+  # Wraps jira-cli so the Jira API token is read from the GNOME Keyring at each
+  # invocation, keeping it out of the environment and the world-readable Nix
+  # store. Store the token once per machine (see docs/credentials/JIRA_API_TOKEN.md),
+  # then run `jira init` to generate the local ~/.config/.jira/.config.yml.
+  jiraCli = pkgs.writeShellScriptBin "jira" ''
+    set -euo pipefail
+    JIRA_API_TOKEN="$(${pkgs.libsecret}/bin/secret-tool lookup service jira 2>/dev/null || true)"
+    if [ -z "''${JIRA_API_TOKEN:-}" ]; then
+      echo "Jira API token not found in the GNOME Keyring." >&2
+      echo "Run: secret-tool store --label='Jira API Token' service jira" >&2
+      exit 1
+    fi
+    export JIRA_API_TOKEN
+    exec ${pkgs.jira-cli-go}/bin/jira "$@"
+  '';
+in
 {
   home.packages = with pkgs; [
     gnumake
@@ -17,7 +34,7 @@
     pixi
     gh
     graphviz # Visualizing `dot` graphs
-    jira-cli-go # Jira CLI
+    jiraCli # Jira CLI, token sourced from the GNOME Keyring
   ];
 
   home.file = {

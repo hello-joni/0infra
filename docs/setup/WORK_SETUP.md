@@ -38,3 +38,24 @@ The `github-personal` SSH host is configured by `work.nix` to route through
 ```bash
 git clone git@github-personal:hello-joni/0config.git ~/0config
 ```
+
+## 3. Jira CLI token
+
+`work.nix` installs a `jira` wrapper that reads the API token from the GNOME
+Keyring under `service jira` at each call. The token is the only secret; the
+instance URL, email, project, and board live in `~/.config/.jira/.config.yml`,
+generated locally by `jira init`.
+
+```bash
+# Generate a token at https://id.atlassian.com/manage-profile/security/api-tokens
+# Create a new Proton Pass login: api-keys/jira-<hostname>, password = token
+secret-tool store --label='Jira API Token' service jira  # paste the token, then Enter
+jira init   # select Cloud, then enter instance URL, email, project, and board
+jira me     # verify
+```
+
+Rotate by clearing the keyring entry, then re-running `secret-tool store`:
+
+```bash
+secret-tool clear service jira
+```
