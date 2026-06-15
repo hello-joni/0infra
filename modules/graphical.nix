@@ -79,7 +79,7 @@
         hot-sensors = [
           "_processor_usage_"
           "_memory_usage_"
-          "_storage_used_"
+          "_storage_free_"
           "__network-rx_max__"
         ];
       };
