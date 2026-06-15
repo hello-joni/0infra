@@ -33,6 +33,7 @@ in
     '')
     pixi
     gh
+    buildkite-cli # Buildkite CLI (bk), inspect CI builds; see docs/setup/WORK_SETUP.md
     graphviz # Visualizing `dot` graphs
     jiraCli # Jira CLI, token sourced from the GNOME Keyring
   ];

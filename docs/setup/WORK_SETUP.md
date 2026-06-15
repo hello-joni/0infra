@@ -59,3 +59,23 @@ Rotate by clearing the keyring entry, then re-running `secret-tool store`:
 ```bash
 secret-tool clear service jira
 ```
+
+## 4. Buildkite CLI token
+
+`work.nix` installs the Buildkite CLI (`bk`). It stores a read-only personal API
+token in `~/.config/bk.yaml`, written by `bk auth login`. Run it once per machine.
+
+```bash
+# Create a token at https://buildkite.com/user/api-access-tokens/new
+#   Organization Access: <org-slug>
+#   REST scopes (read-only): read_builds, read_build_logs, read_pipelines,
+#     read_artifacts, read_organizations, read_user
+#   Enable GraphQL API access: yes
+# Create a new Proton Pass login: api-keys/buildkite-<hostname>, password = token
+bk auth login --org <org-slug> --token <token>
+bk auth status   # verify
+bk build list -p <a-pipeline-slug> --limit 5   # verify build access
+```
+
+Rotate by revoking the old token at https://buildkite.com/user/api-access-tokens,
+then re-running `bk auth login` with the replacement.
