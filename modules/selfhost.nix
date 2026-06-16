@@ -108,12 +108,7 @@ in
         JWT_SECRET = jwtSecret;
         JWT_REFRESH_SECRET = jwtRefreshSecret;
       };
-      extraConfig = {
-        Service = {
-          LoadCredential = "openrouter-key:${librechatDir}/openrouter-key";
-        };
-      };
-      environmentFile = [ "\${CREDENTIALS_DIRECTORY}/openrouter-key" ];
+      environmentFile = [ "${librechatDir}/openrouter-key" ];
     };
   };
 
