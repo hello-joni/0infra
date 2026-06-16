@@ -1,7 +1,7 @@
 # Selfhost Setup
 
 Steps to layer self-hosted services onto a server already provisioned per
-[SERVER_SETUP.md](./SERVER_SETUP.md). Currently hosts Actual Budget, SilverBullet, and Open WebUI.
+[SERVER_SETUP.md](./SERVER_SETUP.md). Currently hosts Actual Budget, SilverBullet, and LibreChat.
 Access is Tailscale-only via `tailscale serve` with automatic HTTPS.
 
 ## 1. Prerequisites
@@ -29,7 +29,8 @@ as user systemd services. Verify:
 
 ```bash
 systemctl --user status podman-actual.service
-systemctl --user status podman-open-webui.service
+systemctl --user status podman-librechat-mongodb.service
+systemctl --user status podman-librechat-api.service
 ```
 
 The services listen on loopback ports inside the host and are not reachable from the public
@@ -37,7 +38,7 @@ internet:
 
 - Actual: `127.0.0.1:5006`
 - SilverBullet: `127.0.0.1:3000`
-- Open WebUI: `127.0.0.1:8080`
+- LibreChat: `127.0.0.1:8080`
 
 ## 4. Expose via Tailscale Serve
 
@@ -46,7 +47,7 @@ Bind each container to the host's tailnet name with automatic HTTPS:
 ```bash
 tailscale serve --bg --https=443 http://localhost:5006   # Actual
 tailscale serve --bg --https=8443 http://localhost:3000  # SilverBullet
-tailscale serve --bg --https=9443 http://localhost:8080  # Open WebUI
+tailscale serve --bg --https=9443 http://localhost:8080  # LibreChat
 ```
 
 Verify:
@@ -59,7 +60,7 @@ Services are now reachable from any device on the tailnet:
 
 - Actual: `https://<hostname>.<tailnet>.ts.net`
 - SilverBullet: `https://<hostname>.<tailnet>.ts.net:8443`
-- Open WebUI: `https://<hostname>.<tailnet>.ts.net:9443`
+- LibreChat: `https://<hostname>.<tailnet>.ts.net:9443`
 
 The `tailscale serve` config persists in `/var/lib/tailscale/` across reboots.
 
@@ -73,20 +74,61 @@ vault as Login items with username `actual-server@<hostname>` and `actual-budget
 
 The budget E2E password is what encrypts the data at rest. Without it, no backup is recoverable.
 
-### Open WebUI
+### LibreChat
 
-Open `https://<hostname>.<tailnet>.ts.net:9443` in a browser. With `WEBUI_AUTH=False`, the interface
-loads immediately without a login page.
+LibreChat settings live in `~/0selfhost/librechat/`. Two files drive the config:
 
-OpenRouter is configured as an OpenAI-compatible connection:
+- `librechat.yaml` — declarative endpoints, models, and interface settings. Written by
+  `home-manager switch` from `modules/selfhost.nix`. Edits here survive Nix rebuilds.
+- `.env` — secrets (API keys, encryption keys, JWT secrets). Created once by hand and never
+  committed.
 
-1. Go to **Admin Settings** → **Connections** → **OpenAI**
-2. Click **+ Add Connection**
-3. Set **URL** to `https://openrouter.ai/api/v1`
-4. Paste your OpenRouter **API Key**
-5. Add model IDs to the **Model IDs (Filter)** allowlist (OpenRouter returns thousands of models;
-   filtering prevents UI slowdown)
-6. Click **Save**
+#### Create the .env file
 
-The OpenRouter API key should be stored in the Proton Pass `machine-logins` vault as a Login item
-with username `openrouter@<hostname>`.
+```bash
+# Generate keys
+CREDS_KEY=$(openssl rand -hex 32)
+CREDS_IV=$(openssl rand -hex 16)
+JWT_SECRET=$(openssl rand -hex 32)
+JWT_REFRESH_SECRET=$(openssl rand -hex 32)
+MEILI_MASTER_KEY=$(openssl rand -hex 16)
+
+cat > ~/0selfhost/librechat/.env <<EOF
+# Server
+HOST=0.0.0.0
+PORT=3080
+
+# MongoDB
+MONGO_URI=mongodb://librechat-mongodb:27017/LibreChat
+
+# Search
+SEARCH=true
+MEILI_MASTER_KEY=$MEILI_MASTER_KEY
+MEILI_HOST=http://librechat-meilisearch:7700
+
+# Encryption (required for startup)
+CREDS_KEY=$CREDS_KEY
+CREDS_IV=$CREDS_IV
+
+# Auth
+JWT_SECRET=$JWT_SECRET
+JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET
+
+# Models
+OPENROUTER_KEY=sk-or-v1-your-key-here
+EOF
+```
+
+Replace `sk-or-v1-your-key-here` with your OpenRouter API key. Store the key in Proton Pass as
+`openrouter@<hostname>`.
+
+Restart the API container to pick up `.env`:
+
+```bash
+systemctl --user restart podman-librechat-api.service
+```
+
+#### First login
+
+Open `https://<hostname>.<tailnet>.ts.net:9443` and register an account. The first account created
+is automatically an admin.
