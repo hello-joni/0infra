@@ -43,9 +43,7 @@ in
       onCalendar = "Sun *-*-* 04:00:00";
     };
 
-    networks.librechat = {
-      internal = true;
-    };
+    networks.librechat = { };
 
     containers.actual = {
       image = "docker.io/actualbudget/actual-server:latest";
