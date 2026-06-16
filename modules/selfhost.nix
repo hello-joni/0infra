@@ -103,6 +103,8 @@ in
         MEILI_HOST = "http://librechat-meilisearch:7700";
         MEILI_MASTER_KEY = meiliMasterKey;
         SEARCH = "true";
+        ALLOW_REGISTRATION = "true";
+        REGISTER_MAX = "20";
         CREDS_KEY = credsKey;
         CREDS_IV = credsIv;
         JWT_SECRET = jwtSecret;
