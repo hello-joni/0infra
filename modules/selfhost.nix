@@ -7,8 +7,14 @@
 let
   librechatDir = "${config.home.homeDirectory}/0selfhost/librechat";
 
-  # LibreChat config is declarative but references secrets from .env, which
-  # lives outside the Nix store.
+  # These are not real secrets. On a Tailscale-only single-user instance,
+  # they just need to exist and stay consistent across restarts.
+  credsKey = "0000000000000000000000000000000000000000000000000000000000000001";
+  credsIv = "00000000000000000000000000000002";
+  jwtSecret = "0000000000000000000000000000000000000000000000000000000000000003";
+  jwtRefreshSecret = "0000000000000000000000000000000000000000000000000000000000000004";
+  meiliMasterKey = "not-a-real-secret-on-tailnet";
+
   librechatYaml = builtins.toFile "librechat.yaml" ''
     version: 1.3.5
     cache: true
@@ -37,7 +43,6 @@ in
       onCalendar = "Sun *-*-* 04:00:00";
     };
 
-    # Internal network so LibreChat and MongoDB can talk by container name.
     networks.librechat = {
       internal = true;
     };
@@ -63,7 +68,6 @@ in
       autoStart = true;
       network = [ "librechat" ];
       volumes = [ "${librechatDir}/mongodb:/data/db:Z" ];
-      entrypoint = "mongod";
       exec = "--noauth";
       extraPodmanArgs = [ "--memory=512m" ];
     };
@@ -75,8 +79,8 @@ in
       volumes = [ "${librechatDir}/meilisearch:/meili_data:Z" ];
       environment = {
         MEILI_NO_ANALYTICS = "true";
+        MEILI_MASTER_KEY = meiliMasterKey;
       };
-      environmentFile = [ "${librechatDir}/.env" ];
       extraPodmanArgs = [ "--memory=512m" ];
     };
 
@@ -89,7 +93,6 @@ in
       userNS = "keep-id";
       volumes = [
         "${librechatDir}/librechat.yaml:/app/librechat.yaml:Z"
-        "${librechatDir}/.env:/app/.env:Z"
         "${librechatDir}/images:/app/client/public/images:Z"
         "${config.home.homeDirectory}/0llm:/0llm:Z"
       ];
@@ -98,14 +101,22 @@ in
         PORT = "3080";
         MONGO_URI = "mongodb://librechat-mongodb:27017/LibreChat";
         MEILI_HOST = "http://librechat-meilisearch:7700";
+        MEILI_MASTER_KEY = meiliMasterKey;
         SEARCH = "true";
+        CREDS_KEY = credsKey;
+        CREDS_IV = credsIv;
+        JWT_SECRET = jwtSecret;
+        JWT_REFRESH_SECRET = jwtRefreshSecret;
       };
+      extraConfig = {
+        Service = {
+          LoadCredential = "openrouter-key:${librechatDir}/openrouter-key";
+        };
+      };
+      environmentFile = [ "\${CREDENTIALS_DIRECTORY}/openrouter-key" ];
     };
   };
 
-  # Write the initial librechat.yaml to the persistent dir. After the first
-  # switch, you can edit it directly and restart the container — no Nix rebuild
-  # needed for config changes.
   home.file."0selfhost/librechat/librechat.yaml".source = librechatYaml;
 
   home.activation.selfhostDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

@@ -76,53 +76,16 @@ The budget E2E password is what encrypts the data at rest. Without it, no backup
 
 ### LibreChat
 
-LibreChat settings live in `~/0selfhost/librechat/`. Two files drive the config:
-
-- `librechat.yaml` — declarative endpoints, models, and interface settings. Written by
-  `home-manager switch` from `modules/selfhost.nix`. Edits here survive Nix rebuilds.
-- `.env` — secrets (API keys, encryption keys, JWT secrets). Created once by hand and never
-  committed.
-
-#### Create the .env file
+LibreChat settings are declarative in `modules/selfhost.nix`. The only non-Nix step is creating the
+OpenRouter key file once.
 
 ```bash
-# Generate keys
-CREDS_KEY=$(openssl rand -hex 32)
-CREDS_IV=$(openssl rand -hex 16)
-JWT_SECRET=$(openssl rand -hex 32)
-JWT_REFRESH_SECRET=$(openssl rand -hex 32)
-MEILI_MASTER_KEY=$(openssl rand -hex 16)
-
-cat > ~/0selfhost/librechat/.env <<EOF
-# Server
-HOST=0.0.0.0
-PORT=3080
-
-# MongoDB
-MONGO_URI=mongodb://librechat-mongodb:27017/LibreChat
-
-# Search
-SEARCH=true
-MEILI_MASTER_KEY=$MEILI_MASTER_KEY
-MEILI_HOST=http://librechat-meilisearch:7700
-
-# Encryption (required for startup)
-CREDS_KEY=$CREDS_KEY
-CREDS_IV=$CREDS_IV
-
-# Auth
-JWT_SECRET=$JWT_SECRET
-JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET
-
-# Models
-OPENROUTER_KEY=sk-or-v1-your-key-here
-EOF
+echo "OPENROUTER_KEY=sk-or-v1-your-key-here" > ~/0selfhost/librechat/openrouter-key
+chmod 600 ~/0selfhost/librechat/openrouter-key
 ```
 
 Replace `sk-or-v1-your-key-here` with your OpenRouter API key. Store the key in Proton Pass as
 `openrouter@<hostname>`.
-
-Restart the API container to pick up `.env`:
 
 ```bash
 systemctl --user restart podman-librechat-api.service
