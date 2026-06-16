@@ -170,6 +170,11 @@
         appId = "com.openterface.openterfaceQT";
         origin = "flathub";
       }
+      {
+        # Torrent client
+        appId = "org.qbittorrent.qBittorrent";
+        origin = "flathub";
+      }
     ];
     overrides = {
       # Librewolf needs camera access for video calls
