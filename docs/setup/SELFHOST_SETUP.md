@@ -95,3 +95,14 @@ systemctl --user restart podman-librechat-api.service
 
 Open `https://<hostname>.<tailnet>.ts.net:9443` and register an account. The first account created
 is automatically an admin.
+
+#### Verify a model responds
+
+Select an OpenRouter model and send a message. A reply confirms the full path works. Two failure
+modes have distinct causes:
+
+- A `401 Missing Authentication header` means the key is not reaching OpenRouter. Check that
+  `~/0selfhost/librechat/openrouter-key` contains `OPENROUTER_KEY=sk-or-...` and that the `apiKey`
+  in `librechat.yaml` reads `${OPENROUTER_KEY}` with braces.
+- A `404` or model-not-found means the slug is not a real OpenRouter model. The entries under
+  `models.default` in `modules/selfhost.nix` must match exact slugs from `openrouter.ai/models`.

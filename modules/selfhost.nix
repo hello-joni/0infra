@@ -22,7 +22,7 @@ let
     endpoints:
       custom:
         - name: "OpenRouter"
-          apiKey: "$OPENROUTER_KEY"
+          apiKey: "''${OPENROUTER_KEY}"
           baseURL: "https://openrouter.ai/api/v1"
           models:
             default:
