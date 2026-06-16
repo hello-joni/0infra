@@ -63,8 +63,8 @@ in
       autoStart = true;
       network = [ "librechat" ];
       volumes = [ "${librechatDir}/mongodb:/data/db:Z" ];
-      entrypoint = [ "mongod" ];
-      exec = [ "--noauth" ];
+      entrypoint = "mongod";
+      exec = "--noauth";
       extraPodmanArgs = [ "--memory=512m" ];
     };
 
