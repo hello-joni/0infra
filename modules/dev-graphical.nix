@@ -169,10 +169,10 @@ in
           model = "deepseek/deepseek-v4-flash";
           enable_thinking = true;
         };
-        default_profile = "0standard";
+        default_profile = "0tools-standard";
         profiles = {
-          "0standard" = {
-            name = "0standard";
+          "0tools-standard" = {
+            name = "0tools-standard";
             tools = {
               read_file = true;
               grep = true;
@@ -193,8 +193,8 @@ in
             };
             enable_all_context_servers = true;
           };
-          "0subagents" = {
-            name = "0subagents";
+          "0tools-subagents" = {
+            name = "0tools-subagents";
             tools = {
               read_file = true;
               grep = true;
@@ -238,7 +238,7 @@ in
         notify_when_agent_waiting = "primary_screen";
         thinking_display = "always_expanded";
         tool_permissions = {
-          default = "confirm";
+          default = "allow";
           tools =
             builtins.listToAttrs (
               map
@@ -264,7 +264,118 @@ in
             )
             // {
               search_web.default = "deny";
+              terminal.default = "confirm";
             };
+        };
+      };
+
+      # Zed settings profiles for switching tool permission modes
+      profiles = {
+        "0perms-ask" = {
+          settings = {
+            agent = {
+              tool_permissions = {
+                default = "confirm";
+                tools =
+                  builtins.listToAttrs (
+                    map
+                      (tool: {
+                        name = tool;
+                        value.default = "allow";
+                      })
+                      [
+                        "mcp:kagi:kagi_search_fetch"
+                        "mcp:kagi:kagi_extract"
+                        "mcp:git:git_status"
+                        "mcp:git:git_log"
+                        "mcp:git:git_show"
+                        "mcp:git:git_diff"
+                        "mcp:git:git_diff_staged"
+                        "mcp:git:git_diff_unstaged"
+                        "mcp:git:git_branch"
+                        "mcp:time:get_current_time"
+                        "mcp:time:convert_time"
+                        "mcp:nixos:nix"
+                        "mcp:nixos:nix_versions"
+                      ]
+                  )
+                  // {
+                    search_web.default = "deny";
+                  };
+              };
+            };
+          };
+        };
+        "0perms-default" = {
+          settings = {
+            agent = {
+              tool_permissions = {
+                default = "allow";
+                tools =
+                  builtins.listToAttrs (
+                    map
+                      (tool: {
+                        name = tool;
+                        value.default = "allow";
+                      })
+                      [
+                        "mcp:kagi:kagi_search_fetch"
+                        "mcp:kagi:kagi_extract"
+                        "mcp:git:git_status"
+                        "mcp:git:git_log"
+                        "mcp:git:git_show"
+                        "mcp:git:git_diff"
+                        "mcp:git:git_diff_staged"
+                        "mcp:git:git_diff_unstaged"
+                        "mcp:git:git_branch"
+                        "mcp:time:get_current_time"
+                        "mcp:time:convert_time"
+                        "mcp:nixos:nix"
+                        "mcp:nixos:nix_versions"
+                      ]
+                  )
+                  // {
+                    search_web.default = "deny";
+                    terminal.default = "confirm";
+                  };
+              };
+            };
+          };
+        };
+        "0perms-permissive" = {
+          settings = {
+            agent = {
+              tool_permissions = {
+                default = "allow";
+                tools =
+                  builtins.listToAttrs (
+                    map
+                      (tool: {
+                        name = tool;
+                        value.default = "allow";
+                      })
+                      [
+                        "mcp:kagi:kagi_search_fetch"
+                        "mcp:kagi:kagi_extract"
+                        "mcp:git:git_status"
+                        "mcp:git:git_log"
+                        "mcp:git:git_show"
+                        "mcp:git:git_diff"
+                        "mcp:git:git_diff_staged"
+                        "mcp:git:git_diff_unstaged"
+                        "mcp:git:git_branch"
+                        "mcp:time:get_current_time"
+                        "mcp:time:convert_time"
+                        "mcp:nixos:nix"
+                        "mcp:nixos:nix_versions"
+                      ]
+                  )
+                  // {
+                    search_web.default = "deny";
+                  };
+              };
+            };
+          };
         };
       };
     };
