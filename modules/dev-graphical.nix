@@ -169,8 +169,31 @@ in
           model = "deepseek/deepseek-v4-flash";
           enable_thinking = true;
         };
-        default_profile = "write";
-        profiles = { };
+        default_profile = "0standard";
+        profiles = {
+          "0standard" = {
+            name = "0standard";
+            tools = {
+              read_file = true;
+              grep = true;
+              find_path = true;
+              list_directory = true;
+              diagnostics = true;
+              fetch = false;
+              search_web = false;
+              edit_file = true;
+              write_file = true;
+              copy_path = true;
+              create_directory = true;
+              delete_path = true;
+              move_path = true;
+              terminal = true;
+              skill = true;
+              spawn_agent = true;
+            };
+            enable_all_context_servers = true;
+          };
+        };
         favorite_models = [
           {
             provider = "openrouter";
