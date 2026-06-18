@@ -5,10 +5,9 @@
 }:
 
 let
-  # mcpo (Open WebUI's MCP-to-OpenAPI proxy) hosts the MCP servers and exposes
-  # each under its own subpath, e.g. http://mcpo:8000/filesystem. The config
-  # follows the Claude Desktop format, the same shape used in dev-graphical.nix.
-  # For now it runs only the filesystem server, rooted at the mounted /0llm.
+  # Open WebUI can only call tools over HTTP, and most MCP servers speak stdio instead.
+  # mcpo bridges that gap by running each MCP server and exposing it as an OpenAPI endpoint
+  # under its own subpath, e.g. http://mcpo:8000/filesystem. This config lists what it runs.
   mcpoConfig = builtins.toFile "mcpo-config.json" (
     builtins.toJSON {
       mcpServers = {
@@ -23,6 +22,44 @@ let
       };
     }
   );
+
+  # Open WebUI normally stores its configuration in a database edited through the web UI.
+  # Setting ENABLE_PERSISTENT_CONFIG=False makes the environment authoritative instead.
+  # Secrets are stored in ~/0selfhost/open-webui-secret.env
+  defaultModelParams = builtins.toJSON { function_calling = "native"; };
+  defaultModelMetadata = builtins.toJSON {
+    capabilities = {
+      builtin_tools = false;
+    };
+  };
+  toolServerConnections = builtins.toJSON [
+    {
+      type = "openapi";
+      url = "http://mcpo:8000/filesystem";
+      path = "openapi.json";
+      auth_type = "none";
+      key = "";
+      config = {
+        enable = true;
+      };
+      spec_type = "url";
+      spec = "";
+      info = {
+        id = "filesystem";
+        name = "0llm Filesystem";
+        description = "Read and write files under /0llm.";
+      };
+    }
+  ];
+  openWebuiEnv = builtins.toFile "open-webui.env" ''
+    WEBUI_AUTH=False
+    ENABLE_PERSISTENT_CONFIG=False
+    OPENAI_API_BASE_URLS=https://openrouter.ai/api/v1
+    DEFAULT_MODELS=deepseek/deepseek-v4-pro
+    DEFAULT_MODEL_PARAMS=${defaultModelParams}
+    DEFAULT_MODEL_METADATA=${defaultModelMetadata}
+    TOOL_SERVER_CONNECTIONS=${toolServerConnections}
+  '';
 in
 {
   services.podman = {
@@ -32,9 +69,7 @@ in
       onCalendar = "Sun *-*-* 04:00:00";
     };
 
-    # Shared network so Open WebUI can reach mcpo by name. Not internal, because
-    # both need outbound access: Open WebUI to OpenRouter, mcpo to npm for the
-    # filesystem server.
+    # Shared network so Open WebUI can reach mcpo by name.
     networks.mcp = { };
 
     containers.actual = {
@@ -58,9 +93,10 @@ in
       ports = [ "127.0.0.1:8080:8080" ];
       network = [ "mcp" ];
       volumes = [ "${config.home.homeDirectory}/0selfhost/open-webui:/app/backend/data" ];
-      environment = {
-        WEBUI_AUTH = "False";
-      };
+      environmentFile = [
+        "${openWebuiEnv}"
+        "${config.home.homeDirectory}/0selfhost/open-webui-secret.env"
+      ];
     };
     containers.mcpo = {
       image = "ghcr.io/open-webui/mcpo:main";

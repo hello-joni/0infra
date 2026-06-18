@@ -56,3 +56,4 @@
 - Camera app to sort into folders
 - Firefox profiles for work and personal
 - Firefox multi-account containers
+- Allow fetch on llms

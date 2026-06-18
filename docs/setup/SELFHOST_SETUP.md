@@ -20,6 +20,25 @@ sudo loginctl enable-linger jhen
 
 ## 3. Switch to the selfhost profile
 
+Before switching, create the Open WebUI secret file. It holds the OpenRouter key and a stable
+session key, and it stays out of this repo because the repo is public. Paste the block, then paste
+the OpenRouter key at the prompt:
+
+```bash
+(
+read -rsp 'OpenRouter API key: ' OPENAI_KEY; echo
+umask 077
+cat > ~/0selfhost/open-webui-secret.env <<EOF
+OPENAI_API_KEYS=$OPENAI_KEY
+WEBUI_SECRET_KEY=$(openssl rand -hex 32)
+EOF
+)
+```
+
+The subshell buffers the whole block before running, so the prompt reads your key instead of the next
+line, and `umask 077` writes the file as 600. Keep `WEBUI_SECRET_KEY` stable, because Open WebUI uses
+it to encrypt stored credentials, so rotating it invalidates them.
+
 ```bash
 home-manager switch --flake ~/0config#selfhost -b backup
 ```
@@ -30,6 +49,7 @@ as user systemd services. Verify:
 ```bash
 systemctl --user status podman-actual.service
 systemctl --user status podman-open-webui.service
+systemctl --user status podman-mcpo.service
 ```
 
 The services listen on loopback ports inside the host and are not reachable from the public
@@ -75,18 +95,17 @@ The budget E2E password is what encrypts the data at rest. Without it, no backup
 
 ### Open WebUI
 
-Open `https://<hostname>.<tailnet>.ts.net:9443` in a browser. With `WEBUI_AUTH=False`, the interface
-loads immediately without a login page.
+Open `https://<hostname>.<tailnet>.ts.net:9443` in a browser. With `WEBUI_AUTH=False` the interface
+loads without a login page.
 
-OpenRouter is configured as an OpenAI-compatible connection:
+The OpenRouter connection, native tool calling, the mcpo filesystem tool, and the default model are
+all set through the environment in `modules/selfhost.nix`, so none of them is configured in the UI.
+`ENABLE_PERSISTENT_CONFIG=False` makes that file authoritative, so a setting changed in the UI does
+not survive a restart.
 
-1. Go to **Admin Settings** → **Connections** → **OpenAI**
-2. Click **+ Add Connection**
-3. Set **URL** to `https://openrouter.ai/api/v1`
-4. Paste your OpenRouter **API Key**
-5. Add model IDs to the **Model IDs (Filter)** allowlist (OpenRouter returns thousands of models;
-   filtering prevents UI slowdown)
-6. Click **Save**
+The one setting with no environment handle is the system prompt. Set it once under Settings, then
+General. It only needs to tell the model to read `/0llm/AGENTS.md` and treat `/0llm` as its context,
+so it does not change when that guidance changes.
 
-The OpenRouter API key should be stored in the Proton Pass `machine-logins` vault as a Login item
-with username `openrouter@<hostname>`.
+Store the OpenRouter API key in the Proton Pass `machine-logins` vault as a Login item with username
+`openrouter@<hostname>`.
