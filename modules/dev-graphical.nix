@@ -156,11 +156,6 @@ in
           args = [ ];
           env = { };
         };
-        sequential-thinking = {
-          command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
-          args = [ ];
-          env = { };
-        };
         nixos = {
           command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
           args = [ ];
@@ -218,7 +213,6 @@ in
                   "mcp:git:git_branch"
                   "mcp:time:get_current_time"
                   "mcp:time:convert_time"
-                  "mcp:sequential-thinking:sequentialthinking"
                   "mcp:nixos:nix"
                   "mcp:nixos:nix_versions"
                 ]
@@ -249,7 +243,6 @@ in
         "mcp__git__git_diff_unstaged"
         "mcp__git__git_branch"
         "mcp__time"
-        "mcp__sequential-thinking"
         "mcp__nixos"
       ];
       deny = [
