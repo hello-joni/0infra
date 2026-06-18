@@ -189,6 +189,28 @@ in
               move_path = true;
               terminal = true;
               skill = true;
+              spawn_agent = false;
+            };
+            enable_all_context_servers = true;
+          };
+          "0subagents" = {
+            name = "0subagents";
+            tools = {
+              read_file = true;
+              grep = true;
+              find_path = true;
+              list_directory = true;
+              diagnostics = true;
+              fetch = false;
+              search_web = false;
+              edit_file = true;
+              write_file = true;
+              copy_path = true;
+              create_directory = true;
+              delete_path = true;
+              move_path = true;
+              terminal = true;
+              skill = true;
               spawn_agent = true;
             };
             enable_all_context_servers = true;
