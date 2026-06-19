@@ -143,7 +143,7 @@ in
       After = [ "default.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.uv}/bin/uvx open-terminal run --host 0.0.0.0 --port 8000";
+      ExecStart = "${pkgs.uv}/bin/uvx open-terminal run --host 0.0.0.0 --port 8000 --cors-allowed-origins https://sh-sassafras.spotted-elevator.ts.net:9443";
       EnvironmentFile = "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env";
       WorkingDirectory = "${config.home.homeDirectory}";
       Restart = "on-failure";
