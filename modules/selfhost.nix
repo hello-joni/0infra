@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -72,6 +73,10 @@ in
     # Shared network so Open WebUI can reach mcpo by name.
     networks.mcp = { };
 
+    # The sandpit's own nix store, kept on a volume so its nix cache survives the
+    # container being recreated rather than re-downloading every time.
+    volumes."sandpit-nix" = { };
+
     containers.actual = {
       image = "docker.io/actualbudget/actual-server:latest";
       autoStart = true;
@@ -109,6 +114,42 @@ in
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
     };
+
+    # Gives the chat agent an isolated machine with its own systemd, root
+    # filesystem, and nix, so its shell never reaches the host's files or
+    # credentials. This block declares only the container. nix, Open Terminal, and
+    # the 0llm clone are installed inside it by a runbook, and autoUpdate stays off
+    # because recreating the container would erase that installed state.
+    containers."sandpit" = {
+      image = "registry.access.redhat.com/ubi9/ubi-init:latest";
+      autoStart = true;
+      network = [ "mcp" ];
+      volumes = [ "sandpit-nix.volume:/nix" ];
+      extraPodmanArgs = [ "--systemd=always" ];
+    };
+  };
+
+  # Open Terminal runs bare metal as a user service rather than in a container,
+  # so the chat agent's shell has Joni's own host permissions and edits the real
+  # ~/0llm directly with no clone or uid mapping. uvx fetches the package from
+  # PyPI at runtime, which is the one non-declarative seam here. It binds 0.0.0.0
+  # so the containerised Open WebUI can reach it over host.containers.internal,
+  # and the API key comes from the secret file. There is no sandbox: every
+  # command the model runs executes as jhen, which is the accepted trade for the
+  # bare-metal shell.
+  systemd.user.services.open-terminal = {
+    Unit = {
+      Description = "Open Terminal — bare-metal shell API for Open WebUI";
+      After = [ "default.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.uv}/bin/uvx open-terminal run --host 0.0.0.0 --port 8000";
+      EnvironmentFile = "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env";
+      WorkingDirectory = "${config.home.homeDirectory}";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    Install.WantedBy = [ "default.target" ];
   };
 
   home.file."0selfhost/mcpo/config.json".source = mcpoConfig;
