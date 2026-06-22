@@ -1,23 +1,35 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
 let
   # Open WebUI can only call tools over HTTP, and most MCP servers speak stdio instead.
   # mcpo bridges that gap by running each MCP server and exposing it as an OpenAPI endpoint
-  # under its own subpath, e.g. http://mcpo:8000/filesystem. This config lists what it runs.
+  # under its own subpath, e.g. http://mcpo:8000/kagi. This config lists what it runs.
+  # These mirror the tool MCP servers configured for Zed and Claude Code in dev-graphical.nix.
+  # File and shell access is not an MCP server here: it is the agent's shell through the Open
+  # Terminal container, which supersedes the earlier filesystem MCP. The mcpo image bundles
+  # node and uv, so the servers are fetched at runtime by uvx. The kagi server reads
+  # KAGI_API_KEY from the container environment (see the mcpo container's environmentFile),
+  # which keeps the key out of this world-readable config and the nix store.
   mcpoConfig = builtins.toFile "mcpo-config.json" (
     builtins.toJSON {
       mcpServers = {
-        filesystem = {
-          command = "npx";
+        kagi = {
+          command = "uvx";
+          args = [ "kagimcp" ];
+        };
+        nixos = {
+          command = "uvx";
+          args = [ "mcp-nixos" ];
+        };
+        time = {
+          command = "uvx";
           args = [
-            "-y"
-            "@modelcontextprotocol/server-filesystem"
-            "/0llm"
+            "mcp-server-time"
+            "--local-timezone=America/Los_Angeles"
           ];
         };
       };
@@ -33,24 +45,25 @@ let
       builtin_tools = false;
     };
   };
+  # Registers each mcpo subpath as an OpenAPI tool server in Open WebUI. mcpo needs no auth, so
+  # the key is empty and auth_type is none. id must match the mcpo subpath (the mcpServers key).
+  mcpoTool = id: name: description: {
+    type = "openapi";
+    url = "http://mcpo:8000/${id}";
+    path = "openapi.json";
+    auth_type = "none";
+    key = "";
+    config = {
+      enable = true;
+    };
+    spec_type = "url";
+    spec = "";
+    info = { inherit id name description; };
+  };
   toolServerConnections = builtins.toJSON [
-    {
-      type = "openapi";
-      url = "http://mcpo:8000/filesystem";
-      path = "openapi.json";
-      auth_type = "none";
-      key = "";
-      config = {
-        enable = true;
-      };
-      spec_type = "url";
-      spec = "";
-      info = {
-        id = "filesystem";
-        name = "0llm Filesystem";
-        description = "Read and write files under /0llm.";
-      };
-    }
+    (mcpoTool "kagi" "Kagi Search" "Web search and full-page content extraction via Kagi.")
+    (mcpoTool "nixos" "NixOS" "Search nixpkgs packages and NixOS, Home Manager, and Darwin options.")
+    (mcpoTool "time" "Time" "Current time and timezone conversion.")
   ];
   openWebuiEnv = builtins.toFile "open-webui.env" ''
     WEBUI_AUTH=False
@@ -73,9 +86,9 @@ in
     # Shared network so Open WebUI can reach mcpo by name.
     networks.mcp = { };
 
-    # The sandpit's own nix store, kept on a volume so its nix cache survives the
-    # container being recreated rather than re-downloading every time.
-    volumes."sandpit-nix" = { };
+    # The Open Terminal home directory, kept on a volume so the 0llm clone and the agent's git
+    # config survive the container being recreated or auto-updated.
+    volumes."open-terminal-home" = { };
 
     containers.actual = {
       image = "docker.io/actualbudget/actual-server:latest";
@@ -108,48 +121,44 @@ in
       autoStart = true;
       autoUpdate = "registry";
       network = [ "mcp" ];
+      # Holds KAGI_API_KEY for the kagi server. Hand-created and untracked, so it stays out of the
+      # public store. mcpo merges its own environment into each MCP subprocess, so the kagi server
+      # inherits the key without it appearing in config.json. See docs/credentials/KAGI_API_KEY.md.
+      environmentFile = [
+        "${config.home.homeDirectory}/0selfhost/mcpo-secret.env"
+      ];
       volumes = [
         "${config.home.homeDirectory}/0selfhost/mcpo/config.json:/config.json:Z"
-        "${config.home.homeDirectory}/0llm:/0llm:Z"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
     };
 
-    # Gives the chat agent an isolated machine with its own systemd, root
-    # filesystem, and nix, so its shell never reaches the host's files or
-    # credentials. This block declares only the container. nix, Open Terminal, and
-    # the 0llm clone are installed inside it by a runbook, and autoUpdate stays off
-    # because recreating the container would erase that installed state.
-    containers."sandpit" = {
-      image = "registry.access.redhat.com/ubi9/ubi-init:latest";
+    # Open Terminal is Open WebUI's first-party code-execution integration: the agent's shell,
+    # confined to this container. Open WebUI reaches it over the shared mcp network at
+    # http://open-terminal:8000 (declared in TERMINAL_SERVER_CONNECTIONS in the Open WebUI secret
+    # file, since that value embeds the bearer key) and proxies it server-side, so the terminal
+    # publishes no host port. The :slim image is the smallest non-Alpine (glibc) variant, carrying
+    # git, curl, and jq; it cannot install packages at runtime, which is accepted.
+    #
+    # 0llm is a git clone on the open-terminal-home volume at /home/user/0llm, not a host mount.
+    # The image runs as user `user` with home /home/user, so ~/0llm resolves to that clone and
+    # AGENTS.md reads as written. The clone and the git credential helper are provisioned once by a
+    # runbook; OPEN_TERMINAL_API_KEY and the scoped GitHub token come from the secret env file.
+    #
+    # OPEN_TERMINAL_ALLOWED_DOMAINS is the built-in egress firewall. The shell needs outbound
+    # access only to GitHub for git; OpenRouter is reached by Open WebUI and the MCP tools by mcpo,
+    # so locking egress to github bounds what a prompt-injected agent can reach.
+    containers."open-terminal" = {
+      image = "ghcr.io/open-webui/open-terminal:slim";
       autoStart = true;
+      autoUpdate = "registry";
       network = [ "mcp" ];
-      volumes = [ "sandpit-nix.volume:/nix" ];
-      extraPodmanArgs = [ "--systemd=always" ];
+      environment.OPEN_TERMINAL_ALLOWED_DOMAINS = "github.com,codeload.github.com";
+      environmentFile = [
+        "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env"
+      ];
+      volumes = [ "open-terminal-home.volume:/home/user" ];
     };
-  };
-
-  # Open Terminal runs bare metal as a user service rather than in a container,
-  # so the chat agent's shell has Joni's own host permissions and edits the real
-  # ~/0llm directly with no clone or uid mapping. uvx fetches the package from
-  # PyPI at runtime, which is the one non-declarative seam here. It binds 0.0.0.0
-  # so the containerised Open WebUI can reach it over host.containers.internal,
-  # and the API key comes from the secret file. There is no sandbox: every
-  # command the model runs executes as jhen, which is the accepted trade for the
-  # bare-metal shell.
-  systemd.user.services.open-terminal = {
-    Unit = {
-      Description = "Open Terminal — bare-metal shell API for Open WebUI";
-      After = [ "default.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.uv}/bin/uvx open-terminal run --host 0.0.0.0 --port 8000 --cors-allowed-origins https://sh-sassafras.spotted-elevator.ts.net:9443";
-      EnvironmentFile = "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env";
-      WorkingDirectory = "${config.home.homeDirectory}";
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install.WantedBy = [ "default.target" ];
   };
 
   home.file."0selfhost/mcpo/config.json".source = mcpoConfig;
