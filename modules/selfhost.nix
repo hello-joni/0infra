@@ -142,18 +142,21 @@ in
     #
     # 0llm is a git clone on the open-terminal-home volume at /home/user/0llm, not a host mount.
     # The image runs as user `user` with home /home/user, so ~/0llm resolves to that clone and
-    # AGENTS.md reads as written. The clone and the git credential helper are provisioned once by a
-    # runbook; OPEN_TERMINAL_API_KEY and the scoped GitHub token come from the secret env file.
+    # AGENTS.md reads as written. The clone and the git credential are provisioned once by a runbook;
+    # OPEN_TERMINAL_API_KEY comes from the secret env file. The :slim image ships git and curl but no
+    # ssh client and cannot install one, so 0llm is reached over HTTPS with a token, not SSH.
     #
-    # OPEN_TERMINAL_ALLOWED_DOMAINS is the built-in egress firewall. The shell needs outbound
-    # access only to GitHub for git; OpenRouter is reached by Open WebUI and the MCP tools by mcpo,
-    # so locking egress to github bounds what a prompt-injected agent can reach.
+    # Open Terminal ships an egress firewall (OPEN_TERMINAL_ALLOWED_DOMAINS) but it is left off here.
+    # It drives dnsmasq plus iptables/ipset and needs CAP_NET_ADMIN and host netfilter access that
+    # rootless podman cannot grant: ipset fails with "Can't open socket to ipset", dnsmasq comes up
+    # broken, and DNS stops resolving entirely. Until egress filtering can be done another way,
+    # isolation rests on the container boundary: a separate root filesystem, no host bind-mount, and
+    # rootless uid mapping.
     containers."open-terminal" = {
       image = "ghcr.io/open-webui/open-terminal:slim";
       autoStart = true;
       autoUpdate = "registry";
       network = [ "mcp" ];
-      environment.OPEN_TERMINAL_ALLOWED_DOMAINS = "github.com,codeload.github.com";
       environmentFile = [
         "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env"
       ];
