@@ -144,6 +144,15 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0selfhost/mcpo-secret.env"
       ];
+      # mcpo runs as root but the open-terminal-home volume is owned by uid 1000 (the open-terminal
+      # user), so git refuses to operate on the repo with "dubious ownership." These env vars set
+      # safe.directory=* in git's config without a config file, which is acceptable because the
+      # container is isolated and only reaches the shared volume.
+      environment = {
+        GIT_CONFIG_COUNT = "1";
+        GIT_CONFIG_KEY_0 = "safe.directory";
+        GIT_CONFIG_VALUE_0 = "*";
+      };
       volumes = [
         "${config.home.homeDirectory}/0selfhost/mcpo/config.json:/config.json:Z"
         # Shares the open-terminal home volume read-write so the git MCP server can reach
