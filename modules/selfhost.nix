@@ -32,6 +32,14 @@ let
             "--local-timezone=America/Los_Angeles"
           ];
         };
+        # Mirrors the `git` context server in ~/0config/modules/dev-graphical.nix so the chat
+        # agent has the same git access pattern as the coding agents. mcp-server-git takes
+        # repo_path per tool call, so no --repository arg here; filesystem access comes from the
+        # open-terminal-home volume shared into the mcpo container (see volumes below).
+        git = {
+          command = "uvx";
+          args = [ "mcp-server-git" ];
+        };
       };
     }
   );
@@ -64,6 +72,9 @@ let
     (mcpoTool "kagi" "Kagi Search" "Web search and full-page content extraction via Kagi.")
     (mcpoTool "nixos" "NixOS" "Search nixpkgs packages and NixOS, Home Manager, and Darwin options.")
     (mcpoTool "time" "Time" "Current time and timezone conversion.")
+    (mcpoTool "git" "Git"
+      "Read and manipulate Git repositories. Use this in preference to shell git commands, mirroring the coding agents' workflow."
+    )
   ];
   openWebuiEnv = builtins.toFile "open-webui.env" ''
     WEBUI_AUTH=False
@@ -73,6 +84,12 @@ let
     DEFAULT_MODEL_PARAMS=${defaultModelParams}
     DEFAULT_MODEL_METADATA=${defaultModelMetadata}
     TOOL_SERVER_CONNECTIONS=${toolServerConnections}
+    # Disables the follow-up suggestion chips after each model response. Authoritative here because
+    # ENABLE_PERSISTENT_CONFIG=False above makes env vars win over the DB on every restart; without
+    # that flag this var would only take effect on first launch. Starting prompt suggestions are a
+    # separate, model-level setting on the workspace model, not a global env var, so they are not
+    # set here.
+    ENABLE_FOLLOW_UP_GENERATION=False
   '';
 in
 {
@@ -129,6 +146,10 @@ in
       ];
       volumes = [
         "${config.home.homeDirectory}/0selfhost/mcpo/config.json:/config.json:Z"
+        # Shares the open-terminal home volume read-write so the git MCP server can reach
+        # /home/user/0llm. Mounted at the same path as in open-terminal so repo_path values match.
+        # Any future MCP server that needs 0llm access gets it the same way.
+        "open-terminal-home.volume:/home/user"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
     };
