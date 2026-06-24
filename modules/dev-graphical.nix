@@ -19,11 +19,31 @@ let
     export KAGI_API_KEY
     exec ${pkgs.uv}/bin/uvx kagimcp
   '';
+
+  zedTerminalPermission =
+    command: permission:
+    pkgs.writeShellScriptBin command ''
+      set -euo pipefail
+
+      settings="$HOME/.config/zed/settings.json"
+      tmp="$(${pkgs.coreutils}/bin/mktemp)"
+      trap '${pkgs.coreutils}/bin/rm -f "$tmp"' EXIT
+
+      ${pkgs.jq}/bin/jq '
+        .agent.tool_permissions.tools.terminal.default = "${permission}"
+      ' "$settings" > "$tmp"
+      ${pkgs.coreutils}/bin/cat "$tmp" > "$settings"
+
+      echo "Zed Agent terminal tool permission set to ${permission}."
+    '';
 in
 {
   home.packages = with pkgs; [
     uv # provides uvx, which runs the Kagi MCP server
     libsecret # provides secret-tool for GNOME Keyring access
+    (zedTerminalPermission ",azed" "allow")
+    (zedTerminalPermission ",czed" "confirm")
+    (zedTerminalPermission ",dzed" "deny")
   ];
 
   # GUI text editor
