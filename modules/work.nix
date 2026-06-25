@@ -222,12 +222,14 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0secrets/mcpo-secret.env"
       ];
-      # mcpo runs as root but the open-terminal-home volume is owned by uid 1000,
-      # so git refuses to operate on repos there without safe.directory=*.
+      # The mcpo image defaults to root but needs no privileges. Running as uid 1000 matches
+      # the open-terminal user so both containers write to the shared volume with consistent
+      # ownership, eliminating the git dubious-ownership problem.
+      user = "1000:1000";
       environment = {
-        GIT_CONFIG_COUNT = "1";
-        GIT_CONFIG_KEY_0 = "safe.directory";
-        GIT_CONFIG_VALUE_0 = "*";
+        # uvx caches fetched MCP servers under $HOME/.cache/uv; point it at the shared volume
+        # so the cache is writable and persists across container recreates.
+        HOME = "/home/user";
       };
       volumes = [
         "${config.home.homeDirectory}/0secrets/mcpo/config.json:/config.json:Z"
