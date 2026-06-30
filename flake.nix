@@ -65,6 +65,7 @@
             ./modules/base.nix
             ./modules/dev-headless.nix
             ./modules/syncthing.nix
+            ./modules/syncthing-test.nix
             ./modules/graphical.nix
             ./modules/dev-graphical.nix
             ./modules/personal.nix
