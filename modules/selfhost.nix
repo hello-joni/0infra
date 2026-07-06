@@ -103,7 +103,7 @@ in
     # Shared network so Open WebUI can reach mcpo by name.
     networks.mcp = { };
 
-    # The Open Terminal home directory, kept on a volume so the 0llm clone and the agent's git
+    # The Open Terminal home directory, kept on a volume so the 0notes clone and the agent's git
     # config survive the container being recreated or auto-updated.
     volumes."open-terminal-home" = { };
 
@@ -157,8 +157,8 @@ in
       volumes = [
         "${config.home.homeDirectory}/0selfhost/mcpo/config.json:/config.json:Z"
         # Shares the open-terminal home volume read-write so the git MCP server can reach
-        # /home/user/0llm. Mounted at the same path as in open-terminal so repo_path values match.
-        # Any future MCP server that needs 0llm access gets it the same way.
+        # /home/user/0notes. Mounted at the same path as in open-terminal so repo_path values match.
+        # Any future MCP server that needs 0notes access gets it the same way.
         "open-terminal-home.volume:/home/user"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
@@ -171,11 +171,11 @@ in
     # publishes no host port. The :slim image is the smallest non-Alpine (glibc) variant, carrying
     # git, curl, and jq; it cannot install packages at runtime, which is accepted.
     #
-    # 0llm is a git clone on the open-terminal-home volume at /home/user/0llm, not a host mount.
-    # The image runs as user `user` with home /home/user, so ~/0llm resolves to that clone and
+    # 0notes is a git clone on the open-terminal-home volume at /home/user/0notes, not a host mount.
+    # The image runs as user `user` with home /home/user, so ~/0notes resolves to that clone and
     # AGENTS.md reads as written. The clone and the git credential are provisioned once by a runbook;
     # OPEN_TERMINAL_API_KEY comes from the secret env file. The :slim image ships git and curl but no
-    # ssh client and cannot install one, so 0llm is reached over HTTPS with a token, not SSH.
+    # ssh client and cannot install one, so 0notes is reached over HTTPS with a token, not SSH.
     #
     # Open Terminal ships an egress firewall (OPEN_TERMINAL_ALLOWED_DOMAINS) but it is left off here.
     # It drives dnsmasq plus iptables/ipset and needs CAP_NET_ADMIN and host netfilter access that

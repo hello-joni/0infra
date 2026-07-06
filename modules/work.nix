@@ -26,7 +26,7 @@ let
   # Open WebUI chat agent — local instance on port 8180.
   # The design mirrors ~/0config/modules/selfhost.nix: Open WebUI talks to models via
   # OpenRouter, and to MCP tool servers via mcpo, all on a shared podman network.
-  # Open Terminal provides a sandboxed shell with git-only access to 0llm.
+  # Open Terminal provides a sandboxed shell with git-only access to 0notes.
 
   # mcpo runs each MCP server as a subprocess and exposes it over HTTP so Open WebUI
   # can register them as OpenAPI tool servers. These are the same servers that
@@ -143,7 +143,7 @@ in
           path = "~/.config/git/config-personal";
         }
         {
-          condition = "gitdir:~/0llm/";
+          condition = "gitdir:~/0notes/";
           path = "~/.config/git/config-personal";
         }
       ];
@@ -238,7 +238,7 @@ in
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
     };
 
-    # The agent's shell is confined to this container. 0llm lives as a git clone on the
+    # The agent's shell is confined to this container. 0notes lives as a git clone on the
     # named volume, reached over HTTPS with a repository-scoped PAT, so the agent can
     # only read/write/push that one repo and nothing else on the host.
     containers."open-terminal" = {
