@@ -4,6 +4,12 @@
   ...
 }:
 
+let
+  # The home-manager podman module hardcodes PATH without /usr/bin, where shadow-utils
+  # provides newuidmap/newgidmap on Fedora Silverblue. Override with a stable-path PATH.
+  rootlessPath = "PATH=/run/wrappers/bin:/run/current-system/sw/bin:/usr/bin:${config.home.homeDirectory}/.nix-profile/bin";
+in
+
 {
   home.packages = with pkgs; [
     (config.lib.nixGL.wrap subsurface) # Dive log software
@@ -75,7 +81,10 @@
       volumes = [ "${config.home.homeDirectory}/0notes:/space:Z" ];
       # The home-manager podman module hardcodes PATH without /usr/bin, where shadow-utils
       # provides newuidmap/newgidmap on Fedora Silverblue. Override with a stable-path PATH.
-      extraConfig.Service.Environment = "PATH=/run/wrappers/bin:/run/current-system/sw/bin:/usr/bin:${config.home.homeDirectory}/.nix-profile/bin";
+      extraConfig.Service.Environment = rootlessPath;
     };
   };
+
+  # The podman module's auto-update service also hardcodes PATH without /usr/bin.
+  systemd.user.services."podman-auto-update".Service.Environment = rootlessPath;
 }

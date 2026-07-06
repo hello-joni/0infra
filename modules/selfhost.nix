@@ -5,6 +5,10 @@
 }:
 
 let
+  # The home-manager podman module hardcodes PATH without /usr/bin, where shadow-utils
+  # provides newuidmap/newgidmap on Fedora Silverblue and Rocky. Override with a stable-path PATH.
+  rootlessPath = "PATH=/run/wrappers/bin:/run/current-system/sw/bin:/usr/bin:${config.home.homeDirectory}/.nix-profile/bin";
+
   # Open WebUI can only call tools over HTTP, and most MCP servers speak stdio instead.
   # mcpo bridges that gap by running each MCP server and exposing it as an OpenAPI endpoint
   # under its own subpath, e.g. http://mcpo:8000/kagi. This config lists what it runs.
@@ -113,6 +117,7 @@ in
       autoUpdate = "registry";
       ports = [ "127.0.0.1:5006:5006" ];
       volumes = [ "${config.home.homeDirectory}/0selfhost/actual:/data" ];
+      extraConfig.Service.Environment = rootlessPath;
     };
     containers.silverbullet = {
       image = "ghcr.io/silverbulletmd/silverbullet:latest";
@@ -120,6 +125,7 @@ in
       autoUpdate = "registry";
       ports = [ "127.0.0.1:3000:3000" ];
       volumes = [ "${config.home.homeDirectory}/0everything/silverbullet:/space" ];
+      extraConfig.Service.Environment = rootlessPath;
     };
     containers."open-webui" = {
       image = "ghcr.io/open-webui/open-webui:main";
@@ -132,6 +138,7 @@ in
         "${openWebuiEnv}"
         "${config.home.homeDirectory}/0selfhost/open-webui-secret.env"
       ];
+      extraConfig.Service.Environment = rootlessPath;
     };
     containers.mcpo = {
       image = "ghcr.io/open-webui/mcpo:main";
@@ -162,6 +169,7 @@ in
         "open-terminal-home.volume:/home/user"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
+      extraConfig.Service.Environment = rootlessPath;
     };
 
     # Open Terminal is Open WebUI's first-party code-execution integration: the agent's shell,
@@ -192,8 +200,12 @@ in
         "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env"
       ];
       volumes = [ "open-terminal-home.volume:/home/user" ];
+      extraConfig.Service.Environment = rootlessPath;
     };
   };
+
+  # The podman module's auto-update service also hardcodes PATH without /usr/bin.
+  systemd.user.services."podman-auto-update".Service.Environment = rootlessPath;
 
   home.file."0selfhost/mcpo/config.json".source = mcpoConfig;
 

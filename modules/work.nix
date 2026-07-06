@@ -6,6 +6,10 @@
 }:
 
 let
+  # The home-manager podman module hardcodes PATH without /usr/bin, where shadow-utils
+  # provides newuidmap/newgidmap on Fedora Silverblue. Override with a stable-path PATH.
+  rootlessPath = "PATH=/run/wrappers/bin:/run/current-system/sw/bin:/usr/bin:${config.home.homeDirectory}/.nix-profile/bin";
+
   # The Jira API token lives in the GNOME Keyring rather than the environment because
   # env vars are visible in /proc and the Nix store is world-readable. This wrapper
   # fetches it at each invocation. Store the token once per machine
@@ -212,6 +216,7 @@ in
         "${openWebuiEnv}"
         "${config.home.homeDirectory}/0secrets/open-webui-secret.env"
       ];
+      extraConfig.Service.Environment = rootlessPath;
     };
 
     containers.mcpo = {
@@ -236,6 +241,7 @@ in
         "open-terminal-home.volume:/home/user"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
+      extraConfig.Service.Environment = rootlessPath;
     };
 
     # The agent's shell is confined to this container. 0notes lives as a git clone on the
@@ -250,8 +256,12 @@ in
         "${config.home.homeDirectory}/0secrets/open-terminal-secret.env"
       ];
       volumes = [ "open-terminal-home.volume:/home/user" ];
+      extraConfig.Service.Environment = rootlessPath;
     };
   };
+
+  # The podman module's auto-update service also hardcodes PATH without /usr/bin.
+  systemd.user.services."podman-auto-update".Service.Environment = rootlessPath;
 
   home.file."0secrets/mcpo/config.json".source = mcpoConfig;
 
