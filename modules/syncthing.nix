@@ -24,6 +24,21 @@ _:
       folders."~/0everything" = {
         id = "0everything";
         order = "newest";
+        ignorePerms = true;
+        versioning = {
+          type = "staggered";
+          params.maxAge = "31536000"; # 1 year in seconds
+        };
+        devices = [
+          "ginger"
+          "saffron"
+          "sh-sassafras"
+        ];
+      };
+      folders."~/0notes" = {
+        id = "0notes";
+        order = "newest";
+        ignorePerms = true;
         versioning = {
           type = "staggered";
           params.maxAge = "31536000"; # 1 year in seconds
