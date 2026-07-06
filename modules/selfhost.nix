@@ -107,10 +107,6 @@ in
     # Shared network so Open WebUI can reach mcpo by name.
     networks.mcp = { };
 
-    # The Open Terminal home directory, kept on a volume so the 0notes clone and the agent's git
-    # config survive the container being recreated or auto-updated.
-    volumes."open-terminal-home" = { };
-
     containers.actual = {
       image = "docker.io/actualbudget/actual-server:latest";
       autoStart = true;
@@ -163,10 +159,8 @@ in
       };
       volumes = [
         "${config.home.homeDirectory}/0selfhost/mcpo/config.json:/config.json:Z"
-        # Shares the open-terminal home volume read-write so the git MCP server can reach
-        # /home/user/0notes. Mounted at the same path as in open-terminal so repo_path values match.
-        # Any future MCP server that needs 0notes access gets it the same way.
-        "open-terminal-home.volume:/home/user"
+        # Bind-mounts ~/0notes so the git MCP server can reach /home/user/0notes.
+        "${config.home.homeDirectory}/0notes:/home/user/0notes:Z"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
       extraConfig.Service.Environment = rootlessPath;
@@ -179,18 +173,17 @@ in
     # publishes no host port. The :slim image is the smallest non-Alpine (glibc) variant, carrying
     # git, curl, and jq; it cannot install packages at runtime, which is accepted.
     #
-    # 0notes is a git clone on the open-terminal-home volume at /home/user/0notes, not a host mount.
-    # The image runs as user `user` with home /home/user, so ~/0notes resolves to that clone and
-    # AGENTS.md reads as written. The clone and the git credential are provisioned once by a runbook;
-    # OPEN_TERMINAL_API_KEY comes from the secret env file. The :slim image ships git and curl but no
-    # ssh client and cannot install one, so 0notes is reached over HTTPS with a token, not SSH.
+    # ~/0notes is bind-mounted into the container at /home/user/0notes and synced via Syncthing on
+    # the host. The image runs as user `user` with home /home/user, so ~/0notes resolves to the
+    # bind-mounted folder and AGENTS.md reads as written. OPEN_TERMINAL_API_KEY comes from the
+    # secret env file.
     #
     # Open Terminal ships an egress firewall (OPEN_TERMINAL_ALLOWED_DOMAINS) but it is left off here.
     # It drives dnsmasq plus iptables/ipset and needs CAP_NET_ADMIN and host netfilter access that
     # rootless podman cannot grant: ipset fails with "Can't open socket to ipset", dnsmasq comes up
     # broken, and DNS stops resolving entirely. Until egress filtering can be done another way,
-    # isolation rests on the container boundary: a separate root filesystem, no host bind-mount, and
-    # rootless uid mapping.
+    # isolation rests on the container boundary: a separate root filesystem, no host bind-mount
+    # beyond ~/0notes, and rootless uid mapping.
     containers."open-terminal" = {
       image = "ghcr.io/open-webui/open-terminal:slim";
       autoStart = true;
@@ -199,7 +192,7 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env"
       ];
-      volumes = [ "open-terminal-home.volume:/home/user" ];
+      volumes = [ "${config.home.homeDirectory}/0notes:/home/user/0notes:Z" ];
       extraConfig.Service.Environment = rootlessPath;
     };
   };
