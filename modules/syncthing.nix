@@ -34,19 +34,6 @@ _:
           "sh-sassafras"
         ];
       };
-      folders."~/0notes" = {
-        id = "0notes";
-        order = "newest";
-        versioning = {
-          type = "staggered";
-          params.maxAge = "31536000"; # 1 year in seconds
-        };
-        devices = [
-          "ginger"
-          "saffron"
-          "sh-sassafras"
-        ];
-      };
     };
   };
 }
