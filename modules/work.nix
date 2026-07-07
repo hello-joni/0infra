@@ -228,8 +228,8 @@ in
         "${config.home.homeDirectory}/0secrets/mcpo-secret.env"
       ];
       # The mcpo image defaults to root but needs no privileges. Running as uid 1000 matches
-      # the open-terminal user so both containers write to the shared volume with consistent
-      # ownership, eliminating the git dubious-ownership problem.
+      # the host user, so files written to the bind-mounted ~/0notes are owned consistently
+      # and readable from the host.
       user = "1000:1000";
       environment = {
         # uvx caches fetched MCP servers under $HOME/.cache/uv; point it at the shared volume
@@ -239,14 +239,17 @@ in
       volumes = [
         "${config.home.homeDirectory}/0secrets/mcpo/config.json:/config.json:Z"
         "open-terminal-home.volume:/home/user"
+        # The git MCP server needs filesystem access to the notes tree, which lives on the host
+        # at ~/0notes and is synced via Syncthing rather than cloned inside the container.
+        "${config.home.homeDirectory}/0notes:/home/user/0notes:Z"
       ];
       exec = "--host 0.0.0.0 --port 8000 --config /config.json";
       extraConfig.Service.Environment = rootlessPath;
     };
 
-    # The agent's shell is confined to this container. 0notes lives as a git clone on the
-    # named volume, reached over HTTPS with a repository-scoped PAT, so the agent can
-    # only read/write/push that one repo and nothing else on the host.
+    # ~/0notes is bind-mounted so the agent's shell can read and write the synced notes tree.
+    # The image runs as user `user` with home /home/user, so ~/0notes resolves to the bind mount
+    # and AGENTS.md reads as written.
     containers."open-terminal" = {
       image = "ghcr.io/open-webui/open-terminal:slim";
       autoStart = true;
@@ -255,7 +258,10 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0secrets/open-terminal-secret.env"
       ];
-      volumes = [ "open-terminal-home.volume:/home/user" ];
+      volumes = [
+        "open-terminal-home.volume:/home/user"
+        "${config.home.homeDirectory}/0notes:/home/user/0notes:Z"
+      ];
       extraConfig.Service.Environment = rootlessPath;
     };
   };
