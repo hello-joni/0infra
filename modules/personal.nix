@@ -74,13 +74,19 @@ in
     };
 
     containers.silverbullet = {
-      image = "ghcr.io/silverbulletmd/silverbullet:latest";
+      # The -runtime-api variant bundles Chromium, enabling the Runtime API and `sb` CLI
+      # for agent-driven debugging (Lua eval, log tailing, object queries, screenshots).
+      # See https://silverbullet.md/Runtime%20API.
+      image = "ghcr.io/silverbulletmd/silverbullet:latest-runtime-api";
       autoStart = true;
       autoUpdate = "registry";
       ports = [ "127.0.0.1:1234:3000" ];
       volumes = [ "${config.home.homeDirectory}/0notes:/space:Z" ];
-      # The home-manager podman module hardcodes PATH without /usr/bin, where shadow-utils
-      # provides newuidmap/newgidmap on Fedora Silverblue. Override with a stable-path PATH.
+      # Persist the headless Chrome profile outside the synced notes tree so Syncthing
+      # does not ship Chrome state to other devices and so cold starts skip re-indexing.
+      environment = {
+        SB_CHROME_DATA_DIR = "${config.home.homeDirectory}/.local/share/silverbullet-chrome";
+      };
       extraConfig.Service.Environment = rootlessPath;
     };
   };
