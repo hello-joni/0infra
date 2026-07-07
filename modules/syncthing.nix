@@ -19,7 +19,7 @@ _:
         sh-sassafras.id = "4PJJBRC-HM7M4I7-FUZYMAP-3XXJ5P5-UHDIY67-NA5X53V-UW7H2IF-PMISLAB";
 
         # Work laptop
-        # fenugreek.id = "DEVICE-ID-HERE";
+        fenugreek.id = "BGTQMFS-6SWFN75-BFTUL5R-4HLMHMG-RZD2ZDQ-EWOD45C-PAOROHK-3UXWFAA";
       };
       folders."~/0everything" = {
         id = "0everything";
@@ -47,7 +47,7 @@ _:
           "ginger"
           "saffron"
           "sh-sassafras"
-          # "fenugreek"
+          "fenugreek"
         ];
       };
     };
