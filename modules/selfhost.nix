@@ -107,6 +107,11 @@ in
     # Shared network so Open WebUI can reach mcpo by name.
     networks.mcp = { };
 
+    # Backs /home/user in both mcpo and open-terminal. The base images ship /home/user
+    # root-owned, but both containers run as uid 1000; without this volume, uvx cannot create
+    # its cache and no MCP server starts.
+    volumes."open-terminal-home" = { };
+
     containers.actual = {
       image = "docker.io/actualbudget/actual-server:latest";
       autoStart = true;
@@ -159,6 +164,7 @@ in
       };
       volumes = [
         "${config.home.homeDirectory}/0selfhost/mcpo/config.json:/config.json:Z"
+        "open-terminal-home.volume:/home/user"
         # Bind-mounts ~/0notes so the git MCP server can reach /home/user/0notes.
         "${config.home.homeDirectory}/0notes:/home/user/0notes:Z"
       ];
@@ -192,7 +198,10 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0selfhost/open-terminal-secret.env"
       ];
-      volumes = [ "${config.home.homeDirectory}/0notes:/home/user/0notes:Z" ];
+      volumes = [
+        "open-terminal-home.volume:/home/user"
+        "${config.home.homeDirectory}/0notes:/home/user/0notes:Z"
+      ];
       extraConfig.Service.Environment = rootlessPath;
     };
   };
