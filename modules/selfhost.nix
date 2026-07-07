@@ -120,14 +120,7 @@ in
       volumes = [ "${config.home.homeDirectory}/0selfhost/actual:/data" ];
       extraConfig.Service.Environment = rootlessPath;
     };
-    containers.silverbullet = {
-      image = "ghcr.io/silverbulletmd/silverbullet:latest";
-      autoStart = true;
-      autoUpdate = "registry";
-      ports = [ "127.0.0.1:3000:3000" ];
-      volumes = [ "${config.home.homeDirectory}/0everything/silverbullet:/space" ];
-      extraConfig.Service.Environment = rootlessPath;
-    };
+
     containers."open-webui" = {
       image = "ghcr.io/open-webui/open-webui:main";
       autoStart = true;
