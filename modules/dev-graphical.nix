@@ -72,6 +72,21 @@ in
         dock = "left";
         hide_hidden = false;
       };
+      # Zed's file_scan_exclusions setting overrides its defaults rather than
+      # extending them, so the standard entries have to be re-listed here.
+      file_scan_exclusions = [
+        "**/.git"
+        "**/.svn"
+        "**/.hg"
+        "**/.jj"
+        "**/CVS"
+        "**/.DS_Store"
+        "**/Thumbs.db"
+        "**/.classpath"
+        "**/.settings"
+        "**/.stfolder" # Syncthing
+        "**/.stversions" # Syncthing
+      ];
       outline_panel = {
         dock = "left";
       };
