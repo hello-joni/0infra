@@ -227,10 +227,10 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0secrets/mcpo-secret.env"
       ];
-      # The mcpo image defaults to root but needs no privileges. Running as uid 1000 matches
-      # the host user, so files written to the bind-mounted ~/0notes are owned consistently
-      # and readable from the host.
-      user = "1000:1000";
+      # Run as container root (uid 0). Under rootless podman, container uid 0 maps to the
+      # host user, so writes to the bind-mounted ~/0notes succeed. Any other container uid
+      # maps to a subuid and cannot write to host-user-owned files.
+      user = "0:0";
       environment = {
         # uvx caches fetched MCP servers under $HOME/.cache/uv; point it at the shared volume
         # so the cache is writable and persists across container recreates.
@@ -258,6 +258,14 @@ in
       environmentFile = [
         "${config.home.homeDirectory}/0secrets/open-terminal-secret.env"
       ];
+      # The image's entrypoint drops to a non-root user, which under rootless podman maps to
+      # a subuid and cannot write to ~/0notes (owned by the host user). Overriding the
+      # entrypoint to skip the drop and running as container uid 0 (which maps to the host
+      # user) keeps the shell able to write to the bind mount.
+      # https://github.com/open-webui/open-terminal/blob/98bd1a5fd1e6d359605bca128b4048f7ffb1afe4/Dockerfile.slim#L125-L126
+      user = "0:0";
+      entrypoint = "/bin/sh";
+      exec = "-c 'export HOME=/home/user; export PATH=/home/user/.local/bin:$PATH; mkdir -p /home/user/.local/bin; exec open-terminal run'";
       volumes = [
         "open-terminal-home.volume:/home/user"
         "${config.home.homeDirectory}/0notes:/home/user/0notes:Z"
