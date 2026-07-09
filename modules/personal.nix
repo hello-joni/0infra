@@ -23,10 +23,15 @@ in
       "org.gnome.Ptyxis.desktop"
       "dev.zed.Zed.desktop"
       "md.obsidian.Obsidian.desktop"
+      "com.logseq.Logseq.desktop"
     ];
   };
 
   services.flatpak.packages = [
+    {
+      appId = "com.logseq.Logseq";
+      origin = "flathub";
+    }
     {
       # Personal finance
       appId = "com.actualbudget.actual";

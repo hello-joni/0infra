@@ -35,6 +35,21 @@ _:
           "sh-sassafras"
         ];
       };
+      folders."~/0logseq" = {
+        id = "0logseq";
+        order = "newest";
+        ignorePerms = true;
+        versioning = {
+          type = "staggered";
+          params.maxAge = "31536000";
+        };
+        devices = [
+          "ginger"
+          "saffron"
+          "sh-sassafras"
+          "fenugreek"
+        ];
+      };
       folders."~/0notes" = {
         id = "0notes";
         order = "newest";

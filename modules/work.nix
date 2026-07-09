@@ -180,11 +180,16 @@ in
       "org.gnome.Ptyxis.desktop"
       "dev.zed.Zed.desktop"
       "md.obsidian.Obsidian.desktop"
+      "com.logseq.Logseq.desktop"
       "com.slack.Slack.desktop"
     ];
   };
 
   services.flatpak.packages = [
+    {
+      appId = "com.logseq.Logseq";
+      origin = "flathub";
+    }
     {
       appId = "com.slack.Slack";
       origin = "flathub";
