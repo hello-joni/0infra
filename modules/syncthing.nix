@@ -6,11 +6,8 @@ _:
     enable = true;
     settings = {
       devices = {
-        # Phone (introducer, since its config isn't managed by Nix anyways)
-        ginger = {
-          id = "7WVHCQA-KDJACMV-GRC3MUB-PXSWAVD-7PU5ZV2-UXAMIOM-KZUOMLX-FF3MAAI";
-          introducer = true;
-        };
+        # Phone (GrapheneOS)
+        ginger.id = "7WVHCQA-KDJACMV-GRC3MUB-PXSWAVD-7PU5ZV2-UXAMIOM-KZUOMLX-FF3MAAI";
 
         # Laptop
         saffron.id = "T2F7ICT-EMNBQH6-TBDQ4DE-7X7J57J-QCGWIS2-VXBN4HB-LRGNZUZ-AFI5IQF";
