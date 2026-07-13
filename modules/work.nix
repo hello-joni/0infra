@@ -106,6 +106,8 @@ in
 
   home.packages = with pkgs; [
     gnumake
+    go
+    gopls
     vcs2l
     (python3.withPackages (ps: with ps; [ pyyaml ]))
     awscli
