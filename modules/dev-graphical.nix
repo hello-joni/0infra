@@ -36,11 +36,26 @@ let
 
       echo "Zed Agent terminal tool permission set to ${permission}."
     '';
+
+  # KiCad MCP server. Built from https://github.com/Finerestaurant/kicad-mcp-python.
+  # The wrapper bakes in KICAD_CLI_PATH; PCB_PATHS must be set per-project
+  # (e.g. in a project-local .env file or Zed project settings).
+  kicadMcpServer = import ../pkgs/kicad-mcp-server.nix {
+    inherit (pkgs)
+      lib
+      fetchFromGitHub
+      python3Packages
+      kicad
+      makeWrapper
+      ;
+  };
 in
 {
   home.packages = with pkgs; [
     uv # provides uvx, which runs the Kagi MCP server
     libsecret # provides secret-tool for GNOME Keyring access
+    (config.lib.nixGL.wrap kicad) # EDA suite for PCB design
+    kicadMcpServer # MCP server for KiCad IPC
     (zedTerminalPermission ",azed" "allow")
     (zedTerminalPermission ",czed" "confirm")
     (zedTerminalPermission ",dzed" "deny")
@@ -196,6 +211,11 @@ in
           args = [ ];
           env = { };
         };
+        kicad = {
+          command = "${kicadMcpServer}/bin/kicad-mcp-server";
+          args = [ ];
+          env = { };
+        };
       };
       agent = {
         dock = "right";
@@ -326,6 +346,7 @@ in
         "mcp__git__git_branch"
         "mcp__time"
         "mcp__nixos"
+        "mcp__kicad"
       ];
       deny = [
         "WebSearch"

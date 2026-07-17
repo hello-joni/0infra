@@ -41,10 +41,9 @@ git clone git@github-personal:hello-joni/0config.git ~/0config
 
 ## 3. Jira CLI token
 
-`work.nix` installs a `jira` wrapper that reads the API token from the GNOME
-Keyring under `service jira` at each call. The token is the only secret; the
-instance URL, email, project, and board live in `~/.config/.jira/.config.yml`,
-generated locally by `jira init`.
+`work.nix` installs a `jira` wrapper that reads the API token from the GNOME Keyring under
+`service jira` at each call. The token is the only secret; the instance URL, email, project, and
+board live in `~/.config/.jira/.config.yml`, generated locally by `jira init`.
 
 ```bash
 # Generate a token at https://id.atlassian.com/manage-profile/security/api-tokens
@@ -62,8 +61,8 @@ secret-tool clear service jira
 
 ## 4. Buildkite CLI token
 
-`work.nix` installs the Buildkite CLI (`bk`). It stores a read-only personal API
-token in `~/.config/bk.yaml`, written by `bk auth login`. Run it once per machine.
+`work.nix` installs the Buildkite CLI (`bk`). It stores a read-only personal API token in
+`~/.config/bk.yaml`, written by `bk auth login`. Run it once per machine.
 
 ```bash
 # Create a token at https://buildkite.com/user/api-access-tokens/new
@@ -77,5 +76,5 @@ bk auth status   # verify
 bk build list -p <a-pipeline-slug> --limit 5   # verify build access
 ```
 
-Rotate by revoking the old token at https://buildkite.com/user/api-access-tokens,
-then re-running `bk auth login` with the replacement.
+Rotate by revoking the old token at https://buildkite.com/user/api-access-tokens, then re-running
+`bk auth login` with the replacement.
