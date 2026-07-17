@@ -24,6 +24,7 @@ in
       "dev.zed.Zed.desktop"
       "md.obsidian.Obsidian.desktop"
       "com.logseq.Logseq.desktop"
+      "org.kicad.kicad.desktop"
     ];
   };
 
