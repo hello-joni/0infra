@@ -15,6 +15,7 @@
 
   # Consistent cursor across GTK and Qt apps on Wayland
   home.pointerCursor = {
+    enable = true;
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
     size = 24;
