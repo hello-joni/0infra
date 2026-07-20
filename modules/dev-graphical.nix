@@ -56,6 +56,7 @@ in
     libsecret # provides secret-tool for GNOME Keyring access
     (config.lib.nixGL.wrap kicad) # EDA suite for PCB design
     kicadMcpServer # MCP server for KiCad IPC
+    clang-tools # provides clangd for C/C++ LSP in Zed
     (zedTerminalPermission ",azed" "allow")
     (zedTerminalPermission ",czed" "confirm")
     (zedTerminalPermission ",dzed" "deny")
