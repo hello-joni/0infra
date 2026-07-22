@@ -50,6 +50,15 @@
   programs.home-manager.enable = true;
   programs.git.enable = true;
 
+  # Browser
+  programs.librewolf = {
+    enable = true;
+    settings = {
+      "webgl.disabled" = false;
+      "privacy.resistFingerprinting" = false;
+    };
+  };
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "26.05";
 }
