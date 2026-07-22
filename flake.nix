@@ -68,6 +68,7 @@
             ./modules/graphical.nix
             ./modules/dev-graphical.nix
             ./modules/personal.nix
+            ./modules/obsidian.nix
             nix-flatpak.homeManagerModules.nix-flatpak
           ];
         };

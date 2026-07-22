@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  mcpNixos,
   ...
 }:
 
@@ -208,7 +209,7 @@ in
           env = { };
         };
         nixos = {
-          command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+          command = "${mcpNixos}/bin/mcp-nixos";
           args = [ ];
           env = { };
         };
