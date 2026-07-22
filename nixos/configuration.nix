@@ -53,6 +53,10 @@
 
   # FIXME: Add the rest of your current configuration
 
+  # Home Manager as a NixOS module
+  home-manager.useUserPackages = true;
+  home-manager.users.joni = import ../home-manager/home.nix;
+
   # GNOME desktop
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -74,7 +78,7 @@
       # TODO: You can set an initial password for your user.
       # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
       # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "correcthorsebatterystaple";
+      initialPassword = "word";
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
@@ -96,6 +100,11 @@
       PasswordAuthentication = false;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    gnome-terminal
+    nautilus
+  ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "26.05";
