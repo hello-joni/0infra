@@ -32,6 +32,7 @@
   home.packages = with pkgs; [
     adwaita-qt # Adwaita theme for Qt5 apps
     adwaita-qt6 # Adwaita theme for Qt6 apps
+    gnome-decoder # Scan QR/barcodes from the camera or screenshots
   ];
 
   # GNOME Extensions

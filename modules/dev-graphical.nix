@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  mcpNixos,
+  # mcpNixos,
   ...
 }:
 
@@ -208,11 +208,11 @@ in
           args = [ ];
           env = { };
         };
-        nixos = {
-          command = "${mcpNixos}/bin/mcp-nixos";
-          args = [ ];
-          env = { };
-        };
+        # nixos = {
+        #   command = "${mcpNixos}/bin/mcp-nixos";
+        #   args = [ ];
+        #   env = { };
+        # };
         kicad = {
           command = "${kicadMcpServer}/bin/kicad-mcp-server";
           args = [ ];

@@ -14,6 +14,7 @@ in
   home.packages = with pkgs; [
     (config.lib.nixGL.wrap subsurface) # Dive log software
     gh
+    awscli2 # AWS CLI v2
   ];
 
   dconf.settings."org/gnome/shell" = {
