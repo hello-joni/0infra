@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  # mcpNixos,
   ...
 }:
 
@@ -208,11 +207,6 @@ in
           args = [ ];
           env = { };
         };
-        # nixos = {
-        #   command = "${mcpNixos}/bin/mcp-nixos";
-        #   args = [ ];
-        #   env = { };
-        # };
         kicad = {
           command = "${kicadMcpServer}/bin/kicad-mcp-server";
           args = [ ];
@@ -315,8 +309,6 @@ in
                   "mcp:git:git_branch"
                   "mcp:time:get_current_time"
                   "mcp:time:convert_time"
-                  "mcp:nixos:nix"
-                  "mcp:nixos:nix_versions"
                 ]
             )
             // {
@@ -347,7 +339,6 @@ in
         "mcp__git__git_diff_unstaged"
         "mcp__git__git_branch"
         "mcp__time"
-        "mcp__nixos"
         "mcp__kicad"
       ];
       deny = [

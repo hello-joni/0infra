@@ -25,10 +25,6 @@ let
           command = "uvx";
           args = [ "kagimcp" ];
         };
-        nixos = {
-          command = "uvx";
-          args = [ "mcp-nixos" ];
-        };
         time = {
           command = "uvx";
           args = [
@@ -74,7 +70,6 @@ let
   };
   toolServerConnections = builtins.toJSON [
     (mcpoTool "kagi" "Kagi Search" "Web search and full-page content extraction via Kagi.")
-    (mcpoTool "nixos" "NixOS" "Search nixpkgs packages and NixOS, Home Manager, and Darwin options.")
     (mcpoTool "time" "Time" "Current time and timezone conversion.")
     (mcpoTool "git" "Git"
       "Read and manipulate Git repositories. Use this in preference to shell git commands, mirroring the coding agents' workflow."
