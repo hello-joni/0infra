@@ -22,5 +22,6 @@
     ./fish.nix
     ./librewolf.nix
     ./syncthing.nix
+    ./zed.nix
   ];
 }
