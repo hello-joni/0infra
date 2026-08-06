@@ -51,8 +51,6 @@
     channel.enable = false;
   };
 
-  # FIXME: Add the rest of your current configuration
-
   # Home Manager as a NixOS module
   home-manager.useUserPackages = true;
   home-manager.users.joni = import ../home-manager/home.nix;
@@ -76,10 +74,9 @@
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
-    # FIXME: Replace with your username
     joni = {
-      # Bash stays as the login shell for POSIX compliance; fish is launched
-      # interactively via the bash exec trick in home-manager/fish.nix.
+      # Bash stays as the login shell for POSIX compliance
+      # Fish is configured in fish.nix
       shell = pkgs.bashInteractive;
       # TODO: You can set an initial password for your user.
       # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
@@ -96,16 +93,16 @@
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
-  services.openssh = {
-    enable = true;
-    settings = {
-      # Opinionated: forbid root login through SSH.
-      PermitRootLogin = "no";
-      # Opinionated: use keys only.
-      # Remove if you want to SSH using passwords
-      PasswordAuthentication = false;
-    };
-  };
+  # services.openssh = {
+  #   enable = true;
+  #   settings = {
+  #     # Opinionated: forbid root login through SSH.
+  #     PermitRootLogin = "no";
+  #     # Opinionated: use keys only.
+  #     # Remove if you want to SSH using passwords
+  #     PasswordAuthentication = false;
+  #   };
+  # };
 
   environment.systemPackages = with pkgs; [
     gnome-terminal

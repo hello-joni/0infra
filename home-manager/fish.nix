@@ -20,8 +20,6 @@
     enable = true;
     generateCompletions = true;
 
-    # Prefix the prompt with (ssh)(db)(nix) tags when the corresponding
-    # context applies. Order is fixed: outer to inner.
     functions.fish_prompt = ''
       # Capture status/pipestatus first; anything below resets $status.
       set -l last_pipestatus $pipestatus

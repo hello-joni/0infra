@@ -21,5 +21,6 @@
   imports = [
     ./fish.nix
     ./librewolf.nix
+    ./syncthing.nix
   ];
 }
