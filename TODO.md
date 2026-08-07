@@ -7,3 +7,5 @@
 - Work configuration
 - Codecs?
 - Other things from 0config
+- new Zed sandbox/bubblewrap feature?
+- Helper command for running update

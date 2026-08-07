@@ -19,11 +19,11 @@
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
 
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
+    # Auto-generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+
+    # Manually-defined hardware config
+    ./hardware/Lenovo-Yoga-7-16IAP7.nix
   ];
 
   nixpkgs = {
@@ -117,5 +117,6 @@
   environment.systemPackages = with pkgs; [
     gnome-terminal
     nautilus
+    pciutils
   ];
 }
