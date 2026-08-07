@@ -58,6 +58,9 @@
   # Fish shell: enables vendor completions and man-page completion generation
   programs.fish.enable = true;
 
+  # Tailscale
+  services.tailscale.enable = true;
+
   # GNOME desktop
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
