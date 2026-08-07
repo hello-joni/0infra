@@ -7,6 +7,9 @@
   pkgs,
   ...
 }: {
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  system.stateVersion = "26.05";
+
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -73,7 +76,7 @@
   ];
 
   # TODO: Set your hostname
-  networking.hostName = "starter";
+  networking.hostName = "pukei-pukei";
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
@@ -112,7 +115,4 @@
     gnome-terminal
     nautilus
   ];
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "26.05";
 }
