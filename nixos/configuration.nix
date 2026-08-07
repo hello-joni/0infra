@@ -79,7 +79,7 @@
   ];
 
   # TODO: Set your hostname
-  networking.hostName = "pukei-pukei";
+  networking.hostName = "paolumu";
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
