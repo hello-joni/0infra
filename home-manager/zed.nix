@@ -240,6 +240,7 @@ in {
               ]
             )
             // {
+              skill.default = "allow";
               search_web.default = "deny";
               terminal.default = "confirm";
             };
