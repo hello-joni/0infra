@@ -2,7 +2,7 @@
 - Get SSH keys working so I can push config changes
   - swap out https remotes for ssh remotes
 - Disk encryption
-- Fix Kagi MCP
+- Better secrets strategy for Kagi MCP
 - NixOS Servers + OpenTofu
 - Work configuration
 - Codecs?

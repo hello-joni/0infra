@@ -15,7 +15,7 @@
       exit 1
     fi
     export KAGI_API_KEY
-    exec ${pkgs.uv}/bin/uvx kagimcp
+    exec ${pkgs.uv}/bin/uvx --python ${pkgs.python3}/bin/python3 kagimcp
   '';
 in {
   home.packages = with pkgs; [
