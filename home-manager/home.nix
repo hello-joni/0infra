@@ -15,13 +15,12 @@
   home.username = lib.mkDefault "joni";
   home.homeDirectory = lib.mkDefault "/home/joni";
 
-  programs.git.enable = true;
-
   # You can import other home-manager modules here
   imports = [
     ./fish.nix
     ./librewolf.nix
     ./syncthing.nix
     ./zed.nix
+    ./git.nix
   ];
 }

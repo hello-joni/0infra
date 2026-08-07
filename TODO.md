@@ -1,0 +1,9 @@
+- Change passwords
+- Get SSH keys working so I can push config changes
+  - swap out https remotes for ssh remotes
+- Disk encryption
+- Fix Kagi MCP
+- NixOS Servers + OpenTofu
+- Work configuration
+- Codecs?
+- Other things from 0config
