@@ -17,6 +17,7 @@
 
   # You can import other home-manager modules here
   imports = [
+    ../modules/unfree.nix
     ./fish.nix
     ./gnome.nix
     ./librewolf.nix
