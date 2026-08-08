@@ -1,5 +1,3 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
   lib,
@@ -7,20 +5,19 @@
   pkgs,
   ...
 }: {
+  # ------------------------------------------------------------
+  # NIX CONFIG
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "26.05";
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # You can import other NixOS modules here
   imports = [
     # Auto-generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
 
     # NixOS-only modules
-    ./nixos-modules/account-icon.nix
-    ./nixos-modules/hardware/Lenovo-Yoga-7-16IAP7.nix
+    ./modules/account-icon.nix
+    ./hardware/Lenovo-Yoga-7-16IAP7.nix
 
     # Shared modules
     ../modules/unfree.nix
@@ -28,6 +25,8 @@
 
   nixpkgs = {
     config = {
+      # Unfree packages are handled with 0nix/modules/unfree.nix by declaring:
+      # config.allowedUnfreePackages = [ "foo-pkg" "bar-pkg" ];
       allowUnfree = false;
     };
   };
@@ -36,12 +35,19 @@
     settings = {
       # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
+      # Disable global registry
       flake-registry = "";
     };
-    # Opinionated: disable channels
+    # Disable channels
     channel.enable = false;
   };
+
+  # ------------------------------------------------------------
+  # SYSTEM CONFIG
+
+  # Bootloader config
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Home Manager as a NixOS module
   home-manager.useUserPackages = true;
@@ -71,8 +77,8 @@
     image = import ../resources/icons/paolumu.nix { inherit pkgs; };
   };
 
-
-  # Packages
+  # ------------------------------------------------------------
+  # PACKAGES
 
   # GNOME desktop
   services.displayManager.gdm.enable = true;
@@ -96,5 +102,4 @@
 
   # Tailscale
   services.tailscale.enable = true;
-
 }
