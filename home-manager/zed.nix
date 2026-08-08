@@ -251,11 +251,11 @@ in {
 
   # Shared agent instructions and skills
   home.file.".config/zed/AGENTS.md".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0notes/AGENTS.md";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0llm/AGENTS.md";
   home.file.".claude/CLAUDE.md".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0notes/AGENTS.md";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0llm/AGENTS.md";
   home.file.".agents/skills".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0notes/skills";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0llm/skills";
   home.file.".claude/skills".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0notes/skills";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0llm/skills";
 }

@@ -30,7 +30,7 @@
         ];
       };
 
-      folders."~/0notes" = {
+      folders."~/0llm" = {
         id = "0notes";
         order = "newest";
         ignorePerms = true;

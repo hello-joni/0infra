@@ -1,5 +1,3 @@
-- Get SSH keys working so I can push config changes
-  - swap out https remotes for ssh remotes
 - Disk encryption
 - Better secrets strategy for Kagi MCP
 - NixOS Servers + OpenTofu
@@ -19,3 +17,11 @@ mhw icons
   - https://monsterhunterwiki.org/wiki/File:MHWI-Question_Mark_Icon.png
 
 Define icon usage in flake.nix as a per-target sort of thing
+
+Support different themeing for work vs personal machines
+
+Things I'd theme differently:
+- Background
+- Zed theming
+- Color schemes
+- Ricing?
