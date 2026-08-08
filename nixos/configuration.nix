@@ -94,6 +94,7 @@
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     joni = {
+      description = "Paolumu";
       # Bash stays as the login shell for POSIX compliance
       # Fish is configured in fish.nix
       shell = pkgs.bashInteractive;
