@@ -18,6 +18,7 @@
   # You can import other home-manager modules here
   imports = [
     ./fish.nix
+    ./gnome.nix
     ./librewolf.nix
     ./syncthing.nix
     ./zed.nix

@@ -24,6 +24,9 @@
 
     # Manually-defined hardware config
     ./hardware/Lenovo-Yoga-7-16IAP7.nix
+
+    # Shared modules
+    ./modules/account-icon.nix
   ];
 
   nixpkgs = {
@@ -66,6 +69,13 @@
 
   # Tailscale
   services.tailscale.enable = true;
+
+  # User icon
+  services.account-icon = {
+    enable = true;
+    user = "joni";
+    image = import ./icons/paolumu.nix { inherit pkgs; };
+  };
 
   # GNOME desktop
   services.displayManager.gdm.enable = true;
