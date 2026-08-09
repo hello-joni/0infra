@@ -29,6 +29,7 @@ in
     nixfmt # Official RFC 166 Nix formatter
     statix # Nix linter
     prettier # Markdown/JSON/YAML/etc formatter
+    bubblewrap # unprivileged sandboxing for Zed agent terminal commands
   ];
 
   programs.zed-editor = {
