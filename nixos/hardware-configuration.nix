@@ -19,6 +19,7 @@
     "thunderbolt"
     "nvme"
     "usb_storage"
+    "uas"
     "sd_mod"
     "sdhci_pci"
   ];
@@ -26,6 +27,8 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # On install day, regenerate this file with --no-filesystems and uncomment
+  # the disko import in configuration.nix. disko then owns these declarations.
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/c0f0eb29-c5fc-4a28-a79d-690fd3525a5b";
     fsType = "ext4";
