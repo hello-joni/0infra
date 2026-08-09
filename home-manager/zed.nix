@@ -164,6 +164,11 @@ in
           args = [ ];
           env = { };
         };
+        nixos = {
+          command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+          args = [ ];
+          env = { };
+        };
       };
 
       # Agent configuration
@@ -245,6 +250,8 @@ in
                   "mcp:git:git_branch"
                   "mcp:time:get_current_time"
                   "mcp:time:convert_time"
+                  "mcp:nixos:nix"
+                  "mcp:nixos:nix_versions"
                 ]
             )
             // {
