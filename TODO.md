@@ -4,8 +4,8 @@
 - Work configuration
 - Codecs?
 - Other things from 0config
-- new Zed sandbox/bubblewrap feature?
 - Helper command for running update
+- Configure date in gnome, and also what system things are reported in HUD
 
 Document
 
@@ -28,3 +28,7 @@ Things I'd theme differently:
 - Zed theming
 - Color schemes
 - Ricing?
+
+Notes on boot:
+
+- generate ssh key

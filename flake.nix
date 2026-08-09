@@ -12,10 +12,6 @@
     # Declarative Flatpak management
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
-    # Declarative disk partitioning
-    disko.url = "github:nix-community/disko/latest";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-
     # Git hooks and linters
     git-hooks.url = "github:cachix/git-hooks.nix";
   };
@@ -26,7 +22,6 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
-      disko,
       git-hooks,
       ...
     }@inputs:
@@ -56,7 +51,6 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./nixos/configuration.nix
-          disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           {
             # home-manager modules shared across all users

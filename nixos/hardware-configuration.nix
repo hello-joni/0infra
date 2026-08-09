@@ -18,16 +18,61 @@
     "xhci_pci"
     "thunderbolt"
     "nvme"
+    "sdhci_pci"
+    # nixos-generate-config only adds modules for hardware in use at generation time.
+    # Added these modules manually:
     "usb_storage"
     "uas"
     "sd_mod"
-    "sdhci_pci"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # Filesystems and swap are declared by disko in ./paolumu-disko.nix.
+  fileSystems."/" = {
+    device = "/dev/mapper/crypted";
+    fsType = "btrfs";
+    options = [
+      "subvol=@root"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/mapper/crypted";
+    fsType = "btrfs";
+    options = [
+      "subvol=@home"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
+  fileSystems."/.swapvol" = {
+    device = "/dev/mapper/crypted";
+    fsType = "btrfs";
+    options = [ "subvol=@swap" ];
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/4BEB-1CBA";
+    fsType = "vfat";
+    options = [
+      "fmask=0077"
+      "dmask=0077"
+    ];
+  };
+
+  boot.initrd.luks.devices."crypted" = {
+    device = "/dev/disk/by-uuid/f94b3df9-af32-41c0-8bb6-886cee298cbe";
+    allowDiscards = true;
+  };
+
+  swapDevices = [
+    { device = "/.swapvol/swapfile"; }
+  ];
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

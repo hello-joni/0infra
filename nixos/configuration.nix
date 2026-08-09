@@ -16,9 +16,6 @@
     # Auto-generated hardware config (regenerate with --no-filesystems on reinstall)
     ./hardware-configuration.nix
 
-    # Per-machine disk layout
-    ./paolumu-disko.nix
-
     # Hardware config for this laptop model
     ./Lenovo-Yoga-7-16IAP7.nix
 
@@ -136,3 +133,5 @@
   # Flatpak system daemon and system installation
   services.flatpak.enable = true;
 }
+
+
