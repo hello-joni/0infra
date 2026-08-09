@@ -256,6 +256,12 @@ in
     };
   };
 
+  # Prettier config
+  home.file.".prettierrc.yaml".text = ''
+    proseWrap: always
+    printWidth: 100
+  '';
+
   # Shared agent instructions and skills
   home.file.".config/zed/AGENTS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/0llm/AGENTS.md";
