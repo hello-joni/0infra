@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   # Bash stays as the login shell; fish is launched for interactive sessions.
   # Run `bash` to drop back into a real bash shell.
   programs.bash = {

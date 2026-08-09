@@ -1,9 +1,11 @@
 {
   pkgs,
   ...
-}: let
+}:
+let
   background = import ../resources/backgrounds/paolumu.nix { inherit pkgs; };
-in {
+in
+{
   programs.gnome-shell = {
     enable = true;
     extensions = [

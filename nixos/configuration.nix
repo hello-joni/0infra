@@ -4,7 +4,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # ------------------------------------------------------------
   # NIX CONFIG
 
@@ -66,7 +67,10 @@
       # Change password with `passwd` and `sudo passwd root`
       initialPassword = "passwd";
       isNormalUser = true;
-      extraGroups = ["wheel" "video"];
+      extraGroups = [
+        "wheel"
+        "video"
+      ];
     };
   };
 

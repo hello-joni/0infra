@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   # Reads the Kagi API key from the GNOME Keyring at launch and exports it for
   # the Kagi MCP server, keeping the key out of the world-readable Nix store.
   # Store the key once per machine (see docs/credentials/KAGI_API_KEY.md).
@@ -17,11 +18,17 @@
     export KAGI_API_KEY
     exec ${pkgs.uv}/bin/uvx --python ${pkgs.python3}/bin/python3 kagimcp
   '';
-in {
+in
+{
   home.packages = with pkgs; [
     uv # provides uvx, which runs the Kagi MCP server
     libsecret # provides secret-tool for GNOME Keyring access
     clang-tools # provides clangd for C/C++ LSP in Zed
+    nixd # Nix LSP
+    nil # Nix LSP (alternative)
+    nixfmt # Official RFC 166 Nix formatter
+    statix # Nix linter
+    prettier # Markdown/JSON/YAML/etc formatter
   ];
 
   programs.zed-editor = {
@@ -143,18 +150,18 @@ in {
       context_servers = {
         kagi = {
           command = "${kagiMcp}";
-          args = [];
-          env = {};
+          args = [ ];
+          env = { };
         };
         git = {
           command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
-          args = [];
-          env = {};
+          args = [ ];
+          env = { };
         };
         time = {
           command = "${pkgs.mcp-server-time}/bin/mcp-server-time";
-          args = [];
-          env = {};
+          args = [ ];
+          env = { };
         };
       };
 
@@ -221,23 +228,23 @@ in {
           tools =
             builtins.listToAttrs (
               map
-              (tool: {
-                name = tool;
-                value.default = "allow";
-              })
-              [
-                "mcp:kagi:kagi_search_fetch"
-                "mcp:kagi:kagi_extract"
-                "mcp:git:git_status"
-                "mcp:git:git_log"
-                "mcp:git:git_show"
-                "mcp:git:git_diff"
-                "mcp:git:git_diff_staged"
-                "mcp:git:git_diff_unstaged"
-                "mcp:git:git_branch"
-                "mcp:time:get_current_time"
-                "mcp:time:convert_time"
-              ]
+                (tool: {
+                  name = tool;
+                  value.default = "allow";
+                })
+                [
+                  "mcp:kagi:kagi_search_fetch"
+                  "mcp:kagi:kagi_extract"
+                  "mcp:git:git_status"
+                  "mcp:git:git_log"
+                  "mcp:git:git_show"
+                  "mcp:git:git_diff"
+                  "mcp:git:git_diff_staged"
+                  "mcp:git:git_diff_unstaged"
+                  "mcp:git:git_branch"
+                  "mcp:time:get_current_time"
+                  "mcp:time:convert_time"
+                ]
             )
             // {
               skill.default = "allow";
