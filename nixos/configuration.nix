@@ -17,7 +17,7 @@
     ./hardware-configuration.nix
 
     # Per-machine disk layout
-    # ./paolumu-disko.nix
+    ./paolumu-disko.nix
 
     # Hardware config for this laptop model
     ./Lenovo-Yoga-7-16IAP7.nix

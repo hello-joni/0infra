@@ -27,26 +27,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # On install day, regenerate this file with --no-filesystems and uncomment
-  # the disko import in configuration.nix. disko then owns these declarations.
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/c0f0eb29-c5fc-4a28-a79d-690fd3525a5b";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/A0E5-D69A";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
-  };
-
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/e7434798-0539-4e44-9be6-6989b1718bc7"; }
-  ];
-
+  # Filesystems and swap are declared by disko in ./paolumu-disko.nix.
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
