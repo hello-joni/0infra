@@ -15,3 +15,10 @@ Generate ssh key:
 ```
 ssh-keygen -t ed25519
 ```
+
+Fresh checkout of 0nix:
+
+```
+direnv allow
+pre-commit install -c .pre-commit-config.yaml
+```

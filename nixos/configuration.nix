@@ -133,5 +133,3 @@
   # Flatpak system daemon and system installation
   services.flatpak.enable = true;
 }
-
-
