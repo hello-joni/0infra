@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   home.packages =
-    [ pkgs.jq ]
-    ++ builtins.attrValues (
+    builtins.attrValues (
       builtins.mapAttrs (
         name: _type:
         let
