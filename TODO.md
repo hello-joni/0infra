@@ -1,10 +1,8 @@
-- Disk encryption
 - Better secrets strategy for Kagi MCP
 - NixOS Servers + OpenTofu
 - Work configuration
 - Codecs?
 - Other things from 0config
-- Helper command for running update
 - Configure date in gnome, and also what system things are reported in HUD
 
 Document
@@ -28,7 +26,3 @@ Things I'd theme differently:
 - Zed theming
 - Color schemes
 - Ricing?
-
-Notes on boot:
-
-- generate ssh key

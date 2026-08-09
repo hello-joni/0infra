@@ -16,7 +16,6 @@
     file
     gnumake
     gcc
-    gplusplus
     SDL2
   ];
 }
