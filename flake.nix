@@ -11,6 +11,9 @@
 
     # Declarative Flatpak management
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+
+    # Git hooks and linters
+    git-hooks.url = "github:cachix/git-hooks.nix";
   };
 
   outputs =
@@ -19,9 +22,31 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
+      git-hooks,
       ...
     }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      hooks = git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          nixfmt.enable = true;
+          statix.enable = true;
+          # Lint shell scripts in home-manager/scripts/
+          shellcheck = {
+            enable = true;
+            files = "^home-manager/scripts/.*\\.sh$";
+          };
+        };
+      };
+    in
     {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = hooks.enabledPackages;
+        inherit (hooks) shellHook;
+      };
+
       nixosConfigurations.paolumu = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [

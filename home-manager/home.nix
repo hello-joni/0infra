@@ -22,6 +22,8 @@
     ./gnome.nix
     ./librewolf.nix
     ./man.nix
+    ./scripts.nix
+    ./direnv.nix
     ./syncthing.nix
     ./zed.nix
     ./git.nix
