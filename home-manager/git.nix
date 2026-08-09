@@ -13,7 +13,7 @@
         email = lib.mkDefault "contact@joni.site";
       };
       init.defaultBranch = "main";
-      core.editor = "nano";
+      core.editor = "vi";
       push.autoSetupRemote = true;
     };
   };

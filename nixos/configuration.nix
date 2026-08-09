@@ -124,6 +124,7 @@
     gnome-terminal
     nautilus
     pciutils
+    vim # provides vi
   ];
 
   # Fish shell: enables vendor completions and man-page completion generation
