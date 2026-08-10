@@ -10,7 +10,7 @@ _:
         ginger.id = "7WVHCQA-KDJACMV-GRC3MUB-PXSWAVD-7PU5ZV2-UXAMIOM-KZUOMLX-FF3MAAI";
 
         # Laptop
-        saffron.id = "T2F7ICT-EMNBQH6-TBDQ4DE-7X7J57J-QCGWIS2-VXBN4HB-LRGNZUZ-AFI5IQF";
+        paolumu.id = "P5Q5IG6-RRBLRQF-2DB634X-JSCAFMZ-T42MUBN-WI3F7R6-YFWHYCO-TM5CWAT";
 
         # Selfhost server
         sh-sassafras.id = "4PJJBRC-HM7M4I7-FUZYMAP-3XXJ5P5-UHDIY67-NA5X53V-UW7H2IF-PMISLAB";
@@ -28,7 +28,7 @@ _:
         };
         devices = [
           "ginger"
-          "saffron"
+          "paolumu"
           "sh-sassafras"
         ];
       };
@@ -42,12 +42,12 @@ _:
         };
         devices = [
           "ginger"
-          "saffron"
+          "paolumu"
           "sh-sassafras"
           "fenugreek"
         ];
       };
-      folders."~/0notes" = {
+      folders."~/0llm" = {
         id = "0notes";
         order = "newest";
         ignorePerms = true;
@@ -57,7 +57,7 @@ _:
         };
         devices = [
           "ginger"
-          "saffron"
+          "paolumu"
           "sh-sassafras"
           "fenugreek"
         ];
