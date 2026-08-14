@@ -32,6 +32,7 @@
     ./syncthing.nix
     ./zed.nix
     ./git.nix
+    ./github.nix
     ./zephyr.nix
   ];
 }
