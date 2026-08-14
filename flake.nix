@@ -14,6 +14,13 @@
 
     # Git hooks and linters
     git-hooks.url = "github:cachix/git-hooks.nix";
+
+    # Zephyr RTOS source and Nix packaging
+    zephyr.url = "github:zephyrproject-rtos/zephyr/v4.4.0";
+    zephyr.flake = false;
+    zephyr-nix.url = "github:hello-joni/zephyr-nix";
+    zephyr-nix.inputs.nixpkgs.follows = "nixpkgs";
+    zephyr-nix.inputs.zephyr.follows = "zephyr";
   };
 
   outputs =
@@ -57,6 +64,7 @@
             home-manager.sharedModules = [
               nix-flatpak.homeManagerModules.nix-flatpak
             ];
+            home-manager.extraSpecialArgs = { inherit inputs; };
           }
         ];
       };
