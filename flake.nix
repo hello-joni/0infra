@@ -12,6 +12,10 @@
     # Declarative Flatpak management
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
+    # Digilent WaveForms and Adept Runtime (Analog Discovery 2)
+    waveforms.url = "github:liff/waveforms-flake";
+    waveforms.inputs.nixpkgs.follows = "nixpkgs";
+
     # Git hooks and linters
     git-hooks.url = "github:cachix/git-hooks.nix";
 
@@ -31,6 +35,7 @@
       home-manager,
       nix-flatpak,
       git-hooks,
+      waveforms,
       ...
     }@inputs:
     let
@@ -59,6 +64,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./nixos/configuration.nix
+          waveforms.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             # home-manager modules shared across all users

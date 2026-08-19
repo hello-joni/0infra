@@ -100,12 +100,22 @@
         "wheel"
         "video"
         "dialout" # serial port access (Tiny Tapeout FPGA demoboard)
+        "plugdev" # Digilent test and measurement devices (Analog Discovery 2)
       ];
     };
   };
 
   # ------------------------------------------------------------
   # PACKAGES
+
+  # Digilent WaveForms (Analog Discovery 2) is installed via the
+  # waveforms flake's NixOS module, which applies an overlay providing
+  # pkgs.waveforms and pkgs.adept2-runtime, installs both, and adds the
+  # udev rules for Digilent USB devices.
+  allowedUnfreePackages = [
+    "waveforms"
+    "adept2-runtime"
+  ];
 
   # GNOME desktop
   services.displayManager.gdm.enable = true;
