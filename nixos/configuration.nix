@@ -99,6 +99,7 @@
       extraGroups = [
         "wheel"
         "video"
+        "dialout" # serial port access (Tiny Tapeout FPGA demoboard)
       ];
     };
   };
@@ -122,6 +123,11 @@
     gnome-terminal
     nautilus
     pciutils
+    file
+    tree
+    jq
+    unzip
+    zip
     vim # provides vi
   ];
 
