@@ -16,11 +16,12 @@
     git-hooks.url = "github:cachix/git-hooks.nix";
 
     # Zephyr RTOS source and Nix packaging
-    zephyr.url = "github:zephyrproject-rtos/zephyr/v4.4.0";
-    zephyr.flake = false;
-    zephyr-nix.url = "github:hello-joni/zephyr-nix";
-    zephyr-nix.inputs.nixpkgs.follows = "nixpkgs";
-    zephyr-nix.inputs.zephyr.follows = "zephyr";
+    # TODO: Uncomment here and in zephyr hm module
+    # zephyr.url = "github:zephyrproject-rtos/zephyr/v4.4.0";
+    # zephyr.flake = false;
+    # zephyr-nix.url = "github:hello-joni/zephyr-nix";
+    # zephyr-nix.inputs.nixpkgs.follows = "nixpkgs";
+    # zephyr-nix.inputs.zephyr.follows = "zephyr";
   };
 
   outputs =

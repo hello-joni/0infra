@@ -118,6 +118,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    papers # GNOME document viewer (PDF, comics, etc.)
     gnome-terminal
     nautilus
     pciutils
