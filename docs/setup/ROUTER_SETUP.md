@@ -80,3 +80,33 @@ Log out and back into LuCI, then navigate to Network → SQM QoS:
 - Per Packet Overhead: `44` bytes
 - Enable Advanced Linklayer Options
 - Minimum packet size: `84`
+
+## 5. IPv6
+
+Google Fiber WebPass delegates an IPv6 prefix to the router via DHCPv6-PD, but the upstream gateway
+does not install a return route for the delegated prefix. The router itself can reach IPv6 hosts
+when sourcing from its WAN address, but any traffic sourced from the LAN prefix gets 100% packet
+loss. This breaks any client that prefers IPv6 (Python's urllib3, Android, etc.) since connections
+hang until timeout.
+
+Verify the problem by sourcing a ping from the LAN address on the router:
+
+```bash
+ping -6 -c 3 -W 3 -I 2604:5500:7025:f700::1 ipv6.google.com
+```
+
+If that fails but a ping from the WAN address succeeds, the ISP is not routing the delegated prefix.
+Stop advertising the broken prefix so clients fall back to IPv4:
+
+```bash
+uci set dhcp.lan.ra='disabled'
+uci set dhcp.lan.dhcpv6='disabled'
+uci set dhcp.lan.ndp='disabled'
+uci set network.lan.ipv6='0'
+uci commit
+/etc/init.d/network restart
+/etc/init.d/odhcpd restart
+```
+
+Revert these settings if the ISP fixes the return route, or when connecting to a network with
+working IPv6 upstream.
