@@ -108,15 +108,6 @@
   # ------------------------------------------------------------
   # PACKAGES
 
-  # Digilent WaveForms (Analog Discovery 2) is installed via the
-  # waveforms flake's NixOS module, which applies an overlay providing
-  # pkgs.waveforms and pkgs.adept2-runtime, installs both, and adds the
-  # udev rules for Digilent USB devices.
-  allowedUnfreePackages = [
-    "waveforms"
-    "adept2-runtime"
-  ];
-
   # GNOME desktop
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -128,17 +119,22 @@
     gnome-user-docs
   ];
 
+  allowedUnfreePackages = [
+    "waveforms" # Digilent Oscilloscope
+    "adept2-runtime" # Digilent Oscilloscope
+  ];
+
   environment.systemPackages = with pkgs; [
     papers # GNOME document viewer (PDF, comics, etc.)
     gnome-terminal
-    nautilus
+    nautilus # GNOME file browser
     pciutils
     file
     tree
     jq
     unzip
     zip
-    vim # provides vi
+    vim
   ];
 
   # Fish shell: enables vendor completions and man-page completion generation

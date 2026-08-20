@@ -71,6 +71,11 @@
         appId = "net.ankiweb.Anki";
         origin = "flathub";
       }
+      {
+        # Media viewer - FUTO
+        appId = "app.grayjay.Grayjay";
+        origin = "flathub";
+      }
     ];
 
     overrides = {
