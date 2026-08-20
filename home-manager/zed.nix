@@ -265,10 +265,10 @@ in
   };
 
   # Prettier config
-  home.file.".prettierrc.yaml".text = ''
-    proseWrap: always
-    printWidth: 100
-  '';
+  # home.file.".prettierrc.yaml".text = ''
+  #   proseWrap: always
+  #   printWidth: 100
+  # '';
 
   # Shared agent instructions and skills
   home.file.".config/zed/AGENTS.md".source =
