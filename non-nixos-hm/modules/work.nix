@@ -28,7 +28,7 @@ let
   '';
 
   # Open WebUI chat agent — local instance on port 8180.
-  # The design mirrors ~/0config/modules/selfhost.nix: Open WebUI talks to models via
+  # The design mirrors ~/0infra/non-nixos-hm/modules/selfhost.nix: Open WebUI talks to models via
   # OpenRouter, and to MCP tool servers via mcpo, all on a shared podman network.
   # Open Terminal provides a sandboxed shell with git-only access to 0notes.
 
@@ -140,7 +140,7 @@ in
       # Personal repos on the work machine use the personal identity above.
       includes = [
         {
-          condition = "gitdir:~/0config/";
+          condition = "gitdir:~/0infra/";
           path = "~/.config/git/config-personal";
         }
         {

@@ -58,7 +58,7 @@ Set up an SSH key for this machine (see [SSH_KEYS.md](./credentials/SSH_KEYS.md)
 0config:
 
 ```bash
-git clone git@github.com:hello-joni/0config.git
+git clone git@git.sr.ht:~hello-joni/0infra
 ```
 
 Install Nix and source it for the current shell:
@@ -81,7 +81,7 @@ Activate Home Manager:
 
 ```bash
 nix-shell -p home-manager
-home-manager switch --flake ~/0config#server -b backup
+home-manager switch --flake ~/0infra/non-nixos-hm#server -b backup
 ```
 
 ## 4. Syncthing

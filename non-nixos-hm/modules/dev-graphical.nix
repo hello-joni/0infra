@@ -328,7 +328,7 @@ in
     package = null; # Don't install the CLI
     settings.permissions = {
       allow = [
-        "Read(~/0config/**)"
+        "Read(~/0infra/**)"
         "Read(~/0llm/**)"
         "mcp__kagi"
         "mcp__git__git_status"

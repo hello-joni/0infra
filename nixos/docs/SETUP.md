@@ -21,11 +21,11 @@ When booted, run:
 
 ```
 nix-shell -p git
-git clone https://github.com/hello-joni/0nix.git ~/0nix
-cd ~/0nix
-cp /etc/nixos/hardware-configuration.nix ~/0nix/nixos
+git clone https://git.sr.ht/~hello-joni/0infra ~/0infra
+cd ~/0infra/nixos
+cp /etc/nixos/hardware-configuration.nix ~/0infra/nixos/nixos
 git add .
-sudo nixos-rebuild switch --flake ~/0nix#paolumu
+sudo nixos-rebuild switch --flake ~/0infra/nixos#paolumu
 ```
 
 Other steps:

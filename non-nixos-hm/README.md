@@ -5,10 +5,10 @@ Home Manager configuration for my machines.
 ## Activation
 
 ```bash
-home-manager switch --flake ~/0config#laptop
-home-manager switch --flake ~/0config#server
-home-manager switch --flake ~/0config#phone
-home-manager switch --flake ~/0config#work
+home-manager switch --flake ~/0infra/non-nixos-hm#laptop
+home-manager switch --flake ~/0infra/non-nixos-hm#server
+home-manager switch --flake ~/0infra/non-nixos-hm#phone
+home-manager switch --flake ~/0infra/non-nixos-hm#work
 ```
 
 ## Maintenance
@@ -18,7 +18,7 @@ home-manager switch --flake ~/0config#work
 Updating Nix (run switch command after):
 
 ```bash
-nix flake update --flake ~/0config
+nix flake update --flake ~/0infra/non-nixos-hm
 ```
 
 Garbage collecting Nix store:

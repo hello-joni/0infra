@@ -16,7 +16,7 @@ and work on any user / host / architecture without a hardcoded entry in `flake.n
 Clone over HTTPS, since this machine isn't expected to push:
 
 ```bash
-git clone https://github.com/hello-joni/0config.git ~/0config
+git clone https://git.sr.ht/~hello-joni/0infra ~/0infra
 ```
 
 ## 2. Install Nix
@@ -31,7 +31,7 @@ Restart the shell.
 
 ```bash
 nix-shell -p home-manager
-home-manager switch --flake ~/0config#generic-headless -b backup --impure
+home-manager switch --flake ~/0infra/non-nixos-hm#generic-headless -b backup --impure
 ```
 
 Swap `generic-headless` for `generic-graphical` if you want the GUI apps.

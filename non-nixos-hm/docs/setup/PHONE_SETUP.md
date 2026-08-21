@@ -22,7 +22,7 @@ sudo usermod -aG sudo droid
 
 ```bash
 sudo apt install git
-git clone https://github.com/hello-joni/0config.git ~/0config
+git clone https://git.sr.ht/~hello-joni/0infra ~/0infra
 ```
 
 ## 4. Fix DNS (if needed)
@@ -45,7 +45,7 @@ Restart the terminal.
 
 ```bash
 nix-shell -p home-manager
-home-manager switch --flake ~/0config#phone -b backup
+home-manager switch --flake ~/0infra/non-nixos-hm#phone -b backup
 ```
 
 ## 7. Tailscale

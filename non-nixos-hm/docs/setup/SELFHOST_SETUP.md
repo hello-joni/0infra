@@ -21,7 +21,7 @@ sudo loginctl enable-linger jhen
 ## 3. Switch to the selfhost profile
 
 ```bash
-home-manager switch --flake ~/0config#selfhost -b backup
+home-manager switch --flake ~/0infra/non-nixos-hm#selfhost -b backup
 ```
 
 This installs Podman quadlets for each container declared in `modules/selfhost.nix` and starts them

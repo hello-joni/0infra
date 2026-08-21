@@ -58,7 +58,7 @@ ssh <hostname>
 Clone 0config:
 
 ```bash
-git clone https://github.com/hello-joni/0config.git
+git clone https://git.sr.ht/~hello-joni/0infra
 ```
 
 Install Nix and source it for the current shell:
@@ -72,7 +72,7 @@ Activate Home Manager:
 
 ```bash
 nix-shell -p home-manager
-home-manager switch --flake ~/0config#webserver -b backup
+home-manager switch --flake ~/0infra/non-nixos-hm#webserver -b backup
 ```
 
 ## 4. DNS

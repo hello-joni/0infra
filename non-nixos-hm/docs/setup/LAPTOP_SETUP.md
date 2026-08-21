@@ -46,9 +46,9 @@ Restart the shell, then clone and activate 0config:
 ```bash
 cd ~
 
-git clone https://github.com/hello-joni/0config.git
+git clone https://git.sr.ht/~hello-joni/0infra
 nix-shell -p home-manager
-home-manager switch --flake ~/0config#laptop -b backup
+home-manager switch --flake ~/0infra/non-nixos-hm#laptop -b backup
 ```
 
 Flatpak apps (including Librewolf) and Syncthing are now installed and running.

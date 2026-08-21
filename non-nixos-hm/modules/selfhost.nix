@@ -32,7 +32,7 @@ let
             "--local-timezone=America/Los_Angeles"
           ];
         };
-        # Mirrors the `git` context server in ~/0config/modules/dev-graphical.nix so the chat
+        # Mirrors the `git` context server in ~/0infra/non-nixos-hm/modules/dev-graphical.nix so the chat
         # agent has the same git access pattern as the coding agents. mcp-server-git takes
         # repo_path per tool call, so no --repository arg here; filesystem access comes from the
         # open-terminal-home volume shared into the mcpo container (see volumes below).

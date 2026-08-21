@@ -36,7 +36,7 @@ The `github-personal` SSH host is configured by `work.nix` to route through
 `~/.ssh/$(hostname)-personal-key`.
 
 ```bash
-git clone git@github-personal:hello-joni/0config.git ~/0config
+git clone git@git.sr.ht:~hello-joni/0infra ~/0infra
 ```
 
 ## 3. Jira CLI token
