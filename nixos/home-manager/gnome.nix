@@ -1,11 +1,13 @@
 {
   pkgs,
+  machine,
   ...
 }:
 let
-  # Paolumu monster icon composited over a radial gradient for the GNOME desktop background.
-  background =
-    pkgs.runCommand "paolumu-background.png"
+  # Monster icon composited over a radial gradient for the GNOME desktop background.
+  mkBackground =
+    name: iconUrl: iconSha256:
+    pkgs.runCommand "${name}-background.png"
       {
         nativeBuildInputs = [ pkgs.imagemagick ];
       }
@@ -14,13 +16,24 @@ let
           radial-gradient:'#3a3a3a','#000000' \
           \( ${
             builtins.fetchurl {
-              url = "https://monsterhunterwiki.org/images/f/f7/MHWI-Paolumu_Icon.png";
-              sha256 = "1zh7dvilrx96xy1p6idix4p0dk78jlisrb3dwf222ril1rcvfx4d";
+              url = iconUrl;
+              sha256 = iconSha256;
             }
           } -resize 200x200 \) \
           -gravity center -composite \
           $out
       '';
+
+  backgrounds = {
+    paolumu = mkBackground "paolumu"
+      "https://monsterhunterwiki.org/images/f/f7/MHWI-Paolumu_Icon.png"
+      "1zh7dvilrx96xy1p6idix4p0dk78jlisrb3dwf222ril1rcvfx4d";
+    gajau = mkBackground "gajau"
+      "https://monsterhunterwiki.org/images/7/73/MHWI-Gajau_Icon.png"
+      "cECfwlJs1PbwvNszlxZ0TYEYufSdriCU8TxwQD2Z3Ds=";
+  };
+
+  background = backgrounds.${machine};
 in
 {
   programs.gnome-shell = {

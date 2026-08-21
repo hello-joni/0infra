@@ -16,6 +16,10 @@
     waveforms.url = "github:liff/waveforms-flake";
     waveforms.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Hardware profiles for various devices
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
+
     # Git hooks and linters
     git-hooks.url = "github:cachix/git-hooks.nix";
 
@@ -36,6 +40,7 @@
       nix-flatpak,
       git-hooks,
       waveforms,
+      nixos-hardware,
       ...
     }@inputs:
     let
@@ -53,6 +58,26 @@
           };
         };
       };
+      # Shared module list for every machine. A machine is defined by what is
+      # included: its machine dir plus any extra hardware modules.
+      mkMachine =
+        machine: extraModules:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs machine; };
+          modules = [
+            ./nixos/configuration.nix
+            ./nixos/${machine}/default.nix
+            waveforms.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              # home-manager modules shared across all users
+              home-manager.sharedModules = [
+                nix-flatpak.homeManagerModules.nix-flatpak
+              ];
+              home-manager.extraSpecialArgs = { inherit inputs machine; };
+            }
+          ] ++ extraModules;
+        };
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -60,20 +85,9 @@
         inherit (hooks) shellHook;
       };
 
-      nixosConfigurations.paolumu = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./nixos/configuration.nix
-          waveforms.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            # home-manager modules shared across all users
-            home-manager.sharedModules = [
-              nix-flatpak.homeManagerModules.nix-flatpak
-            ];
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-        ];
-      };
+      nixosConfigurations.paolumu = mkMachine "paolumu" [ ];
+      nixosConfigurations.gajau = mkMachine "gajau" [
+        nixos-hardware.nixosModules.chuwi-minibook-x
+      ];
     };
 }
