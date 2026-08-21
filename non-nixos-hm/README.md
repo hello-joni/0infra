@@ -1,6 +1,6 @@
-# 0config
+# 0infra non-nixos-hm
 
-Home Manager configuration for my machines.
+Nix Home Manager configuration for my machines that don't run NixOS.
 
 ## Activation
 

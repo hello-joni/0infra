@@ -1,4 +1,6 @@
-# 0nix
+# 0infra nixos
+
+NixOS configuration for my machines.
 
 ## Commands
 
