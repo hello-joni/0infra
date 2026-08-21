@@ -1,0 +1,59 @@
+# TODO
+
+- Obsidian config (maybe add .obsidian settings sync?)
+  - date format for daily notes
+  - daily template
+  - ctrl-d for daily note opening
+  - ctrl-m for readable line length toggle
+  - line numbers
+  - turn off "indent using tabs"
+  - folder for new attachments
+- Switch off GitHub (for Codeberg?)
+- RSS feed reader which syncs between phone and computer
+- Update `work.nix` to read SSH key paths from a `workMachine.hostname` option
+  - Add option `workMachine.hostname` (lib.types.str) to the module
+  - Replace `~/.ssh/personal_key` with `~/.ssh/${config.workMachine.hostname}-personal-key`
+  - Replace `~/.ssh/work_key` with `~/.ssh/${config.workMachine.hostname}-work-key`
+  - Set the value in the `work` flake target's module list:
+    `{ workMachine.hostname = "wk-fenugreek"; }`
+  - On the work machine: rename `~/.ssh/{personal,work}_key{,.pub}` to the new paths and re-run
+    `ssh-add`
+- Fish: show a warning when no SSH key is loaded into the agent
+- Name machines with type - e.g. laptop_saffron instead of saffron
+- Add symlinking 0config and prepping zed workspace w/ docs as helper step
+- Make a .editorconfig with my general defaults
+- Script to set all photo "last modified" dates in a folder to whatever's in the metadata
+- Get an image viewer I like
+- Investigate https://flathub.org/en/apps/io.github.aganzha.Stage
+- Update Home Manager major version
+- Home Assistant
+- Script that goes out and updates home manager on all my servers
+- Use Kagi
+- Raspberry Pi MDM
+- Add libvirt VM examples
+  - ubuntu
+  - fedora
+  - alpine
+  - rocky
+  - nixos
+- Update flow-control.dev package
+- container vm
+  - bootc for bootloader
+  - OCI container rootfs for whatever
+  - qemu as runner
+  - container is PID 1
+  - using OCI container format as means of distributing disk image
+  - layer my keys and such on top
+- https://github.com/cachix/git-hooks.nix
+- https://github.com/kamadorueda/alejandra/blob/main/integrations/pre-commit-hooks-nix/README.md
+- Set up sshfs for big file management
+- btrfs snapshotting
+- nixos (ope)
+- Private file storage/backup platform (rented)
+- "media maker" for usb installation of OS stuff with multiple options
+- https://www.reddit.com/r/programming/comments/11y9zlq/so_youve_installed_fzf_now_what/
+  - Fuzzy find stuff
+- Camera app to sort into folders
+- Firefox profiles for work and personal
+- Firefox multi-account containers
+- Allow fetch on llms
