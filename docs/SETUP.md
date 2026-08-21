@@ -27,3 +27,11 @@ cp /etc/nixos/hardware-configuration.nix ~/0nix/nixos
 git add .
 sudo nixos-rebuild switch --flake ~/0nix#paolumu
 ```
+
+Other steps:
+
+- LibreWolf
+- Syncthing
+- Zed/Kagi
+- Tailscale
+- ssh keys
