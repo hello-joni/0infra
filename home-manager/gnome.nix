@@ -38,6 +38,12 @@ in
         color-scheme = "prefer-dark";
         show-battery-percentage = true;
       };
+      "org/gnome/desktop/notifications" = {
+        show-banners = true;
+      };
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        show-icons-emblems = false;
+      };
       "org/gnome/desktop/background" = {
         picture-uri = "file://${background}";
         picture-uri-dark = "file://${background}";
