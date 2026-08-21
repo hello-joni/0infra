@@ -108,26 +108,12 @@
   # ------------------------------------------------------------
   # PACKAGES
 
-  # GNOME desktop
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-  services.gnome.core-apps.enable = false;
-  services.gnome.core-developer-tools.enable = false;
-  services.gnome.games.enable = false;
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-user-docs
-  ];
-
   allowedUnfreePackages = [
     "waveforms" # Digilent Oscilloscope
     "adept2-runtime" # Digilent Oscilloscope
   ];
 
   environment.systemPackages = with pkgs; [
-    papers # GNOME document viewer (PDF, comics, etc.)
-    gnome-terminal
-    nautilus # GNOME file browser
     pciutils
     file
     tree
@@ -136,6 +122,10 @@
     zip
     vim
   ];
+
+  # GNOME desktop
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Fish shell: enables vendor completions and man-page completion generation
   programs.fish.enable = true;

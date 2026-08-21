@@ -22,9 +22,3 @@ Fresh checkout of 0nix:
 direnv allow
 pre-commit install -c .pre-commit-config.yaml
 ```
-
-Zephyr cache:
-
-```
-west config --global update.auto-cache yes
-```

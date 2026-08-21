@@ -31,3 +31,9 @@
   #     inputs.zephyr-nix.packages.${pkgs.system}.hosttools-nix
   #   ];
 }
+
+# Zephyr cache:
+
+# ```
+# west config --global update.auto-cache yes
+# ```
