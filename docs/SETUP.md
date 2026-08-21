@@ -35,3 +35,7 @@ Other steps:
 - Zed/Kagi
 - Tailscale
 - ssh keys
+
+```
+ssh-keygen -t ed25519 -C "comment"
+```
