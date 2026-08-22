@@ -1,4 +1,6 @@
 terraform {
+
+  # Manually created Hetzner S3-compatible bucket for OpenTofu backend
   backend "s3" {
     bucket = "joni-opentofu"
     key    = "opentofu/terraform.tfstate"
