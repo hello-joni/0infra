@@ -19,11 +19,13 @@ Credentials are manually stored in the GNOME Keyring:
 secret-tool store --label='Hetzner Object Storage access key' service hetzner-s3-access
 secret-tool store --label='Hetzner Object Storage secret key' service hetzner-s3-secret
 secret-tool store --label='Hetzner Cloud API token' service hcloud-token
+secret-tool store --label='DNSimple API token' service dnsimple-token
+secret-tool store --label='DNSimple account ID' service dnsimple-account
 ```
 
 ## Bootstrap
 
 One-time manual backend setup:
 
-- Created bucket `joni-opentofu` at `hel1.your-objectstorage.com`.
+- Created bucket `joni-opentofu` at `hel1.your-objectstorage.com` on Hetzner via GUI.
 - Generated S3 keys and a Hetzner Cloud API token (Read & Write) in the Console.
