@@ -1,0 +1,14 @@
+# opentofu
+.terraform/
+
+# direnv
+.direnv/
+
+# nixos
+result
+result-*
+*.qcow2
+.pre-commit-config.yaml
+
+# non-nixos-hm
+temp/
