@@ -1,7 +1,7 @@
 # Kagi API key
 
 The Kagi MCP server (`kagimcp`, configured in `modules/graphical.nix`) reads a Kagi API key from the
-GNOME Keyring at launch. Each machine uses its own key, stored locally.
+GNOME Keyring at launch. There is one universal Kagi key, stored locally on each machine.
 
 ## Generating a key
 
@@ -10,8 +10,8 @@ is billed per-request, invoiced monthly.
 
 ## Storing a key
 
-Record the key in Proton Pass as `kagi-<hostname>` (see [API_KEYS.md](./API_KEYS.md)), then load it
-into the keyring:
+Record the key in Proton Pass as `kagi` (see [API_KEYS.md](./API_KEYS.md)), then load it into the
+keyring:
 
 ```bash
 secret-tool store --label='Kagi API Key' service kagi  # paste the key, then Enter
