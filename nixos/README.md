@@ -1,4 +1,4 @@
-# 0infra nixos
+# 0infra/nixos/
 
 NixOS configuration for my machines.
 

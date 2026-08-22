@@ -1,4 +1,4 @@
-# 0infra non-nixos-hm
+# 0infra/non-nixos-hm/
 
 Nix Home Manager configuration for my machines that don't run NixOS.
 
