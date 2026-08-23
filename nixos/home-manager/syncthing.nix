@@ -34,6 +34,22 @@
         ];
       };
 
+      folders."~/0logseq" = {
+        id = "0logseq";
+        order = "newest";
+        ignorePerms = true;
+        versioning = {
+          type = "staggered";
+          params.maxAge = "31536000";
+        };
+        devices = [
+          "ginger"
+          "paolumu"
+          "gajau"
+          "sh-sassafras"
+        ];
+      };
+
       folders."~/0llm" = {
         id = "0notes";
         order = "newest";
