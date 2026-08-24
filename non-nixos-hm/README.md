@@ -8,7 +8,7 @@ Nix Home Manager configuration for my machines that don't run NixOS.
 home-manager switch --flake ~/0infra/non-nixos-hm#laptop
 home-manager switch --flake ~/0infra/non-nixos-hm#server
 home-manager switch --flake ~/0infra/non-nixos-hm#phone
-home-manager switch --flake ~/0infra/non-nixos-hm#work
+
 ```
 
 ## Maintenance

@@ -64,7 +64,7 @@
       "org/gnome/system/location" = {
         enabled = true;
       };
-      # favorite-apps is set per-profile (personal.nix, work.nix)
+      # favorite-apps is set per-profile (personal.nix)
       "org/gnome/shell/extensions/dash-to-dock" = {
         show-icons-notifications-counter = false;
         show-dock-urgent-notify = false;

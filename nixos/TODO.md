@@ -1,6 +1,5 @@
 - Better secrets strategy for Kagi MCP
 - NixOS Servers + OpenTofu
-- Work configuration
 - Codecs?
 - Other things from 0config
 - Configure date in gnome, and also what system things are reported in HUD
@@ -17,8 +16,6 @@ mhw icons
   - https://monsterhunterwiki.org/wiki/File:MHWI-Question_Mark_Icon.png
 
 Define icon usage in flake.nix as a per-target sort of thing
-
-Support different themeing for work vs personal machines
 
 Things I'd theme differently:
 

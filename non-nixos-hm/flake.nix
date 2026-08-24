@@ -72,17 +72,7 @@
             nix-flatpak.homeManagerModules.nix-flatpak
           ];
         };
-        "work" = mkHome {
-          modules = [
-            ./modules/base.nix
-            ./modules/dev-headless.nix
-            ./modules/syncthing.nix
-            ./modules/graphical.nix
-            ./modules/dev-graphical.nix
-            ./modules/work.nix
-            nix-flatpak.homeManagerModules.nix-flatpak
-          ];
-        };
+
         "server" = mkHome {
           modules = [
             ./modules/base.nix

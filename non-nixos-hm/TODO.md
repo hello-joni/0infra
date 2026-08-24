@@ -10,14 +10,7 @@
   - folder for new attachments
 - Switch off GitHub (for Codeberg?)
 - RSS feed reader which syncs between phone and computer
-- Update `work.nix` to read SSH key paths from a `workMachine.hostname` option
-  - Add option `workMachine.hostname` (lib.types.str) to the module
-  - Replace `~/.ssh/personal_key` with `~/.ssh/${config.workMachine.hostname}-personal-key`
-  - Replace `~/.ssh/work_key` with `~/.ssh/${config.workMachine.hostname}-work-key`
-  - Set the value in the `work` flake target's module list:
-    `{ workMachine.hostname = "wk-fenugreek"; }`
-  - On the work machine: rename `~/.ssh/{personal,work}_key{,.pub}` to the new paths and re-run
-    `ssh-add`
+
 - Fish: show a warning when no SSH key is loaded into the agent
 - Name machines with type - e.g. laptop_saffron instead of saffron
 - Add symlinking 0config and prepping zed workspace w/ docs as helper step
@@ -54,6 +47,5 @@
 - https://www.reddit.com/r/programming/comments/11y9zlq/so_youve_installed_fzf_now_what/
   - Fuzzy find stuff
 - Camera app to sort into folders
-- Firefox profiles for work and personal
 - Firefox multi-account containers
 - Allow fetch on llms
