@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  machine,
   ...
 }:
 let
@@ -18,6 +19,18 @@ let
     export KAGI_API_KEY
     exec ${pkgs.uv}/bin/uvx --python ${pkgs.python3}/bin/python3 kagimcp
   '';
+
+  # Per-machine visual identity for Zed
+  zedTheming = {
+    paolumu = {
+      icon_theme = "Catppuccin Frappé";
+      theme = "Gruvbox Dark Hard";
+    };
+    gajau = {
+      icon_theme = "Catppuccin Frappé";
+      theme = "Gruvbox Dark Hard";
+    };
+  };
 in
 {
   home.packages = with pkgs; [
@@ -46,10 +59,26 @@ in
       "catppuccin-icons"
       "git-firefly"
     ];
+    # Context-free bindings win over every contextual binding, so these
+    # override the default dock-size and pane::GoBack bindings on the same keys.
+    userKeymaps = [
+      {
+        bindings = {
+          "ctrl-alt-=" = "zed::IncreaseUiFontSize";
+          "ctrl-alt--" = "zed::DecreaseUiFontSize";
+          "ctrl-alt-0" = "zed::ResetUiFontSize";
+          # Linear tab order instead of the MRU tab switcher
+          "ctrl-tab" = "pane::ActivateNextItem";
+          "ctrl-shift-tab" = "pane::ActivatePreviousItem";
+          # Agent tool-call permissions, universal instead of AcpThread-only
+          "alt-shift-a" = "agent::AllowOnce";
+          "alt-shift-x" = "agent::RejectOnce";
+        };
+      }
+    ];
     userSettings = {
       # Theming
-      icon_theme = "Catppuccin Frappé";
-      theme = "Gruvbox Dark Hard";
+      inherit (zedTheming.${machine}) icon_theme theme;
 
       # Panel layout
       collaboration_panel = {
