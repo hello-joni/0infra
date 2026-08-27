@@ -26,10 +26,16 @@ terraform {
       source  = "dnsimple/dnsimple"
       version = "~> 1.9"
     }
+    tailscale = {
+      source  = "tailscale/tailscale"
+      version = "~> 0.29"
+    }
   }
 }
 
 provider "hcloud" {}
+
+provider "tailscale" {}
 
 module "infra" {
   source = "./infra"

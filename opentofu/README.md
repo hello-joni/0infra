@@ -21,6 +21,8 @@ secret-tool store --label='Hetzner Object Storage secret key' service hetzner-s3
 secret-tool store --label='Hetzner Cloud API token' service hcloud-token
 secret-tool store --label='DNSimple API token' service dnsimple-token
 secret-tool store --label='DNSimple account ID' service dnsimple-account
+secret-tool store --label='Tailscale OAuth client ID' service tailscale-oauth-client-id
+secret-tool store --label='Tailscale OAuth client secret' service tailscale-oauth-client-secret
 ```
 
 ## Bootstrap

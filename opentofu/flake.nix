@@ -60,6 +60,24 @@
               exit 1
             fi
             export DNSIMPLE_ACCOUNT
+            TAILSCALE_OAUTH_CLIENT_ID="$(${pkgs.libsecret}/bin/secret-tool lookup service tailscale-oauth-client-id 2>/dev/null || true)"
+            if [ -z "''${TAILSCALE_OAUTH_CLIENT_ID:-}" ]; then
+              echo "Tailscale OAuth client ID not found in the GNOME Keyring." >&2
+              echo "" >&2
+              echo "secret-tool store --label='Tailscale OAuth client ID' service tailscale-oauth-client-id" >&2
+              echo "" >&2
+              exit 1
+            fi
+            export TAILSCALE_OAUTH_CLIENT_ID
+            TAILSCALE_OAUTH_CLIENT_SECRET="$(${pkgs.libsecret}/bin/secret-tool lookup service tailscale-oauth-client-secret 2>/dev/null || true)"
+            if [ -z "''${TAILSCALE_OAUTH_CLIENT_SECRET:-}" ]; then
+              echo "Tailscale OAuth client secret not found in the GNOME Keyring." >&2
+              echo "" >&2
+              echo "secret-tool store --label='Tailscale OAuth client secret' service tailscale-oauth-client-secret" >&2
+              echo "" >&2
+              exit 1
+            fi
+            export TAILSCALE_OAUTH_CLIENT_SECRET
             # PII for contact resources, passed as TF_VAR_* variables.
             # Empty values are allowed; store an empty secret if a field
             # does not apply.
