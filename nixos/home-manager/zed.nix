@@ -176,6 +176,16 @@ in
         };
       };
 
+      # File Associations
+      # file_types overrides the language's default suffixes, so if a language is defined,
+      # all of its possible extensions must be listed explicitly.
+      file_types = {
+        "JSONC" = [
+          "jsonc"
+          "hujson"
+        ];
+      };
+
       # MCP context servers
       context_servers = {
         kagi = {
