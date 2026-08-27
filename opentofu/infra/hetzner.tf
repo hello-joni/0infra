@@ -1,6 +1,26 @@
 # Hetzner Cloud servers and primary IPs.
 
 # ---------------------------------------------------------
+# outputs
+
+output "server_ip_addresses" {
+  value = {
+    wasabi = {
+      ipv4 = hcloud_primary_ip.wasabi_ipv4.ip_address
+      ipv6 = hcloud_primary_ip.wasabi_ipv6.ip_address
+    }
+    sh_sassafras = {
+      ipv4 = hcloud_primary_ip.sh_sassafras_ipv4.ip_address
+      ipv6 = hcloud_primary_ip.sh_sassafras_ipv6.ip_address
+    }
+    vespoid = {
+      ipv4 = hcloud_primary_ip.vespoid_ipv4.ip_address
+      ipv6 = hcloud_primary_ip.vespoid_ipv6.ip_address
+    }
+  }
+}
+
+# ---------------------------------------------------------
 # wasabi
 #
 # Rocky Linux Caddy webserver which hosts joni.site

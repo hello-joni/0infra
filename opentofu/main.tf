@@ -45,3 +45,7 @@ module "infra" {
   pii_middle_name = var.pii_middle_name
   pii_phone      = var.pii_phone
 }
+
+output "server_ip_addresses" {
+  value = module.infra.server_ip_addresses
+}
