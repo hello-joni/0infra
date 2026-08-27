@@ -1,0 +1,59 @@
+// Example/default ACLs for unrestricted connections.
+{
+	// Declare static groups of users. Use autogroups for all users or users with a specific role.
+	// "groups": {
+	//  	"group:example": ["alice@example.com", "bob@example.com"],
+	// },
+
+	// Define the tags which can be applied to devices and by which users.
+	// "tagOwners": {
+	//  	"tag:example": ["autogroup:admin"],
+	// },
+
+	// Define access control lists for users, groups, autogroups, tags,
+	// Tailscale IP addresses, and subnet ranges.
+	"acls": [
+		// Allow all connections.
+		// Comment this section out if you want to define specific restrictions.
+		{"action": "accept", "src": ["*"], "dst": ["*:*"]},
+	],
+
+	// Define users and devices that can use Tailscale SSH.
+	"ssh": [
+		// Allow all users to SSH into their own devices in check mode.
+		// Comment this section out if you want to define specific restrictions.
+		{
+			"action": "check",
+			"src":    ["autogroup:member"],
+			"dst":    ["autogroup:self"],
+			"users":  ["autogroup:nonroot", "root"],
+		},
+	],
+	"nodeAttrs": [
+		{"target": ["100.91.10.128"], "attr": ["mullvad"]},
+		{"target": ["100.76.206.116"], "attr": ["mullvad"]},
+		{"target": ["100.93.182.44"], "attr": ["mullvad"]},
+		{"target": ["100.69.139.125"], "attr": ["mullvad"]},
+		{"target": ["100.97.141.27"], "attr": ["mullvad"]},
+		{"target": ["100.92.122.57"], "attr": ["mullvad"]},
+		{"target": ["100.98.98.97"], "attr": ["mullvad"]},
+		{"target": ["100.114.109.67"], "attr": ["mullvad"]},
+		{"target": ["100.78.171.37"], "attr": ["mullvad"]},
+		{
+			// Funnel policy, which lets tailnet members control Funnel
+			// for their own devices.
+			// Learn more at https://tailscale.com/kb/1223/tailscale-funnel/
+			"target": ["autogroup:member"],
+			"attr":   ["funnel"],
+		},
+	],
+
+	// Test access rules every time they're saved.
+	// "tests": [
+	//  	{
+	//  		"src": "alice@example.com",
+	//  		"accept": ["tag:example"],
+	//  		"deny": ["100.101.102.103:443"],
+	//  	},
+	// ],
+}
