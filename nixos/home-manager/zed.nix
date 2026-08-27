@@ -233,6 +233,28 @@ in
             };
             enable_all_context_servers = true;
           };
+          "0tools-readonly" = {
+            name = "0tools-readonly";
+            tools = {
+              read_file = true;
+              grep = true;
+              find_path = true;
+              list_directory = true;
+              diagnostics = true;
+              fetch = false;
+              search_web = false;
+              edit_file = false;
+              write_file = false;
+              copy_path = false;
+              create_directory = false;
+              delete_path = false;
+              move_path = false;
+              terminal = true;
+              skill = true;
+              spawn_agent = false;
+            };
+            enable_all_context_servers = true;
+          };
           "0tools-subagents" = {
             name = "0tools-subagents";
             tools = {

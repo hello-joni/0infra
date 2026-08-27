@@ -21,7 +21,8 @@
     nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
     # Git hooks and linters
-    git-hooks.url = "github:cachix/git-hooks.nix";
+    # TODO: Reintegrate later
+    # git-hooks.url = "github:cachix/git-hooks.nix";
 
     # Zephyr RTOS source and Nix packaging
     # TODO: Uncomment here and in zephyr hm module
@@ -38,7 +39,7 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
-      git-hooks,
+      # git-hooks,
       waveforms,
       nixos-hardware,
       ...
@@ -46,18 +47,18 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      hooks = git-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
-          nixfmt.enable = true;
-          statix.enable = true;
-          # Lint shell scripts in home-manager/scripts/
-          shellcheck = {
-            enable = true;
-            files = "^home-manager/scripts/.*\\.sh$";
-          };
-        };
-      };
+      # hooks = git-hooks.lib.${system}.run {
+      #   src = ./.
+      #   hooks = {
+      #     nixfmt.enable = true;
+      #     statix.enable = true;
+      #     # Lint shell scripts in home-manager/scripts/
+      #     shellcheck = {
+      #       enable = true;
+      #       files = "^home-manager/scripts/.*\\.sh$";
+      #     };
+      #   };
+      # };
       # Shared module list for every machine. A machine is defined by what is
       # included: its machine dir plus any extra hardware modules.
       mkMachine =
@@ -81,8 +82,8 @@
     in
     {
       devShells.${system}.default = pkgs.mkShell {
-        packages = hooks.enabledPackages;
-        inherit (hooks) shellHook;
+        # packages = hooks.enabledPackages;
+        # inherit (hooks) shellHook;
       };
 
       nixosConfigurations.paolumu = mkMachine "paolumu" [ ];
