@@ -15,19 +15,19 @@
 	// Define access control lists for users, groups, autogroups, tags,
 	// Tailscale IP addresses, and subnet ranges.
 	"acls": [
-		// Allow all connections.
-		// Comment this section out if you want to define specific restrictions.
-		{"action": "accept", "src": ["*"], "dst": ["*:*"]},
+		// Workstations have unrestricted access.
+		{"action": "accept", "src": ["tag:workstation"], "dst": ["*:*"]},
 	],
 
 	// Define users and devices that can use Tailscale SSH.
 	"ssh": [
-		// Allow all users to SSH into their own devices in check mode.
-		// Comment this section out if you want to define specific restrictions.
+		// SSH from workstations to servers.
+		// Re-authentication required every 12 hours.
+		// checkPeriod "always" for root needs a Premium plan.
 		{
 			"action": "check",
 			"src":    ["autogroup:member"],
-			"dst":    ["autogroup:self"],
+			"dst":    ["tag:private-server", "tag:public-server"],
 			"users":  ["autogroup:nonroot", "root"],
 		},
 	],
