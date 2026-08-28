@@ -22,7 +22,7 @@ sudo usermod -aG sudo droid
 
 ```bash
 sudo apt install git
-git clone https://git.sr.ht/~hello-joni/0infra ~/0infra
+git clone https://github.com/hello-joni/0infra ~/0infra
 ```
 
 ## 4. Fix DNS (if needed)

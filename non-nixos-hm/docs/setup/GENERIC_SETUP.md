@@ -16,7 +16,7 @@ and work on any user / host / architecture without a hardcoded entry in `flake.n
 Clone over HTTPS, since this machine isn't expected to push:
 
 ```bash
-git clone https://git.sr.ht/~hello-joni/0infra ~/0infra
+git clone https://github.com/hello-joni/0infra ~/0infra
 ```
 
 ## 2. Install Nix

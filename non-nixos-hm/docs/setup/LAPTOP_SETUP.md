@@ -46,7 +46,7 @@ Restart the shell, then clone and activate 0config:
 ```bash
 cd ~
 
-git clone https://git.sr.ht/~hello-joni/0infra
+git clone https://github.com/hello-joni/0infra
 nix-shell -p home-manager
 home-manager switch --flake ~/0infra/non-nixos-hm#laptop -b backup
 ```

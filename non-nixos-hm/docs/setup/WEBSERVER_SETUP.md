@@ -58,7 +58,7 @@ ssh <hostname>
 Clone 0config:
 
 ```bash
-git clone https://git.sr.ht/~hello-joni/0infra
+git clone https://github.com/hello-joni/0infra
 ```
 
 Install Nix and source it for the current shell:

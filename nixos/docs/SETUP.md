@@ -21,7 +21,7 @@ When booted, run:
 
 ```
 nix-shell -p git
-git clone https://git.sr.ht/~hello-joni/0infra ~/0infra
+git clone https://github.com/hello-joni/0infra ~/0infra
 cd ~/0infra/nixos
 cp /etc/nixos/hardware-configuration.nix ~/0infra/nixos/nixos
 git add .
