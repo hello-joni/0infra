@@ -40,16 +40,16 @@ provider "tailscale" {}
 module "infra" {
   source = "./infra"
 
-  pii_email      = var.pii_email
-  pii_address    = var.pii_address
-  pii_city       = var.pii_city
-  pii_state      = var.pii_state
+  pii_email       = var.pii_email
+  pii_address     = var.pii_address
+  pii_city        = var.pii_city
+  pii_state       = var.pii_state
   pii_postal_code = var.pii_postal_code
-  pii_country    = var.pii_country
-  pii_first_name = var.pii_first_name
-  pii_last_name  = var.pii_last_name
+  pii_country     = var.pii_country
+  pii_first_name  = var.pii_first_name
+  pii_last_name   = var.pii_last_name
   pii_middle_name = var.pii_middle_name
-  pii_phone      = var.pii_phone
+  pii_phone       = var.pii_phone
 }
 
 output "server_ip_addresses" {

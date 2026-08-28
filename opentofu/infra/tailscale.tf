@@ -53,90 +53,72 @@ resource "tailscale_tailnet_settings" "this" {
 
 # ---------------------------------------------------------
 # Devices
-#
-# Each block groups the resources for one device. Tags require
-# tagOwners in the ACL, so every tags resource depends on it.
 
-# paolumu: workstation
+# All devices that appear on the tailnet must be either:
+# - Manually authorized and tagged by adding them to this list
+# - Removed from the tailnet altogether as unauthorized
+locals {
+  device_roster = {
+    paolumu = {
+      id   = "6717047417030106"
+      tags = ["tag:workstation"]
+    }
+    gajau = {
+      id   = "6573946740377378"
+      tags = ["tag:workstation"]
+    }
+    ginger = {
+      id   = "6332351843646902"
+      tags = ["tag:workstation"]
+    }
+    vespoid = {
+      id   = "8404226551818318"
+      tags = ["tag:private-server"]
+    }
+    sh_sassafras = {
+      id   = "4453289642657308"
+      tags = ["tag:private-server"]
+    }
+    wasabi = {
+      id   = "8923626644171409"
+      tags = ["tag:public-server"]
+    }
+  }
+}
 
-resource "tailscale_device_authorization" "paolumu" {
-  device_id = "6717047417030106"
+resource "tailscale_device_authorization" "device" {
+  for_each  = local.device_roster
+  device_id = each.value.id
   authorized = true
 }
 
-resource "tailscale_device_tags" "paolumu" {
-  device_id = tailscale_device_authorization.paolumu.device_id
-  tags      = ["tag:workstation"]
+# Tags must have an owner in the ACL's tagOwners before they can be applied.
+resource "tailscale_device_tags" "device" {
+  for_each  = local.device_roster
+  device_id = each.value.id
+  tags      = each.value.tags
 
   depends_on = [tailscale_acl.this]
 }
 
-# gajau: workstation
+data "tailscale_devices" "all" {
+  lifecycle {
+    # Catches devices that joined the tailnet without a roster entry.
+    postcondition {
+      condition = length([
+        for d in self.devices :
+        d.id if !contains([for name, dev in local.device_roster : dev.id], d.id)
+      ]) == 0
+      error_message = "Unmanaged devices on the tailnet: ${join(", ", [for d in self.devices : d.name if !contains([for name, dev in local.device_roster : dev.id], d.id)])}. Add them to local.device_roster."
+    }
 
-resource "tailscale_device_authorization" "gajau" {
-  device_id = "6573946740377378"
-  authorized = true
-}
-
-resource "tailscale_device_tags" "gajau" {
-  device_id = tailscale_device_authorization.gajau.device_id
-  tags      = ["tag:workstation"]
-
-  depends_on = [tailscale_acl.this]
-}
-
-# ginger: workstation
-
-resource "tailscale_device_authorization" "ginger" {
-  device_id = "6332351843646902"
-  authorized = true
-}
-
-resource "tailscale_device_tags" "ginger" {
-  device_id = tailscale_device_authorization.ginger.device_id
-  tags      = ["tag:workstation"]
-
-  depends_on = [tailscale_acl.this]
-}
-
-# wasabi: public-server
-
-resource "tailscale_device_authorization" "wasabi" {
-  device_id = "8923626644171409"
-  authorized = true
-}
-
-resource "tailscale_device_tags" "wasabi" {
-  device_id = tailscale_device_authorization.wasabi.device_id
-  tags      = ["tag:public-server"]
-
-  depends_on = [tailscale_acl.this]
-}
-
-# sh-sassafras: private-server
-
-resource "tailscale_device_authorization" "sh_sassafras" {
-  device_id = "4453289642657308"
-  authorized = true
-}
-
-resource "tailscale_device_tags" "sh_sassafras" {
-  device_id = tailscale_device_authorization.sh_sassafras.device_id
-  tags      = ["tag:private-server"]
-
-  depends_on = [tailscale_acl.this]
-}
-
-# vespoid: private-server
-
-resource "tailscale_device_authorization" "vespoid" {
-  device_id = "8404226551818318"
-  authorized = true
-}
-
-resource "tailscale_device_tags" "vespoid" {
-  device_id = tailscale_device_authorization.vespoid.device_id
-  tags      = ["tag:private-server"]
-
-  depends_on = [tailscale_acl.this]
+    # Catches roster entries whose device left the tailnet.
+    postcondition {
+      condition = length([
+        for name, d in local.device_roster :
+        name if !contains([for dev in self.devices : dev.id], d.id)
+      ]) == 0
+      error_message = "Roster devices missing from the tailnet: ${join(", ", [for name, d in local.device_roster : name if !contains([for dev in self.devices : dev.id], d.id)])}. Remove them from local.device_roster."
+    }
+  }
 }
