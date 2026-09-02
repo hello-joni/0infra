@@ -26,6 +26,6 @@
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/man.nix
     ../../modules/home-manager/syncthing.nix
-    ./librechat.nix
+    ../../modules/home-manager/librechat.nix
   ];
 }
