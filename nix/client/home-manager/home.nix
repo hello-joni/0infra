@@ -29,7 +29,7 @@
     ./man.nix
     ./scripts.nix
     ./direnv.nix
-    ./syncthing.nix
+    ../../modules/home-manager/syncthing.nix
     ./zed.nix
     ./git.nix
     ./github.nix

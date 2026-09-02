@@ -22,6 +22,7 @@
   # You can import other home-manager modules here
   imports = [
     ../../modules/unfree.nix
+    ../../modules/home-manager/syncthing.nix
     ./fish.nix
     ./git.nix
     ./librechat.nix
