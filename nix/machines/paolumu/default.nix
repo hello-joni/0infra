@@ -16,6 +16,9 @@
 
     # Steam gaming stack
     ../../modules/nixos/steam.nix
+
+    # Digilent WaveForms (Analog Discovery 2 oscilloscope)
+    ../../modules/nixos/waveforms.nix
   ];
 
   networking.hostName = "paolumu";
@@ -52,21 +55,6 @@
 
   # ------------------------------------------------------------
   # PACKAGES
-
-  allowedUnfreePackages = [
-    "waveforms" # Digilent Oscilloscope
-    "adept2-runtime" # Digilent Oscilloscope
-  ];
-
-  environment.systemPackages = with pkgs; [
-    pciutils
-    file
-    tree
-    jq
-    unzip
-    zip
-    vim
-  ];
 
   # GNOME desktop
   services.displayManager.gdm.enable = true;

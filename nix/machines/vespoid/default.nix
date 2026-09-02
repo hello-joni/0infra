@@ -62,13 +62,6 @@
   # ------------------------------------------------------------
   # PACKAGES
 
-  environment.systemPackages = with pkgs; [
-    file
-    tree
-    jq
-    vim
-  ];
-
   # Fish shell: enables vendor completions and man-page completion generation
   programs.fish.enable = true;
 

@@ -1,5 +1,9 @@
 # Shared NixOS base. Machine-specific config lives in each machine dir.
 {
+  pkgs,
+  ...
+}:
+{
   imports = [ ../unfree.nix ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
@@ -21,4 +25,15 @@
     # Disable channels
     channel.enable = false;
   };
+
+  # Common packages
+  environment.systemPackages = with pkgs; [
+    pciutils
+    file
+    tree
+    jq
+    unzip
+    zip
+    vim
+  ];
 }

@@ -50,16 +50,6 @@
   # ------------------------------------------------------------
   # PACKAGES
 
-  environment.systemPackages = with pkgs; [
-    pciutils
-    file
-    tree
-    jq
-    unzip
-    zip
-    vim
-  ];
-
   # GNOME desktop
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
