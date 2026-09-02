@@ -63,8 +63,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
-                inherit inputs;
-                machine = machine;
+                inherit inputs machine;
               };
             }
           ] ++ extraModules;
