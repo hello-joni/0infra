@@ -50,12 +50,20 @@ in
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         show-battery-percentage = true;
+        clock-show-weekday = true;
       };
       "org/gnome/desktop/notifications" = {
         show-banners = true;
       };
       "org/gnome/shell/extensions/dash-to-dock" = {
         show-icons-emblems = false;
+      };
+      "org/gnome/settings-daemon/plugins/color" = {
+        night-light-enabled = true;
+        night-light-schedule-automatic = false;
+        # Fractional hours in 24-hour time: 20.0 = 8pm, 6.0 = 6am.
+        night-light-schedule-from = 20.0;
+        night-light-schedule-to = 6.0;
       };
       "org/gnome/desktop/background" = {
         picture-uri = "file://${background}";
