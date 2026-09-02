@@ -50,13 +50,6 @@
   # ------------------------------------------------------------
   # PACKAGES
 
-  allowedUnfreePackages = [
-    "steam" # Steam client
-    "steam-unwrapped" # Steam client, unwrapped
-    "waveforms" # Digilent Oscilloscope
-    "adept2-runtime" # Digilent Oscilloscope
-  ];
-
   environment.systemPackages = with pkgs; [
     pciutils
     file

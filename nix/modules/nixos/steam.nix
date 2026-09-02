@@ -12,4 +12,9 @@
 
   # Let games request CPU and scheduling optimizations.
   programs.gamemode.enable = true;
+
+  allowedUnfreePackages = [
+    "steam" # Steam client
+    "steam-unwrapped" # Steam client, unwrapped
+  ];
 }
