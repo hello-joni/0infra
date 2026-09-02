@@ -21,9 +21,18 @@
 
   # You can import other home-manager modules here
   imports = [
-    ../modules/unfree.nix
+    ../../modules/unfree.nix
     ./fish.nix
+    ./flatpak.nix
+    ./gnome.nix
+    ./librewolf.nix
+    ./man.nix
+    ./scripts.nix
+    ./direnv.nix
+    ./syncthing.nix
+    ./zed.nix
     ./git.nix
-    ./librechat.nix
+    ./github.nix
+    ./zephyr.nix
   ];
 }

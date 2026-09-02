@@ -14,12 +14,12 @@
 
   imports = [
     # Shared modules
-    ../modules/unfree.nix
+    ../../modules/unfree.nix
   ];
 
   nixpkgs = {
     config = {
-      # Unfree packages are handled with modules/unfree.nix by declaring:
+      # Unfree packages are handled with nix/modules/unfree.nix by declaring:
       # config.allowedUnfreePackages = [ "foo-pkg" "bar-pkg" ];
       allowUnfree = false;
     };

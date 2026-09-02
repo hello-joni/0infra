@@ -7,7 +7,7 @@ How to set up a Hetzner server with NixOS using `nixos-anywhere` and Tailscale S
 - A new Debian Hetzner server in `opentofu/` with no configured SSH key
   - The server's IPv4 address
   - The server's temporary root password (emailed by Hetzner)
-- A machine configuration in `nixos-server/`
+- A machine configuration in `nix/server/`
 
 ## Setup steps
 
@@ -23,11 +23,11 @@ When prompted, set a new password. This password will be cleared when NixOS is i
 
 ### Install
 
-From `nixos-server/`, run the installer:
+From `nix/server/`, run the installer:
 
 ```bash
 SSHPASS='<password>' nix run github:nix-community/nixos-anywhere -- \
-  --flake ~/0infra/nixos-server#<machine> \
+  --flake ~/0infra/nix/server#<machine> \
   --target-host root@<ipv4> \
   --env-password
 ```
