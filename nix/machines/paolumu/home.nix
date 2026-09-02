@@ -21,18 +21,19 @@
 
   # You can import other home-manager modules here
   imports = [
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
     ../../modules/unfree.nix
     ../../modules/home-manager/fish.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/man.nix
     ../../modules/home-manager/scripts.nix
     ../../modules/home-manager/syncthing.nix
-    ./flatpak.nix
-    ./gnome.nix
-    ./librewolf.nix
-    ./direnv.nix
-    ./zed.nix
-    ./github.nix
-    ./zephyr.nix
+    ../../modules/home-manager/flatpak.nix
+    ../../modules/home-manager/gnome.nix
+    ../../modules/home-manager/librewolf.nix
+    ../../modules/home-manager/direnv.nix
+    ../../modules/home-manager/zed.nix
+    ../../modules/home-manager/github.nix
+    # ../../modules/home-manager/zephyr.nix
   ];
 }

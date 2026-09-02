@@ -22,10 +22,10 @@ When booted, run:
 ```
 nix-shell -p git
 git clone https://github.com/hello-joni/0infra ~/0infra
-cd ~/0infra/nix/client
-cp /etc/nixos/hardware-configuration.nix ~/0infra/nix/client/nixos
+cd ~/0infra/nix
+cp /etc/nixos/hardware-configuration.nix ~/0infra/nix/machines/paolumu
 git add .
-sudo nixos-rebuild switch --flake ~/0infra/nix/client#paolumu
+sudo nixos-rebuild switch --flake ~/0infra/nix#paolumu
 ```
 
 Other steps:

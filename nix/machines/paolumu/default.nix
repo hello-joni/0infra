@@ -1,46 +1,24 @@
+# Machine config for paolumu (Lenovo Yoga 7 16IAP7).
 {
-  inputs,
-  lib,
-  config,
   pkgs,
   ...
 }:
 {
-  # ------------------------------------------------------------
-  # NIX CONFIG
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "26.05";
-
   imports = [
-    # Shared modules
-    ../../modules/unfree.nix
+    # Shared NixOS base
+    ../../modules/nixos/base.nix
+
+    # Auto-generated hardware config (regenerate with --no-filesystems on reinstall)
+    ./hardware-configuration.nix
+
+    # Hardware config for this laptop model
+    ./Lenovo-Yoga-7-16IAP7.nix
+
+    # Steam gaming stack
+    ../../modules/nixos/steam.nix
   ];
 
-  nixpkgs = {
-    config = {
-      # Unfree packages are handled with nix/modules/unfree.nix by declaring:
-      # config.allowedUnfreePackages = [ "foo-pkg" "bar-pkg" ];
-      allowUnfree = false;
-    };
-  };
-
-  # Graphics drivers and 32-bit libraries, needed by Steam and many games.
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
-  nix = {
-    settings = {
-      # Enable flakes and new 'nix' command
-      experimental-features = "nix-command flakes";
-      # Disable global registry
-      flake-registry = "";
-    };
-    # Disable channels
-    channel.enable = false;
-  };
+  networking.hostName = "paolumu";
 
   # ------------------------------------------------------------
   # SYSTEM CONFIG
@@ -51,10 +29,12 @@
 
   # Home Manager as a NixOS module
   home-manager.useUserPackages = true;
-  home-manager.users.joni = import ../home-manager/home.nix;
+  home-manager.users.joni = import ./home.nix;
 
   users.users = {
     joni = {
+      description = "Paolumu";
+
       # Fish is entered via exec in fish.nix
       shell = pkgs.bashInteractive;
 
@@ -90,13 +70,6 @@
     vim
   ];
 
-  # Steam. Proton and DXVK are managed by Steam itself at runtime.
-  # https://wiki.nixos.org/wiki/Steam
-  programs.steam.enable = true;
-
-  # Let games request CPU and scheduling optimizations.
-  programs.gamemode.enable = true;
-
   # GNOME desktop
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -109,4 +82,31 @@
 
   # Flatpak system daemon and system installation
   services.flatpak.enable = true;
+
+  # Paolumu monster icon resized and padded to 256x256 for the GNOME login screen.
+  # Sets the icon via AccountsService activation script.
+  system.activationScripts.account-icon.text = ''
+    mkdir -p /var/lib/AccountsService/icons
+    cp ${
+      pkgs.runCommand "paolumu-icon.png"
+        {
+          nativeBuildInputs = [ pkgs.imagemagick ];
+        }
+        ''
+          convert ${
+            builtins.fetchurl {
+              url = "https://monsterhunterwiki.org/images/f/f7/MHWI-Paolumu_Icon.png";
+              sha256 = "1zh7dvilrx96xy1p6idix4p0dk78jlisrb3dwf222ril1rcvfx4d";
+            }
+          } -resize 200x200 -background none -gravity center -extent 256x256+0-10 $out
+        ''
+    } /var/lib/AccountsService/icons/joni
+    chmod 644 /var/lib/AccountsService/icons/joni
+
+    cat > /var/lib/AccountsService/users/joni <<EOF
+    [User]
+    Icon=/var/lib/AccountsService/icons/joni
+    SystemAccount=false
+    EOF
+  '';
 }
