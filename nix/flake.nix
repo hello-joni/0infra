@@ -73,11 +73,7 @@
       devShells.${system}.default = pkgs.mkShell { };
 
       nixosConfigurations.paolumu = mkNixos "paolumu" [ ];
-      nixosConfigurations.gajau = mkNixos "gajau" [
-        nixos-hardware.nixosModules.chuwi-minibook-x
-      ];
-      nixosConfigurations.vespoid = mkNixos "vespoid" [
-        disko.nixosModules.disko
-      ];
+      nixosConfigurations.gajau = mkNixos "gajau" [ ];
+      nixosConfigurations.vespoid = mkNixos "vespoid" [ ];
     };
 }

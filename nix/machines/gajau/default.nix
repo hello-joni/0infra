@@ -1,6 +1,7 @@
 # Machine config for gajau (Chuwi Minibook X).
 {
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -10,6 +11,9 @@
 
     # Auto-generated hardware config (regenerate with --no-filesystems on reinstall)
     ./hardware-configuration.nix
+
+    # Hardware profile for this laptop model
+    inputs.nixos-hardware.nixosModules.chuwi-minibook-x
 
     # Steam gaming stack
     ../../modules/nixos/steam.nix

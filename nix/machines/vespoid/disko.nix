@@ -1,7 +1,15 @@
 # Declarative disk layout for vespoid.
 # One ESP plus one btrfs partition spanning the rest of the disk.
 # Subvolumes beyond these are created at runtime with `btrfs subvolume create`.
+#
+# The disko module is required for the nixos-anywhere install flow.
 {
+  inputs,
+  ...
+}:
+{
+  imports = [ inputs.disko.nixosModules.disko ];
+
   disko.devices = {
     disk = {
       main = {
