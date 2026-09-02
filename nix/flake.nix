@@ -72,9 +72,7 @@
     {
       devShells.${system}.default = pkgs.mkShell { };
 
-      nixosConfigurations.paolumu = mkNixos "paolumu" [
-        waveforms.nixosModules.default
-      ];
+      nixosConfigurations.paolumu = mkNixos "paolumu" [ ];
       nixosConfigurations.gajau = mkNixos "gajau" [
         nixos-hardware.nixosModules.chuwi-minibook-x
       ];
