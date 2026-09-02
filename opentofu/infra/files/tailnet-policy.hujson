@@ -22,11 +22,11 @@
 	// Define users and devices that can use Tailscale SSH.
 	"ssh": [
 		// SSH from workstations to servers.
-		// Re-authentication required every 12 hours.
-		// checkPeriod "always" for root needs a Premium plan.
+		// "accept" because the API rejects tags in the src of a "check"
+		// rule. Device keys expire per devices_key_duration_days instead.
 		{
-			"action": "check",
-			"src":    ["autogroup:member"],
+			"action": "accept",
+			"src":    ["tag:workstation"],
 			"dst":    ["tag:private-server", "tag:public-server"],
 			"users":  ["autogroup:nonroot", "root"],
 		},

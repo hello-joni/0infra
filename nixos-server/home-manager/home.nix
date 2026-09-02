@@ -24,5 +24,6 @@
     ../modules/unfree.nix
     ./fish.nix
     ./git.nix
+    ./librechat.nix
   ];
 }
