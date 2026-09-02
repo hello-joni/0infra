@@ -61,27 +61,27 @@ locals {
   device_roster = {
     paolumu = {
       id   = "6717047417030106"
-      tags = ["tag:workstation"]
+      tags = ["tag:client"]
     }
     gajau = {
       id   = "6573946740377378"
-      tags = ["tag:workstation"]
+      tags = ["tag:client"]
     }
     ginger = {
       id   = "6332351843646902"
-      tags = ["tag:workstation"]
+      tags = ["tag:client"]
     }
     vespoid = {
       id   = "8404226551818318"
-      tags = ["tag:private-server"]
+      tags = ["tag:server"]
     }
     sh_sassafras = {
       id   = "4453289642657308"
-      tags = ["tag:private-server"]
+      tags = ["tag:server"]
     }
     wasabi = {
       id   = "8923626644171409"
-      tags = ["tag:public-server"]
+      tags = ["tag:server"]
     }
   }
 }

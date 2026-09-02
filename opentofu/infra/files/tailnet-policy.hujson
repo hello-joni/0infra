@@ -7,27 +7,26 @@
 
 	// Define the tags which can be applied to devices and by which users.
 	"tagOwners": {
-		"tag:workstation":    ["autogroup:admin"],
-		"tag:public-server":  ["autogroup:admin"],
-		"tag:private-server": ["autogroup:admin"],
+		"tag:client": ["autogroup:admin"],
+		"tag:server": ["autogroup:admin"],
 	},
 
 	// Define access control lists for users, groups, autogroups, tags,
 	// Tailscale IP addresses, and subnet ranges.
 	"acls": [
-		// Workstations have unrestricted access.
-		{"action": "accept", "src": ["tag:workstation"], "dst": ["*:*"]},
+		// Clients have unrestricted access.
+		{"action": "accept", "src": ["tag:client"], "dst": ["*:*"]},
 	],
 
 	// Define users and devices that can use Tailscale SSH.
 	"ssh": [
-		// SSH from workstations to servers.
+		// SSH from clients to servers.
 		// "accept" because the API rejects tags in the src of a "check"
 		// rule. Device keys expire per devices_key_duration_days instead.
 		{
 			"action": "accept",
-			"src":    ["tag:workstation"],
-			"dst":    ["tag:private-server", "tag:public-server"],
+			"src":    ["tag:client"],
+			"dst":    ["tag:server"],
 			"users":  ["autogroup:nonroot", "root"],
 		},
 	],
