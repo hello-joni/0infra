@@ -25,11 +25,11 @@
     ../../modules/home-manager/fish.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/man.nix
+    ../../modules/home-manager/scripts.nix
     ../../modules/home-manager/syncthing.nix
     ./flatpak.nix
     ./gnome.nix
     ./librewolf.nix
-    ./scripts.nix
     ./direnv.nix
     ./zed.nix
     ./github.nix
