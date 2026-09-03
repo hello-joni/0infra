@@ -32,16 +32,16 @@ resource "hcloud_primary_ip" "wasabi_ipv6" {
 }
 
 # ---------------------------------------------------------
-# sh-sassafras
+# vespoid
 #
-# Rocky Linux server, exposing my private services over Tailscale
+# NixOS server, exposing my private services over Tailscale
 
 resource "hcloud_primary_ip" "vespoid_ipv4" {
   auto_delete       = false
   delete_protection = false
   labels            = {}
   location          = "hil"
-  name              = "primary_ip-sh-sassafras-ipv4"
+  name              = "primary_ip-vespoid-ipv4"
   type              = "ipv4"
 
   lifecycle {
@@ -109,7 +109,7 @@ resource "hcloud_server" "vespoid" {
   keep_disk                  = null
   labels                     = {}
   location                   = "hil"
-  name                       = "sh-sassafras"
+  name                       = "vespoid"
   placement_group_id         = 0
   public_net {
     ipv4_enabled = true
