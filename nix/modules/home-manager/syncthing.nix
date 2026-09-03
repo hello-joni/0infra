@@ -12,10 +12,7 @@ let
     gajau.id = "RTFI3R2-AQMT7VM-QOJ2FXR-WNJZTL2-VSYFHSC-2XWEVOA-RFA6KHK-5JXSWQE";
 
     # Selfhost server
-    vespoid.id = "YAFQL6B-X6GJIVS-GNI3S3I-BACKHJJ-G5WQAFL-S6RW3WK-2WBR3BO-ML76XQL";
-
-    # Legacy selfhost server (currently replacing)
-    sh-sassafras.id = "4PJJBRC-HM7M4I7-FUZYMAP-3XXJ5P5-UHDIY67-NA5X53V-UW7H2IF-PMISLAB";
+    vespoid.id = "2JMR5ON-AG4NPIN-3U22UEL-YTCWGDZ-M2VH3AR-EIPAIU6-XP36DHJ-EPHNHAZ";
   };
 
   deviceNames = builtins.attrNames devices;
