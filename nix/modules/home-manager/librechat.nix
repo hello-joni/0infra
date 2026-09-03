@@ -24,6 +24,16 @@ let
           - /root/0llm
         # npx downloads the package on first start, so allow a long init.
         initTimeout: 60000
+      # Kagi's hosted MCP. Bearer auth with the API key.
+      # https://github.com/kagisearch/kagimcp
+      kagi:
+        type: streamable-http
+        url: https://mcp.kagi.com/mcp
+        headers:
+          Authorization: 'Bearer ${"$"}{KAGI_API_KEY}'
+        # The server answers 401 without the header, which the OAuth
+        # auto-detection would misread as an OAuth requirement.
+        requiresOAuth: false
     endpoints:
       custom:
         - name: OpenRouter
@@ -70,6 +80,8 @@ in
         ALLOW_REGISTRATION = "true";
         ALLOW_UNVERIFIED_EMAIL_LOGIN = "true";
         ALLOW_PASSWORD_RESET = "false";
+        # Serves the 0llm skills as read-only deployment skills.
+        DEPLOYMENT_SKILLS_DIR = "/root/0llm/skills";
       };
       environmentFile = [ "${stateDir}/librechat.env" ];
       # Container uid 0 maps to the host user, so writes to the bind mounts
@@ -88,13 +100,29 @@ in
     };
   };
 
+  # Daily restart to smooth over drift from 0llm.
+  systemd.user.timers.librechat-skill-reload = {
+    Timer = {
+      OnCalendar = "*-*-* 02:00:00 America/Los_Angeles";
+      Persistent = true;
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
+
+  systemd.user.services.librechat-skill-reload = {
+    ServiceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.podman}/bin/podman restart librechat";
+    };
+  };
+
   home.activation.librechatDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${stateDir}/mongo ${stateDir}/images ${stateDir}/uploads ${stateDir}/logs ${stateDir}/data
     # The LibreChat secrets don't need to be secure, since all access is
     # restricted to the tailnet. However, they're generated anyways because
     # LibreChat will not start without them.
     #
-    # OPENROUTER_API_KEY must be updated manually.
+    # OPENROUTER_API_KEY and KAGI_API_KEY must be updated manually.
     if [ ! -f ${stateDir}/librechat.env ]; then
       run ${pkgs.openssl}/bin/openssl rand -hex 32 > /tmp/lc-creds-key
       run ${pkgs.openssl}/bin/openssl rand -hex 32 > /tmp/lc-creds-iv
@@ -106,6 +134,7 @@ in
     JWT_SECRET=$(cat /tmp/lc-jwt)
     JWT_REFRESH_SECRET=$(cat /tmp/lc-jwt-refresh)
     OPENROUTER_API_KEY=CHANGE_ME
+    KAGI_API_KEY=CHANGE_ME
     EOF
       rm -f /tmp/lc-creds-key /tmp/lc-creds-iv /tmp/lc-jwt /tmp/lc-jwt-refresh
       chmod 600 ${stateDir}/librechat.env
