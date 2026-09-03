@@ -75,6 +75,10 @@ locals {
       id   = "8923626644171409"
       tags = ["tag:server"]
     }
+    vespoid = {
+      id = "7334011180506355"
+      tags = ["tag:server"]
+    }
   }
 }
 
@@ -101,7 +105,7 @@ data "tailscale_devices" "all" {
         for d in self.devices :
         d.id if !contains([for name, dev in local.device_roster : dev.id], d.id)
       ]) == 0
-      error_message = "Unmanaged devices on the tailnet: ${join(", ", [for d in self.devices : d.name if !contains([for name, dev in local.device_roster : dev.id], d.id)])}. Add them to local.device_roster."
+      error_message = "Unmanaged devices on the tailnet: ${join(", ", [for d in self.devices : "${d.name} (${d.id})" if !contains([for name, dev in local.device_roster : dev.id], d.id)])}. Add them to local.device_roster with the ID shown above."
     }
 
     # Catches roster entries whose device left the tailnet.
@@ -110,7 +114,7 @@ data "tailscale_devices" "all" {
         for name, d in local.device_roster :
         name if !contains([for dev in self.devices : dev.id], d.id)
       ]) == 0
-      error_message = "Roster devices missing from the tailnet: ${join(", ", [for name, d in local.device_roster : name if !contains([for dev in self.devices : dev.id], d.id)])}. Remove them from local.device_roster."
+      error_message = "Roster devices missing from the tailnet: ${join(", ", [for name, d in local.device_roster : "${name} (${d.id})" if !contains([for dev in self.devices : dev.id], d.id)])}. Remove them from local.device_roster."
     }
   }
 }
