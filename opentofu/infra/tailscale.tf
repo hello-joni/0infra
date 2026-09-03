@@ -71,7 +71,7 @@ locals {
       id   = "6332351843646902"
       tags = ["tag:client"]
     }
-    sh_sassafras = {
+    vespoid = {
       id   = "4453289642657308"
       tags = ["tag:server"]
     }

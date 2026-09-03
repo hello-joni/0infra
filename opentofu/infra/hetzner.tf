@@ -36,7 +36,7 @@ resource "hcloud_primary_ip" "wasabi_ipv6" {
 #
 # Rocky Linux server, exposing my private services over Tailscale
 
-resource "hcloud_primary_ip" "sh_sassafras_ipv4" {
+resource "hcloud_primary_ip" "vespoid_ipv4" {
   auto_delete       = false
   delete_protection = false
   labels            = {}
@@ -49,7 +49,7 @@ resource "hcloud_primary_ip" "sh_sassafras_ipv4" {
   }
 }
 
-resource "hcloud_primary_ip" "sh_sassafras_ipv6" {
+resource "hcloud_primary_ip" "vespoid_ipv6" {
   auto_delete       = false
   delete_protection = false
   labels            = {}
@@ -99,7 +99,7 @@ resource "hcloud_server" "wasabi" {
   }
 }
 
-resource "hcloud_server" "sh_sassafras" {
+resource "hcloud_server" "vespoid" {
   backups                    = true
   delete_protection          = false
   firewall_ids               = []
@@ -113,9 +113,9 @@ resource "hcloud_server" "sh_sassafras" {
   placement_group_id         = 0
   public_net {
     ipv4_enabled = true
-    ipv4         = hcloud_primary_ip.sh_sassafras_ipv4.id
+    ipv4         = hcloud_primary_ip.vespoid_ipv4.id
     ipv6_enabled = true
-    ipv6         = hcloud_primary_ip.sh_sassafras_ipv6.id
+    ipv6         = hcloud_primary_ip.vespoid_ipv6.id
   }
   rebuild_protection       = false
   rescue                   = null
@@ -127,8 +127,8 @@ resource "hcloud_server" "sh_sassafras" {
   # Ensure primary IPs (and their auto_delete settings) are fully applied
   # before any public_net reconciliation touches their assignments.
   depends_on = [
-    hcloud_primary_ip.sh_sassafras_ipv4,
-    hcloud_primary_ip.sh_sassafras_ipv6,
+    hcloud_primary_ip.vespoid_ipv4,
+    hcloud_primary_ip.vespoid_ipv6,
   ]
 
   lifecycle {
