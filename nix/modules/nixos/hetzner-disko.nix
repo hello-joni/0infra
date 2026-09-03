@@ -1,4 +1,3 @@
-# Declarative disk layout for vespoid.
 # One ESP plus one btrfs partition spanning the rest of the disk.
 # Subvolumes beyond these are created at runtime with `btrfs subvolume create`.
 #

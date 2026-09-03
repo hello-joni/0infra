@@ -11,7 +11,7 @@
     ../../modules/nixos/base.nix
 
     # Declarative disk layout
-    ./disko.nix
+    ../../modules/nixos/hetzner-disko.nix
 
     # KVM guest hardware profile (virtio modules for disk and network)
     (modulesPath + "/profiles/qemu-guest.nix")
