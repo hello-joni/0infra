@@ -15,6 +15,15 @@ let
   librechatYaml = pkgs.writeText "librechat.yaml" ''
     version: 1.3.14
     cache: true
+    mcpServers:
+      filesystem:
+        command: npx
+        args:
+          - -y
+          - '@modelcontextprotocol/server-filesystem'
+          - /root/0llm
+        # npx downloads the package on first start, so allow a long init.
+        initTimeout: 60000
     endpoints:
       custom:
         - name: OpenRouter
@@ -68,6 +77,9 @@ in
       user = "0:0";
       volumes = [
         "${librechatYaml}:/app/librechat.yaml:ro"
+        # The container runs as uid 0, whose home is /root, so the agent
+        # sees the repo at ~/0llm.
+        "${config.home.homeDirectory}/0llm:/root/0llm"
         "${stateDir}/images:/app/client/public/images"
         "${stateDir}/uploads:/app/uploads"
         "${stateDir}/logs:/app/logs"
