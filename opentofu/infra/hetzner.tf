@@ -104,7 +104,7 @@ resource "hcloud_server" "vespoid" {
   delete_protection          = false
   firewall_ids               = []
   ignore_remote_firewall_ids = null
-  image                      = "rocky-10"
+  image                      = "debian-13"
   iso                        = null
   keep_disk                  = null
   labels                     = {}
