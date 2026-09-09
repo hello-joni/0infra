@@ -19,6 +19,9 @@
 
     # Digilent WaveForms (Analog Discovery 2 oscilloscope)
     ../../modules/nixos/waveforms.nix
+
+    # Podman container runtime (kas-container for Yocto builds)
+    ../../modules/nixos/podman.nix
   ];
 
   networking.hostName = "paolumu";
