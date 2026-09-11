@@ -17,6 +17,7 @@
   # Packages that don't fit cleanly into another module
   home.packages = with pkgs; [
     jq
+    gcc
   ];
 
   # You can import other home-manager modules here
