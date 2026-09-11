@@ -14,14 +14,11 @@
     # Hardware config for this laptop model
     ./Lenovo-Yoga-7-16IAP7.nix
 
-    # Steam gaming stack
+    # Shared modules
     ../../modules/nixos/steam.nix
-
-    # Digilent WaveForms (Analog Discovery 2 oscilloscope)
     ../../modules/nixos/waveforms.nix
-
-    # Podman container runtime (kas-container for Yocto builds)
     ../../modules/nixos/podman.nix
+    ../../modules/nixos/distrobox.nix
   ];
 
   networking.hostName = "paolumu";
