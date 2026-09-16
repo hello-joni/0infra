@@ -2,7 +2,7 @@
   # Documentation
   programs.man = {
     enable = true;
-    generateCaches = true;
+    generateCaches = false;
   };
   programs.info.enable = true;
 
