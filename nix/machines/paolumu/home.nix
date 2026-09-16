@@ -18,6 +18,7 @@
   home.packages = with pkgs; [
     jq
     gcc
+    renode # Embedded sim
   ];
 
   # You can import other home-manager modules here
