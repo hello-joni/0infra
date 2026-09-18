@@ -8,21 +8,31 @@ in
     email = "contact@joni.site";
     openFirewall = true;
 
-    virtualHosts.${domain}.extraConfig = ''
-      root * /var/www/${domain}
-      file_server
-      encode zstd gzip
-      header {
-        -Server
-        Strict-Transport-Security "max-age=31536000; includeSubDomains"
-        X-Content-Type-Options nosniff
-        Referrer-Policy strict-origin-when-cross-origin
-        Cache-Control "public, max-age=3600"
-      }
-    '';
+    virtualHosts.${domain} = {
+      # Access log for GoAccess parser
+      logFormat = ''
+        output file /var/log/caddy/${domain}-access.log {
+          mode 0640
+        }
+      '';
+
+      extraConfig = ''
+        root * /var/www/${domain}
+        file_server
+        encode zstd gzip
+        header {
+          -Server
+          Strict-Transport-Security "max-age=31536000; includeSubDomains"
+          X-Content-Type-Options nosniff
+          Referrer-Policy strict-origin-when-cross-origin
+          Cache-Control "public, max-age=3600"
+        }
+      '';
+    };
 
     # TODO: Modify the static site generator to emit br and gzip files,
     # then restore `precompressed br gzip` on file_server.
+
     virtualHosts."www.${domain}".extraConfig = ''
       redir https://${domain}{uri} permanent
     '';

@@ -29,7 +29,10 @@
     devices = [ "/dev/sda" ];
   };
 
-  environment.systemPackages = [ pkgs.rsync ];
+  environment.systemPackages = with pkgs; [
+    rsync
+    goaccess
+  ];
 
   # ------------------------------------------------------------
   # SYSTEM CONFIG
@@ -53,6 +56,9 @@
       # Change it with `passwd` after first login.
       initialPassword = "jonipasswd";
       isNormalUser = true;
+
+      # Read access to /var/log/caddy access logs
+      extraGroups = [ "caddy" ];
     };
   };
 

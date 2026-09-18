@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   ...
 }:
 {
@@ -10,4 +11,16 @@
 
   home.username = lib.mkDefault "joni";
   home.homeDirectory = lib.mkDefault "/home/joni";
+
+  # Packages that don't fit cleanly into another module
+  home.packages = with pkgs; [
+    jq
+  ];
+
+  # You can import other home-manager modules here
+  imports = [
+    ../../modules/unfree.nix
+    ../../modules/home-manager/fish.nix
+    ../../modules/home-manager/git.nix
+  ];
 }
