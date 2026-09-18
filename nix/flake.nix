@@ -75,5 +75,6 @@
       nixosConfigurations.paolumu = mkNixos "paolumu" [ ];
       nixosConfigurations.gajau = mkNixos "gajau" [ ];
       nixosConfigurations.vespoid = mkNixos "vespoid" [ ];
+      nixosConfigurations.noios = mkNixos "noios" [ ];
     };
 }
