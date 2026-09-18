@@ -31,37 +31,6 @@ resource "hcloud_primary_ip" "wasabi_ipv6" {
   }
 }
 
-# ---------------------------------------------------------
-# vespoid
-#
-# NixOS server, exposing my private services over Tailscale
-
-resource "hcloud_primary_ip" "vespoid_ipv4" {
-  auto_delete       = false
-  delete_protection = false
-  labels            = {}
-  location          = "hil"
-  name              = "primary_ip-vespoid-ipv4"
-  type              = "ipv4"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "hcloud_primary_ip" "vespoid_ipv6" {
-  auto_delete       = false
-  delete_protection = false
-  labels            = {}
-  location          = "hil"
-  name              = "primary_ip-128597215"
-  type              = "ipv6"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
 resource "hcloud_server" "wasabi" {
   backups                    = false
   delete_protection          = false
@@ -93,6 +62,37 @@ resource "hcloud_server" "wasabi" {
     hcloud_primary_ip.wasabi_ipv4,
     hcloud_primary_ip.wasabi_ipv6,
   ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# ---------------------------------------------------------
+# vespoid
+#
+# NixOS server, exposing my private services over Tailscale
+
+resource "hcloud_primary_ip" "vespoid_ipv4" {
+  auto_delete       = false
+  delete_protection = false
+  labels            = {}
+  location          = "hil"
+  name              = "primary_ip-vespoid-ipv4"
+  type              = "ipv4"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "hcloud_primary_ip" "vespoid_ipv6" {
+  auto_delete       = false
+  delete_protection = false
+  labels            = {}
+  location          = "hil"
+  name              = "primary_ip-128597215"
+  type              = "ipv6"
 
   lifecycle {
     prevent_destroy = true
