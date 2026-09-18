@@ -171,6 +171,23 @@ resource "dnsimple_zone_record" "joni_site_dkim_3" {
   }
 }
 
+# nextcloud.joni.site subdomain for exposing Nextcloud instance
+# Paid hosting via Hetzner's Managed Nextcloud "Storage Share"
+# https://konsoleh.hetzner.com/storage_share.php
+resource "dnsimple_zone_record" "joni_site_nextcloud_cname" {
+  zone_name = dnsimple_zone.joni_site.name
+  name      = "nextcloud"
+  type      = "CNAME"
+  ttl       = 3600
+  value     = "nx108154.your-storageshare.de"
+
+  depends_on = [dnsimple_zone.joni_site]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 # ---------------------------------------------------------
 # cedh-decklist-database.com
 #
