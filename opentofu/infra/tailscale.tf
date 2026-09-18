@@ -34,17 +34,17 @@ resource "tailscale_dns_preferences" "this" {
 
 resource "tailscale_tailnet_settings" "this" {
   # Requires all devices to be authorized after adding them to the tailnet
-  devices_approval_on                             = true
+  devices_approval_on = true
 
   # Defaults:
-  devices_key_duration_days                       = 180     # Unmodified default
-  devices_auto_updates_on                         = true    # Unmodified default
-  users_approval_on                               = false   # Unmodified default
-  users_role_allowed_to_join_external_tailnet     = "admin" # Unmodified default
-  network_flow_logging_on                         = false   # Unmodified default
-  regional_routing_on                             = false   # Unmodified default
-  posture_identity_collection_on                  = false   # Unmodified default
-  https_enabled                                   = true    # Unmodified default
+  devices_key_duration_days                   = 180     # Unmodified default
+  devices_auto_updates_on                     = true    # Unmodified default
+  users_approval_on                           = false   # Unmodified default
+  users_role_allowed_to_join_external_tailnet = "admin" # Unmodified default
+  network_flow_logging_on                     = false   # Unmodified default
+  regional_routing_on                         = false   # Unmodified default
+  posture_identity_collection_on              = false   # Unmodified default
+  https_enabled                               = true    # Unmodified default
 
   lifecycle {
     prevent_destroy = true
@@ -71,20 +71,20 @@ locals {
       id   = "6332351843646902"
       tags = ["tag:client"]
     }
-    wasabi = {
-      id   = "8923626644171409"
+    vespoid = {
+      id   = "7334011180506355"
       tags = ["tag:server"]
     }
-    vespoid = {
-      id = "7334011180506355"
+    noios = {
+      id   = "7290467795419159"
       tags = ["tag:server"]
     }
   }
 }
 
 resource "tailscale_device_authorization" "device" {
-  for_each  = local.device_roster
-  device_id = each.value.id
+  for_each   = local.device_roster
+  device_id  = each.value.id
   authorized = true
 }
 

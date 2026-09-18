@@ -29,6 +29,8 @@
   # Common packages
   environment.systemPackages = with pkgs; [
     pciutils
+    dnsutils
+    usbutils
     file
     tree
     jq

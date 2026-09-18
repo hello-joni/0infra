@@ -27,9 +27,9 @@ resource "dnsimple_zone_record" "joni_site_apex_a" {
   zone_name = dnsimple_zone.joni_site.name
   name      = ""
   type      = "A"
-  ttl       = 3600
+  ttl       = 60
   # IP referenced directly from Hetzner resources
-  value     = hcloud_primary_ip.wasabi_ipv4.ip_address
+  value = hcloud_primary_ip.noios_ipv4.ip_address
 
   depends_on = [dnsimple_zone.joni_site]
 
@@ -42,9 +42,9 @@ resource "dnsimple_zone_record" "joni_site_apex_aaaa" {
   zone_name = dnsimple_zone.joni_site.name
   name      = ""
   type      = "AAAA"
-  ttl       = 3600
+  ttl       = 60
   # IP referenced directly from Hetzner resources
-  value     = hcloud_primary_ip.wasabi_ipv6.ip_address
+  value = hcloud_primary_ip.noios_ipv6.ip_address
 
   depends_on = [dnsimple_zone.joni_site]
 
@@ -57,9 +57,9 @@ resource "dnsimple_zone_record" "joni_site_www_a" {
   zone_name = dnsimple_zone.joni_site.name
   name      = "www"
   type      = "A"
-  ttl       = 3600
+  ttl       = 60
   # IP referenced directly from Hetzner resources
-  value     = hcloud_primary_ip.wasabi_ipv4.ip_address
+  value = hcloud_primary_ip.noios_ipv4.ip_address
 
   depends_on = [dnsimple_zone.joni_site]
 
@@ -72,9 +72,9 @@ resource "dnsimple_zone_record" "joni_site_www_aaaa" {
   zone_name = dnsimple_zone.joni_site.name
   name      = "www"
   type      = "AAAA"
-  ttl       = 3600
+  ttl       = 60
   # IP referenced directly from Hetzner resources
-  value     = hcloud_primary_ip.wasabi_ipv6.ip_address
+  value = hcloud_primary_ip.noios_ipv6.ip_address
 
   depends_on = [dnsimple_zone.joni_site]
 

@@ -15,7 +15,6 @@
     # KVM guest hardware profile (virtio modules for disk and network)
     (modulesPath + "/profiles/qemu-guest.nix")
 
-    # Caddy webserver for joni.site
     ../../modules/nixos/caddy.nix
   ];
 
@@ -29,6 +28,8 @@
     efiInstallAsRemovable = true;
     devices = [ "/dev/sda" ];
   };
+
+  environment.systemPackages = [ pkgs.rsync ];
 
   # ------------------------------------------------------------
   # SYSTEM CONFIG
