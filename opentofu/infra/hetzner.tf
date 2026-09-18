@@ -23,7 +23,7 @@ resource "hcloud_primary_ip" "wasabi_ipv6" {
   delete_protection = false
   labels            = {}
   location          = "hil"
-  name              = "primary_ip-128299545"
+  name              = "primary_ip-wasabi-ipv6"
   type              = "ipv6"
 
   lifecycle {
@@ -91,7 +91,7 @@ resource "hcloud_primary_ip" "vespoid_ipv6" {
   delete_protection = false
   labels            = {}
   location          = "hil"
-  name              = "primary_ip-128597215"
+  name              = "primary_ip-vespoid-ipv6"
   type              = "ipv6"
 
   lifecycle {
