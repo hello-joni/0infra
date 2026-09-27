@@ -53,6 +53,15 @@
     };
   };
 
+  # FixHub firmware updates run over WebSerial. ModemManager probes every new
+  # CDC-ACM port with AT commands, and the probe holds the port for a few
+  # seconds. The web updater reconnects right after the station re-enumerates,
+  # so the probe wins that race and the update fails. This tag tells
+  # ModemManager to skip iFixit devices (vendor 346c) entirely.
+  services.udev.extraRules = ''
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="346c", ENV{ID_MM_DEVICE_IGNORE}="1"
+  '';
+
   # ------------------------------------------------------------
   # PACKAGES
 

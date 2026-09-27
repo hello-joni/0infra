@@ -208,6 +208,11 @@ in
           args = [ ];
           env = { };
         };
+        playwright = {
+          command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
+          args = [ ];
+          env = { };
+        };
       };
 
       # Agent configuration
