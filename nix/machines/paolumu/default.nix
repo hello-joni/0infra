@@ -19,6 +19,7 @@
     ../../modules/nixos/waveforms.nix
     ../../modules/nixos/podman.nix
     ../../modules/nixos/distrobox.nix
+    ../../modules/nixos/virt-manager.nix
   ];
 
   networking.hostName = "paolumu";
@@ -49,6 +50,7 @@
         "video"
         "dialout" # serial port access (Tiny Tapeout FPGA demoboard)
         "plugdev" # Digilent test and measurement devices (Analog Discovery 2)
+        "libvirtd" # Manage libvirtd VMs (virt-manager)
       ];
     };
   };
