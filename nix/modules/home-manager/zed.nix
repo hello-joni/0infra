@@ -163,6 +163,14 @@ in
           JavaScript = prettierFormatter;
           TypeScript = prettierFormatter;
           TSX = prettierFormatter;
+
+          # Zed's built-in defaults override C and C++ to format_on_save = "off"
+          C = {
+            format_on_save = "on";
+          };
+          "C++" = {
+            format_on_save = "on";
+          };
         };
 
       # LSP configuration
