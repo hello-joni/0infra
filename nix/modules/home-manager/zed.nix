@@ -120,12 +120,9 @@ in
 
       # Input handling
       extend_comment_on_newline = false;
-      # TODO: These aren't for AI completions - re-enable?
       completions = {
         words = "disabled";
       };
-      show_completion_documentation = false;
-      show_completions_on_input = false;
       # Disable AI inline edit predictions
       edit_predictions = {
         provider = "none";
