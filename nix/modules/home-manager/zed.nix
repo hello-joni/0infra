@@ -227,7 +227,7 @@ in
         use_modifier_to_send = false;
         play_sound_when_agent_done = "always";
         notify_when_agent_waiting = "primary_screen";
-        thinking_display = "always_expanded";
+        thinking_display = "preview";
 
         # Tool profiles
         profiles = {

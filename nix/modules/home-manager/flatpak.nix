@@ -76,11 +76,6 @@
         appId = "app.grayjay.Grayjay";
         origin = "flathub";
       }
-      {
-        # 3D layout software
-        appId = "com.sweethome3d.Sweethome3d";
-        origin = "flathub";
-      }
     ];
 
     overrides = {

@@ -19,6 +19,7 @@
     jq
     gcc
     renode # Embedded sim
+    kicad # EDA suite
   ];
 
   # You can import other home-manager modules here
@@ -35,6 +36,7 @@
     ../../modules/home-manager/librewolf.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/zed.nix
+    ../../modules/home-manager/sweethome3d.nix
     ../../modules/home-manager/github.nix
     # ../../modules/home-manager/zephyr.nix
   ];
