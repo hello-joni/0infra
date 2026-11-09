@@ -24,7 +24,6 @@
     ../../modules/unfree.nix
     ../../modules/home-manager/fish.nix
     ../../modules/home-manager/git.nix
-    ../../modules/home-manager/man.nix
     ../../modules/home-manager/syncthing.nix
     ../../modules/home-manager/librechat.nix
   ];

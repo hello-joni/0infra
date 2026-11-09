@@ -198,16 +198,18 @@ in
           args = [ ];
           env = { };
         };
-        git = {
-          command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
-          args = [ ];
-          env = { };
-        };
-        time = {
-          command = "${pkgs.mcp-server-time}/bin/mcp-server-time";
-          args = [ ];
-          env = { };
-        };
+        # Disabled: mcp-server-git is broken on nixpkgs unstable (needs mcp<2, nixpkgs ships mcp 2.x).
+        # git = {
+        #   command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
+        #   args = [ ];
+        #   env = { };
+        # };
+        # Disabled: mcp-server-time is broken on nixpkgs unstable (needs mcp<2, nixpkgs ships mcp 2.x).
+        # time = {
+        #   command = "${pkgs.mcp-server-time}/bin/mcp-server-time";
+        #   args = [ ];
+        #   env = { };
+        # };
         nixos = {
           command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
           args = [ ];
@@ -312,15 +314,17 @@ in
                 [
                   "mcp:kagi:kagi_search_fetch"
                   "mcp:kagi:kagi_extract"
-                  "mcp:git:git_status"
-                  "mcp:git:git_log"
-                  "mcp:git:git_show"
-                  "mcp:git:git_diff"
-                  "mcp:git:git_diff_staged"
-                  "mcp:git:git_diff_unstaged"
-                  "mcp:git:git_branch"
-                  "mcp:time:get_current_time"
-                  "mcp:time:convert_time"
+                  # Disabled along with the git context server above.
+                  # "mcp:git:git_status"
+                  # "mcp:git:git_log"
+                  # "mcp:git:git_show"
+                  # "mcp:git:git_diff"
+                  # "mcp:git:git_diff_staged"
+                  # "mcp:git:git_diff_unstaged"
+                  # "mcp:git:git_branch"
+                  # Disabled along with the time context server above.
+                  # "mcp:time:get_current_time"
+                  # "mcp:time:convert_time"
                   "mcp:nixos:nix"
                   "mcp:nixos:nix_versions"
                 ]

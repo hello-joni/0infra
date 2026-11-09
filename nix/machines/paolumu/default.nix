@@ -16,7 +16,6 @@
 
     # Shared modules
     ../../modules/nixos/steam.nix
-    ../../modules/nixos/waveforms.nix
     ../../modules/nixos/podman.nix
     ../../modules/nixos/distrobox.nix
     ../../modules/nixos/virt-manager.nix
